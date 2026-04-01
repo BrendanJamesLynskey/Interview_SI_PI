@@ -117,9 +117,9 @@ The electrical length of the stub at 8 GHz:
 
 $$\theta = \frac{2\pi f l_{stub}}{v_p} = \frac{2\pi \times 8 \times 10^9 \times 1.455 \times 10^{-3}}{1.559 \times 10^{11}} = \frac{2\pi \times 11.64 \times 10^6}{1.559 \times 10^{11}}$$
 
-Wait — keeping consistent units (GHz and mm, with $v_p = 155.9$ mm/ns):
+Using consistent units (GHz and mm, with $v_p = 155.9$ mm/ns, where 1 GHz = 1 ns$^{-1}$):
 
-$$\theta = \frac{2\pi f [\text{GHz}] \times l_{stub} [\text{mm}]}{v_p [\text{mm/ns}]} \times 10^{-9+9} = \frac{2\pi \times 8 \times 1.455}{155.9} = \frac{73.19}{155.9} = 0.4695 \text{ rad}$$
+$$\theta = \frac{2\pi f [\text{GHz}] \times l_{stub} [\text{mm}]}{v_p [\text{mm/ns}]} = \frac{2\pi \times 8 \times 1.455}{155.9} = \frac{73.19}{155.9} = 0.4695 \text{ rad}$$
 
 The stub admittance (open-circuited stub, shunt-connected):
 

@@ -453,7 +453,7 @@ To maximise the margin equally from both specification limits:
 
 $$Z_{target,optimal} = \frac{Z_{diff,min} + Z_{diff,max}}{2} \times \frac{1}{1} = \frac{72.25 + 97.75}{2} = 85 \text{ Ω}$$
 
-Wait — this is the spec nominal. But the spec nominal and the process optimal nominal coincide here only because the spec tolerance (±15%) is larger than the process capability (±10%). In general, if the process variation were biased (e.g., fabrication tends to produce slightly lower impedance due to systematic over-etch), the optimal nominal would be shifted upward.
+The spec nominal and the process optimal nominal coincide here because the spec tolerance (±15%) is larger than the process capability (±10%). In general, if the process variation were biased (e.g., fabrication tends to produce slightly lower impedance due to systematic over-etch), the optimal nominal would be shifted upward.
 
 **Practical adjustment:**
 

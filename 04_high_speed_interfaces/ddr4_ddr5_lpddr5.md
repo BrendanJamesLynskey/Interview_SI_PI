@@ -216,9 +216,7 @@ $$T_{bit} = \frac{1}{3200 \times 10^6} \approx 312.5 \text{ ps}$$
 
 At double data rate, the UI (unit interval) equals half the bit period, or equivalently the full bit period is also the UI for DDR which transfers on both edges:
 
-$$UI = \frac{1}{2 \times 3200 \times 10^6} = 156.25 \text{ ps per edge}$$
-
-Wait — for DDR, the data rate of 3200 MT/s means 3200 million transfers per second with data transferred on both edges of DQS. Each DQS half-period is:
+For DDR, the data rate of 3200 MT/s means 3200 million transfers per second with data transferred on both edges of DQS. The UI equals the time between successive edges. Each DQS half-period is:
 
 $$T_{DQS-half} = \frac{1}{2 \times f_{DQS}} = \frac{1}{3200 \times 10^6} \approx 312.5 \text{ ps}$$
 
@@ -233,9 +231,9 @@ $$\Delta t_{max} = \frac{UI}{2} - t_{DS} - t_{DH}$$
 
 In practice, the PCB routing skew budget for DQ-to-DQS within a byte lane is typically stated in JEDEC specs as $\pm 25$ ps for nominal cases, with the length matching guideline equivalent:
 
-$$\Delta l_{max} = \frac{\Delta t_{max}}{v_{pd}} = \frac{25 \text{ ps}}{167 \text{ ps/mm}} \approx 0.15 \text{ mm} = 150 \text{ mil}$$
+$$\Delta l_{max} = \frac{\Delta t_{max}}{v_{pd}} = \frac{25 \text{ ps}}{167 \text{ ps/mm}} \approx 0.15 \text{ mm} \approx 5.9 \text{ mil}$$
 
-Most DDR4-3200 PCB guidelines round this to ±25 mil (approximately ±0.6 mm) to include manufacturing tolerance margin and simulation margin.
+Most DDR4-3200 PCB guidelines state a routing skew limit of ±25 mil (approximately ±0.6 mm). This is a tighter rule derived from the full timing budget analysis — accounting for setup/hold margins, silicon process variation, board-level skew allocation, and simulation margin — not directly from the single calculation above. The ±25 mil figure represents the total allowable routing length mismatch within a byte lane after all system timing contributors have been allocated.
 
 **Budget allocation:**
 
@@ -366,9 +364,7 @@ $$v_{pd} = \frac{c}{\sqrt{D_k}} = \frac{3 \times 10^{11} \text{ mm/s}}{\sqrt{3.9
 
 Converting to ps/mm: $v_{pd} = \frac{1000}{1.519 \times 10^2} \approx 6.58 \text{ ps/mm}$
 
-More intuitively: $v_{pd} = \frac{\sqrt{3.9}}{c \times 10^{-3}} = \frac{1.975}{300} \approx 6.58 \text{ ps/mm}$
-
-Wait — let us be precise. The propagation delay per unit length is:
+The propagation delay per unit length is:
 
 $$t_{pd} = \frac{\sqrt{D_k}}{c} = \frac{\sqrt{3.9}}{2.998 \times 10^8 \text{ m/s}} = \frac{1.975}{2.998 \times 10^8} \approx 6.59 \times 10^{-9} \text{ s/m} = 6.59 \text{ ps/mm}$$
 

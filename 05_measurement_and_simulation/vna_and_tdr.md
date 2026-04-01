@@ -251,9 +251,7 @@ where $Z_{ref}$ is the TDR's calibrated reference impedance (50 $\Omega$).
 
 The total voltage at the launch point during steady-state on a lossless line terminated in impedance $Z_1$ is:
 
-$$V_{total} = V_i \cdot \frac{2Z_1}{Z_{ref} + Z_1}$$
-
-Wait — for TDR the convention depends on source configuration. The TDR source is a voltage step $V_s$ behind a series resistor $R_s = Z_{ref}$. The incident wave is $V_i = V_s/2$. The voltage displayed at the launch when looking into impedance $Z_1$ is:
+The TDR source is a voltage step $V_s$ behind a series resistor $R_s = Z_{ref}$. The incident wave is $V_i = V_s/2$. The voltage displayed at the launch when looking into impedance $Z_1$ is:
 
 $$V_{display} = V_i \cdot (1 + \Gamma) = V_i \cdot \frac{2Z_1}{Z_{ref} + Z_1}$$
 

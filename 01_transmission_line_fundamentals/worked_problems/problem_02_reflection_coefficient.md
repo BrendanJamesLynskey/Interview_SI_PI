@@ -46,11 +46,7 @@ The driver (Thevenin equivalent: $V_{DD} = 3.3$ V, series resistance $Z_S = 8\ \
 
 $$V_1 = V_{DD} \times \frac{Z_0}{Z_S + Z_0} = 3.3 \times \frac{50}{8 + 50} = 3.3 \times \frac{50}{58} = 3.3 \times 0.862 = \mathbf{2.845\ \text{V}}$$
 
-The voltage at the source node immediately after launch:
-
-$$V_{source}(0^+) = V_{DD} - V_1 \times \frac{Z_S}{Z_0} = V_1 + V_1 \times 0 = V_1$$
-
-Wait — use the simpler form: $V_{source} = V_{DD} \times Z_0/(Z_S + Z_0)$. This gives $V_{source}(0^+) = 2.845$ V. The source node instantly rises to 2.845 V (the voltage divider) when the wave is launched.
+The source node voltage immediately after launch is given by the voltage divider: $V_{source}(0^+) = V_{DD} \times Z_0/(Z_S + Z_0) = 2.845$ V. The source node instantly rises to 2.845 V when the wave is launched.
 
 ---
 

@@ -384,13 +384,9 @@ Using the formula from Q4 with $\alpha_{max} = 1.0$ dB, $Z_0 = 50$ Ω, $Z_{via} 
 
 $$l_{stub,max} = \frac{v_p Z_{via}}{\pi f_{Nyq} Z_0} \sqrt{10^{\alpha_{max}/10} - 1}$$
 
-$$= \frac{155.9 \times 40}{\pi \times 12.5 \times 10^3 \times 50} \times \sqrt{10^{0.1} - 1}$$
+Using mm/ns and GHz consistently (1 GHz = 1 ns$^{-1}$):
 
-Wait — careful with units. Using mm/ns and GHz:
-
-$$l_{stub,max} = \frac{155.9 \text{ mm/ns} \times 40}{3.1416 \times 12.5 \text{ GHz} \times 50}$$
-
-Converting consistently (1 GHz = 1 ns$^{-1}$):
+$$l_{stub,max} = \frac{155.9 \text{ mm/ns} \times 40}{3.1416 \times 12.5 \text{ GHz} \times 50} \times \sqrt{10^{0.1} - 1}$$
 
 $$= \frac{6236 \text{ mm/ns}}{1963.5 \text{ ns}^{-1}} \times \sqrt{10^{0.1} - 1}$$
 

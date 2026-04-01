@@ -174,10 +174,6 @@ $$t_{ramp} \approx 2.2 \cdot \frac{L}{2Z_0}$$
 
 Using $Z_0 \approx 50\ \Omega$ and $t_{ramp} = 100\ \text{ps}$ (the observed ramp from the inductive feature):
 
-$$L = \frac{t_{ramp} \cdot 2Z_0}{2.2} = \frac{100 \times 10^{-12} \times 2 \times 50}{2.2} = \frac{100 \times 10^{-10}}{2.2} \approx 4.5\ \text{nH}$$
-
-Wait — let us re-examine. The ramp duration is 100 ps for the 10–90% rise. Rewriting:
-
 $$L = \frac{t_{ramp} \cdot 2Z_0}{2.2} = \frac{100 \times 10^{-12} \times 100}{2.2} = \frac{10^{-8}}{2.2} \approx 4.5\ \text{nH}$$
 
 **The series inductance is approximately 4.5 nH.**

@@ -22,11 +22,11 @@ where $\varepsilon_0 = 8.854\times10^{-12}\ F/m$.
 
 A useful rule of thumb: for a dielectric with $\varepsilon_r \approx 4$ (FR4) and separation $h = 4\ mils\ (100\ \mu m)$:
 
-$$C_{plane} \approx \frac{4 \times 8.854\times10^{-12}}{100\times10^{-6}} \approx 354\ pF/cm^2$$
+$$C_{plane} \approx \frac{4 \times 8.854\times10^{-12}}{100\times10^{-6}} \approx 35.4\ pF/cm^2$$
 
 For a 100 cm² (10 cm × 10 cm) board area dedicated to a single power/ground pair:
 
-$$C_{plane} \approx 354\ pF/cm^2 \times 100\ cm^2 \approx 35.4\ nF$$
+$$C_{plane} \approx 35.4\ pF/cm^2 \times 100\ cm^2 \approx 3.54\ nF$$
 
 **Why plane capacitance matters:**
 

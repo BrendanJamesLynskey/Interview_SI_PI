@@ -75,9 +75,7 @@ At 12.89 GHz:
 
   Conductor roughness factor at 12.89 GHz: $\delta_s = 2.1/\sqrt{12.89} = 0.585$ μm, roughness ~3× $\delta_s$ → $K_{SR} \approx 1.7$
 
-  $\alpha_c = 0.0515 \times (12.89/16)^{0.5} \times (1.7/1.8) = 0.0515 \times 0.897 \times 0.944 = 0.0437 \text{ dB/mm}$
-
-  Wait — more carefully: $\alpha_{c,rough}(16 \text{ GHz}) = 0.0515$ dB/mm (from Problem 02). At 12.89 GHz: $\alpha_{c,rough}(12.89) = 0.0515 \times \sqrt{12.89/16} = 0.0515 \times 0.897 = 0.0462 \text{ dB/mm}$
+  Using $\alpha_{c,rough}(16 \text{ GHz}) = 0.0515$ dB/mm (from Problem 02) and scaling: $\alpha_{c,rough}(12.89) = 0.0515 \times \sqrt{12.89/16} = 0.0515 \times 0.897 = 0.0462 \text{ dB/mm}$
 
   $\alpha_{NIC} = 0.0462 + 0.01822 = 0.0644 \text{ dB/mm}$; $IL_{NIC} = 80 \times 0.0644 = -5.15 \text{ dB}$
 

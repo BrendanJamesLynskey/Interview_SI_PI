@@ -177,7 +177,7 @@ For a 60 × 80 mm VDD plane: $C_{plane} \approx 57$ nF. This provides high-frequ
 
 **Stub length:**
 
-Via useful depth to L3: approximately $110 + 200 = 310$ µm from L1 to the copper of L2, then to L3 foil. Wait — L3 is 110 µm of prepreg below L2. Total via height from L1 to L3: $110 + 200 + 110 = 420$ µm... Recalling the stackup, L1 to L2 is 110 µm prepreg, L2 to L3 is 110 µm prepreg (within the core A). Let's be precise:
+Via useful depth to L3, working precisely through the stackup (L1 to L2 is 110 µm prepreg, L2 to L3 is 200 µm core + 110 µm prepreg):
 
 - L1 to L2 centre: ~110 µm (prepreg thickness)
 - L2 to L3: ~200 + 110 µm = 310 µm (core A + prepreg to L3 foil)

@@ -58,9 +58,7 @@ Let us compute the denominator:
 
 $$\pi \times 4\pi \times 16 \times 10^9 \times 5.8 \times 10^7 = 4\pi^2 \times 9.28 \times 10^{17} \approx 39.48 \times 9.28 \times 10^{17} \approx 3.664 \times 10^{19}$$
 
-$$\delta_s = \sqrt{\frac{1}{3.664 \times 10^{19}}} = \sqrt{2.729 \times 10^{-20}} \approx 5.22 \times 10^{-10} \text{ m} = 0.522 \text{ nm} \approx 0.522 \text{ μm}$$
-
-Wait, let us redo this carefully. At 1 GHz, copper skin depth is approximately 2.1 μm. Skin depth scales as $1/\sqrt{f}$:
+At 1 GHz, copper skin depth is approximately 2.1 μm. Skin depth scales as $1/\sqrt{f}$:
 
 $$\delta_s(16 \text{ GHz}) = \frac{2.1 \text{ μm}}{\sqrt{16}} = \frac{2.1}{4} = 0.525 \text{ μm}$$
 

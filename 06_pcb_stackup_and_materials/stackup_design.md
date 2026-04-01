@@ -175,7 +175,7 @@ Layer 5  — Signal (Inner 2)       — High-speed routing, stripline
 Layer 6  — Signal (Bottom)        — Component side reverse
 ```
 
-Wait — L6 has no adjacent plane. A better 6-layer arrangement is:
+L6 in that arrangement has no adjacent plane. A corrected 6-layer arrangement that gives all signal layers a reference plane is:
 
 ```
 Layer 1  — Signal (Top)           — Component routing, microstrip
@@ -258,9 +258,9 @@ An alternating GND-PWR-GND-PWR scheme maximises PDN capacitance but means every 
 
 L4 (GND) and L6 (PWR) separated by L5 prepreg (~100 µm) form a plane capacitor:
 
-$$C_{plane} = \frac{\epsilon_r \epsilon_0 A}{h} = \frac{4.2 \times 8.85 \times 10^{-12} \times 0.15}{100 \times 10^{-6}} \approx 556 \text{ pF per cm}^2$$
+$$C_{plane} = \frac{\epsilon_r \epsilon_0}{h} = \frac{4.2 \times 8.85 \times 10^{-12}}{100 \times 10^{-6}} \approx 37 \text{ pF per cm}^2$$
 
-For a 10 cm × 8 cm board area, this gives roughly 44 nF of distributed PDN capacitance from the plane pair alone, effective from hundreds of MHz up to several GHz.
+For a 10 cm × 8 cm board area, this gives roughly 3 nF of distributed PDN capacitance from the plane pair alone, effective from hundreds of MHz up to several GHz.
 
 ---
 
@@ -353,7 +353,7 @@ A plane split is a gap (etched slot) in the reference plane, typically created t
 | DDR5 | ~4.8 GHz fundamental | Plane reference, stub minimisation |
 | 100GbE SerDes | 26.5625 GHz (PAM4) | Ultra-low loss material; tight impedance |
 
-**Material selection:** Standard FR4 (Df ≈ 0.02 at 10 GHz) is inadequate for PCIe Gen5 and 100GbE. Use a low-loss laminate such as **Megtron 6** (Df ≈ 0.002 at 10 GHz) or **IS680** for the entire board.
+**Material selection:** Standard FR4 (Df ≈ 0.02 at 10 GHz) is inadequate for PCIe Gen5 and 100GbE. Use a low-loss laminate such as **Megtron 6** (Df ≈ 0.002 at 1 GHz, ~0.004 at 10 GHz) or **IS680** for the entire board.
 
 **Proposed 10-layer stackup:**
 

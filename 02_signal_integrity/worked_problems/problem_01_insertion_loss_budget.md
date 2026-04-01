@@ -128,9 +128,7 @@ $$IL_{AIC} = 4 \times 0.835 = 3.34\ \text{dB}$$
 | RX package | 1.00 |
 | **Total** | **14.58 dB** |
 
-**Wait — this is far below the 36 dB limit. Is that correct?**
-
-Yes. The total channel IL of 14.58 dB is well within the PCIe Gen 4 -36 dB limit. The channel passes with margin $= 36 - 14.58 = 21.4\ \text{dB}$.
+The total channel IL of 14.58 dB is well within the PCIe Gen 4 -36 dB limit. The channel passes with margin $= 36 - 14.58 = 21.4\ \text{dB}$.
 
 **Important note for the interview:** The question asked to check whether the channel fails. It does not — it has substantial margin. The original problem framing assumed a channel that might be marginal, but this well-designed channel with Megtron 6 on the motherboard and a short add-in card trace passes comfortably. The PCIe Gen 4 -36 dB limit is relevant for long server backplane channels (24+ inches with FR4 or challenging via structures).
 

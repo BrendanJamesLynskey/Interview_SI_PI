@@ -150,7 +150,7 @@ Without droop: required tolerance = $V_{nom}$ to $V_{nom} - \Delta V_{pk}$. Rang
 
 With droop ($R_{LL} = \Delta V_{pk}/I_{max}$): VRM output at full load is $V_{nom} - \Delta V_{pk}$. Transient undershoot below this equals $\Delta V_{pk}/2$ (same capacitors, half the effective current step to absorb). Total range = $\Delta V_{pk}/2 + \Delta V_{pk}/2 = \Delta V_{pk}$.
 
-Wait — that seems the same. The actual benefit: by pre-drooping the voltage, the capacitors only need to supply half the total swing, effectively halving the required capacitance:
+The actual benefit: by pre-drooping the voltage, the capacitors only need to supply half the total swing, effectively halving the required capacitance:
 
 $$C_{required,droop} = \frac{C_{required,no-droop}}{2}$$
 
@@ -284,9 +284,7 @@ $$\frac{dV}{dt} = \frac{\Delta I}{C_{MLCC}} = \frac{10}{500\times10^{-6}} = 20\ 
 
 The MLCC voltage drop in $\tau_{MLCC} = L_{ESL,MLCC}/(R_{ESR,MLCC}) = 1\ nH / 1\ m\Omega = 1\ \mu s$:
 
-$$\Delta V_{MLCC} = \Delta I \times R_{ESR,MLCC} + \frac{\Delta I}{\tau_{MLCC}} \times L_{ESL,MLCC} = 10 \times 0.001 + 10\times10^9\times10^{-9} = 10\ mV + 10\ mV = 20\ mV$$
-
-Wait — this should be: instantaneous drop $\Delta V = \Delta I \times R_{ESR} = 10 \times 0.001 = 10\ mV$, followed by a slow droop.
+The instantaneous drop $\Delta V = \Delta I \times R_{ESR} = 10 \times 0.001 = 10\ mV$, followed by a slow droop.
 
 **Step 3: Bulk capacitor response (first 10 µs)**
 

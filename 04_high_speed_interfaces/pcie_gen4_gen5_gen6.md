@@ -308,9 +308,7 @@ On low-loss laminate (Megtron 6, Df = 0.004): $IL_{trace} \approx 7.87 \times 2.
 
 At 16 GHz, a through-hole via with a 20-mil stub has a resonance near:
 
-$$f_{resonance} = \frac{v_{pd}}{4 \times l_{stub}} = \frac{167 \text{ ps/mm} \times 1000}{4 \times (20 \times 0.0254)} \approx \frac{167000}{2.032} \approx 82 \text{ GHz}$$
-
-Wait — 20 mil = 20 × 0.0254 mm = 0.508 mm:
+Converting 20 mil to mm: 20 × 0.0254 = 0.508 mm:
 
 $$f_{resonance} = \frac{1}{4 \times 0.508 \text{ mm} \times 6.59 \text{ ps/mm}} = \frac{1}{13.4 \text{ ps}} \approx 74.6 \text{ GHz}$$
 

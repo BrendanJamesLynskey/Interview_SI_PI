@@ -111,7 +111,7 @@ Conversion examples:
 | Parameter | Limit | Notes |
 |---|---|---|
 | Max insertion loss at Nyquist (8 GHz) | 36 dB | Total channel including package, via, connector, PCB trace |
-| Return loss (each end) | $\le -6$ dB up to 8 GHz | $|S_{11}| \le 0.5$ |
+| S11 ≤ -6 dB (return loss ≥ 6 dB) up to 8 GHz | $|S_{11}| \le 0.5$ |
 | Differential insertion loss (Sdd21) | $\le 36$ dB at 8 GHz | Measured in mixed-mode |
 
 The 36 dB limit for PCIe Gen 4 is quite aggressive and typically requires low-loss laminate materials ($D_f < 0.004$) and careful via design with backdrilling.

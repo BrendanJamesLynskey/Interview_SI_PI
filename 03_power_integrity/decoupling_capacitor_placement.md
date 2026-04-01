@@ -171,11 +171,7 @@ $$|Z_{AR}|_{max} \approx \sqrt{\frac{L_B}{C_M}}$$
 
 **Numerical example:** $L_B = 5\ nH$, $C_M = 10\ \mu F$:
 
-$$f_{AR} = \frac{1}{2\pi\sqrt{5\times10^{-9} \times 10\times10^{-6}}} = \frac{1}{2\pi \times 7.07\times10^{-6}} \approx 22.5\ kHz$$
-
-Wait — that seems low. Let me redo: $\sqrt{5\times10^{-9} \times 10\times10^{-6}} = \sqrt{5\times10^{-14}} = 2.24\times10^{-7}$
-
-$$f_{AR} = \frac{1}{2\pi \times 2.24\times10^{-7}} \approx 710\ kHz$$
+$$f_{AR} = \frac{1}{2\pi\sqrt{5\times10^{-9} \times 10\times10^{-6}}} = \frac{1}{2\pi \times 2.24\times10^{-7}} \approx 710\ kHz$$
 
 $$|Z_{AR}| = \sqrt{\frac{5\times10^{-9}}{10\times10^{-6}}} = \sqrt{5\times10^{-4}} \approx 22\ m\Omega$$
 

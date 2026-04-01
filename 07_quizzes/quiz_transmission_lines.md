@@ -245,9 +245,9 @@ A line is electrically long when the signal's transition time is comparable to o
 
 ---
 
-**Q12 -- Answer: B**
+**Q12 -- Answer: A**
 
-The stub resonance frequency f = c / (4 * L_stub * sqrt(Dk_eff)). Converting 500 mils to metres: 500 * 25.4e-6 = 12.7 mm = 0.0127 m. f = 3e8 / (4 * 0.0127 * sqrt(4.0)) = 3e8 / (4 * 0.0127 * 2) = 3e8 / 0.1016 = approximately 2.95 GHz. The closest listed answer is B (approximately 4.7 GHz). Note: re-checking with Dk_eff for a via in a dielectric-filled barrel: effective Dk can differ from bulk FR4 Dk = 4.0 depending on drill-fill. However, using the exact numbers given: f = 3e8 / (4 * 0.0127 * 2) = 2.95 GHz, closest to option A. The practical lesson is that a 500 mil stub in FR4 resonates in the 3-5 GHz range, directly degrading PCIe Gen 3/4 and 10G Ethernet. Backdrilling the stub removes this resonance. (Note: exact answer depends on Dk_eff assumed for via barrel; both A and B are taught as the correct band in practice.)
+The stub resonance frequency f = c / (4 * L_stub * sqrt(Dk_eff)). Converting 500 mils to metres: 500 * 25.4e-6 = 12.7 mm = 0.0127 m. f = 3e8 / (4 * 0.0127 * sqrt(4.0)) = 3e8 / (4 * 0.0127 * 2) = 3e8 / 0.1016 = approximately 2.95 GHz, closest to option A. The practical lesson is that a 500 mil stub in FR4 resonates near 3 GHz, directly degrading PCIe Gen 3/4 and 10G Ethernet. Backdrilling the stub removes this resonance.
 
 ---
 
@@ -265,4 +265,4 @@ For a tightly coupled differential pair, the mutual inductance M and mutual capa
 
 **Q15 -- Answer: A**
 
-The Heaviside condition for a distortionless line is R/L = G/C, equivalently written R*C = L*G. This ensures that the propagation constant gamma = sqrt((R+jwL)(G+jwC)) has a frequency-independent real part (attenuation) and a phase velocity that is independent of frequency (no dispersion). Option B states R*C = L*G, which is mathematically the same as R/L = G/C -- this is the correct condition. Wait: verifying -- R/L = G/C rearranges to R*C = L*G, so options A and B are algebraically equivalent. The canonical form stated in most textbooks is R/L = G/C (option A). Option C (R = G, L = C) is a special case that would only hold for a line with specific non-physical units. Option D (lossless line) avoids the distortion problem trivially but is physically unrealisable; the question asks about the distortionless condition for a lossy line.
+The Heaviside condition for a distortionless line is R/L = G/C, equivalently written R*C = L*G. This ensures that the propagation constant gamma = sqrt((R+jwL)(G+jwC)) has a frequency-independent real part (attenuation) and a phase velocity that is independent of frequency (no dispersion). R/L = G/C rearranges to R*C = L*G, so options A and B are algebraically equivalent; the canonical form stated in most textbooks is R/L = G/C (option A). Option C (R = G, L = C) is a special case that would only hold for a line with specific non-physical units. Option D (lossless line) avoids the distortion problem trivially but is physically unrealisable; the question asks about the distortionless condition for a lossy line.
