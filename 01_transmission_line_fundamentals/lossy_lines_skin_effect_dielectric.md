@@ -28,7 +28,7 @@ where:
 - $f$ = frequency (Hz)
 - $\mu_0 = 4\pi \times 10^{-7}$ H/m (permeability of free space; $\mu_r = 1$ for copper)
 - $\sigma = 5.8 \times 10^7$ S/m for pure copper (annealed)
-- Electrodeposited (ED) copper used in PCBs has $\sigma \approx 5.0$–$5.5 \times 10^7$ S/m
+- Electrodeposited (ED) copper used in PCBs has $\sigma \approx 5.0\text{–}5.5 \times 10^7$ S/m
 
 **Typical skin depths for copper:**
 
@@ -252,8 +252,8 @@ $$\alpha_c\sqrt{f_{cross}} = \alpha_d f_{cross}$$
 
 $$f_{cross} = \left(\frac{\alpha_c}{\alpha_d}\right)^2$$
 
-For FR4 ($Df = 0.022$): $f_{cross} \approx 1$–$3$ GHz.
-For Rogers 4350B ($Df = 0.0037$): $f_{cross} \approx 5$–$10$ GHz.
+For FR4 ($Df = 0.022$): $f_{cross} \approx 1\text{–}3$ GHz.
+For Rogers 4350B ($Df = 0.0037$): $f_{cross} \approx 5\text{–}10$ GHz.
 
 **Implications for signal integrity:**
 
@@ -278,7 +278,7 @@ For Rogers 4350B ($Df = 0.0037$): $f_{cross} \approx 5$–$10$ GHz.
 $$\text{IL}(f)\ [\text{dB/inch}] \approx A_c \sqrt{f[\text{GHz}]} + A_d \cdot \varepsilon_r^{1/2} \cdot Df \cdot f[\text{GHz}]$$
 
 For a 50 $\Omega$ stripline with 6-mil trace width and 1 oz copper (approximate values):
-- Conductor coefficient: $A_c \approx 0.06$–$0.08$ dB/inch/$\sqrt{\text{GHz}}$
+- Conductor coefficient: $A_c \approx 0.06\text{–}0.08$ dB/inch/$\sqrt{\text{GHz}}$
 - Dielectric coefficient: $A_d \approx 9.1$ (derived from $2.3 \sqrt{\varepsilon_r} Df f$ formula)
 
 **Laminate A — FR4:**
@@ -438,7 +438,7 @@ The extracted value of 0.145 is somewhat higher, suggesting the trace may be nar
 |---|---|
 | Skin depth | $\delta_s = \sqrt{1/(\pi f \mu_0 \sigma)}$ |
 | Surface resistance | $R_s = 1/(\sigma \delta_s) = \sqrt{\pi f \mu_0 / \sigma}$ |
-| Copper $\sigma$ | $5.8 \times 10^7$ S/m (annealed); $\approx 5.0$–$5.5 \times 10^7$ S/m (ED) |
+| Copper $\sigma$ | $5.8 \times 10^7$ S/m (annealed); $\approx 5.0\text{–}5.5 \times 10^7$ S/m (ED) |
 | Cu skin depth at 1 GHz | 2.1 $\mu$m |
 | Cu skin depth at 10 GHz | 0.66 $\mu$m |
 | Conductor loss scaling | $\alpha_c \propto \sqrt{f}$ (10 dB/decade) |

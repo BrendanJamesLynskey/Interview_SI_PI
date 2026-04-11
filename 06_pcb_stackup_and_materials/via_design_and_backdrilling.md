@@ -20,7 +20,7 @@ The via barrel (the plated cylinder through the board) carries the signal curren
 
 $$L_{via} \approx \frac{\mu_0 h}{2\pi} \ln\left(\frac{D_2}{D_1}\right)$$
 
-where $h$ is the via height (board thickness), $D_2$ is the antipad diameter, and $D_1$ is the via barrel diameter. For a typical through-hole via in a 1.6 mm board: $L_{via} \approx 0.5$–$1.5$ nH.
+where $h$ is the via height (board thickness), $D_2$ is the antipad diameter, and $D_1$ is the via barrel diameter. For a typical through-hole via in a 1.6 mm board: $L_{via} \approx 0.5\text{–}1.5$ nH.
 
 **2. Via pad capacitance ($C_{pad}$):**
 
@@ -28,7 +28,7 @@ Each pad ring on a copper layer adds capacitance to ground through the dielectri
 
 $$C_{pad} \approx \frac{\epsilon_r \epsilon_0 \pi (D_{pad}^2 - D_{drill}^2)}{4 t_{dielectric}}$$
 
-Typical values: $C_{pad} \approx 0.05$–$0.2$ pF per pad.
+Typical values: $C_{pad} \approx 0.05\text{–}0.2$ pF per pad.
 
 **3. Via stub (shunt stub):**
 
@@ -68,7 +68,7 @@ At resonance, the stub shunts the signal path to ground, creating a notch in the
 
 **Phase velocity in the via:**
 
-The via barrel passes through the PCB dielectric. The effective $\epsilon_r$ of the via environment is approximately the board material's bulk $\epsilon_r$, though the actual value depends on drill size and plating. For FR4-class materials, $\epsilon_{r,eff} \approx 4.0$–$4.4$:
+The via barrel passes through the PCB dielectric. The effective $\epsilon_r$ of the via environment is approximately the board material's bulk $\epsilon_r$, though the actual value depends on drill size and plating. For FR4-class materials, $\epsilon_{r,eff} \approx 4.0\text{–}4.4$:
 
 $$v_p = \frac{c}{\sqrt{\epsilon_{r,eff}}}$$
 
@@ -433,4 +433,4 @@ $$\boxed{f_{resonance} = \frac{c}{4 \cdot l_{stub} \cdot \sqrt{\epsilon_{r,eff}}
 
 $$L_{via} \approx 0.5\text{–}1.5 \text{ nH for a } 1.6 \text{ mm board thickness}$$
 
-**Cannonball/Huray roughness correction factor:** $K \approx 1.1$–$2.5$ at 10 GHz depending on copper grade; use electromagnetic field solver or $K$-factor models for simulation above 5 GHz.
+**Cannonball/Huray roughness correction factor:** $K \approx 1.1\text{–}2.5$ at 10 GHz depending on copper grade; use electromagnetic field solver or $K$-factor models for simulation above 5 GHz.

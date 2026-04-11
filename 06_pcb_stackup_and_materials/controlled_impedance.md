@@ -224,7 +224,7 @@ $$\Delta Z_0 \approx \pm \frac{0.3}{2 \times 5.61} \times 50 \approx \pm 1.3 \te
 
 Copper foil thickness varies by ±10–15% from nominal. The plated copper adds additional thickness variation of ±3–5 µm from electroless/electrolytic plating.
 
-Effect on impedance is typically the smallest of the four sources: $|\Delta Z_0| \lesssim 1$–$2\%$ for ±10% thickness variation on standard traces.
+Effect on impedance is typically the smallest of the four sources: $|\Delta Z_0| \lesssim 1\text{–}2\%$ for ±10% thickness variation on standard traces.
 
 **RSS (Root Sum Square) combined tolerance:**
 

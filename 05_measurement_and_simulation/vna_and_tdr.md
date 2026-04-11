@@ -107,7 +107,7 @@ TRL (Through-Reflect-Line) calibration is a three-standard scheme that establish
 |---|---|---|
 | Through (T) | Direct connection between the two ports, zero length or known length | Serves as the reference impedance |
 | Reflect (R) | Highly reflective termination (short or open) at each port | Does not need to be ideal — only needs $|\Gamma| \approx 1$ |
-| Line (L) | A section of transmission line with a length different from the Through | Length difference must produce a phase shift of $20°$–$160°$ at the calibration frequency |
+| Line (L) | A section of transmission line with a length different from the Through | Length difference must produce a phase shift of $20°\text{–}160°$ at the calibration frequency |
 
 **Why TRL is preferred for on-PCB / on-wafer work:**
 
@@ -293,7 +293,7 @@ A single Line standard from 1 GHz to 8 GHz, for example, requires $\ell$ to give
 
 **Multi-line TRL:**
 
-ML-TRL uses several Line standards of different lengths. At each frequency, the algorithm selects the Line standard whose phase difference with the Through falls within the $20°$–$160°$ window. With $N$ lines of geometrically spaced lengths, the calibrated bandwidth is:
+ML-TRL uses several Line standards of different lengths. At each frequency, the algorithm selects the Line standard whose phase difference with the Through falls within the $20°\text{–}160°$ window. With $N$ lines of geometrically spaced lengths, the calibrated bandwidth is:
 
 $$\frac{f_{max}}{f_{min}} \approx 8^{N-1}$$
 

@@ -214,7 +214,7 @@ For a 100 MHz signal with $R_T = 50\ \Omega$:
 
 $$C \gg \frac{1}{2\pi \times 50 \times 10^8} = 32\ \text{pF}$$
 
-Typical values: $C = 100$–$470$ pF. The RC time constant must also be long enough that the capacitor does not discharge significantly during a single bit period — the capacitor must act as a charge reservoir rather than a reactive filter.
+Typical values: $C = 100\text{–}470$ pF. The RC time constant must also be long enough that the capacitor does not discharge significantly during a single bit period — the capacitor must act as a charge reservoir rather than a reactive filter.
 
 **Limitation:** If the signal has significant low-frequency content (long runs of the same bit, as in DC-balanced codes), the capacitor voltage tracks the average signal voltage and the termination becomes less effective for slow transitions. This is why AC termination is preferred for AC-coupled or 8b/10b encoded interfaces rather than for DC-balanced buses.
 

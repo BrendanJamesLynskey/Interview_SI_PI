@@ -292,7 +292,7 @@ A COM of -2.1 dB means the channel has ~2 dB less margin than the minimum requir
 
 **1. FR4 trace at Gen 5 (Nyquist = 16 GHz):**
 
-FR4 has $Df \approx 0.020$–$0.025$ at 10 GHz (frequency dependent). At 16 GHz the dielectric loss is:
+FR4 has $Df \approx 0.020\text{–}0.025$ at 10 GHz (frequency dependent). At 16 GHz the dielectric loss is:
 
 $$\alpha_d \approx 4.34 \times \pi \times Df \times \sqrt{Dk} / \lambda_0$$
 

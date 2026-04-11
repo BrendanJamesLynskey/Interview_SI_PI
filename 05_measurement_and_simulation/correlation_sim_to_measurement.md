@@ -272,7 +272,7 @@ Even with correlated trace models, inter-layer registration, impedance etch vari
 | $D_f$ (dissipation factor) | $\tan\delta$; governs dielectric loss; increases with frequency |
 | Copper roughness | Surface irregularity of PCB copper; increases conductor loss vs. smooth copper |
 | Huray model | Snowball model for copper roughness loss correction |
-| Wideband Debye model | Causal frequency-dependent dielectric model fit to measured $D_k$/$D_f$ data |
+| Wideband Debye model | Causal frequency-dependent dielectric model fit to measured $D_k/D_f$ data |
 | Glass weave effect | Periodic $D_k$ variation from alternating glass bundles and resin; causes differential skew |
 | De-embedding | Mathematical removal of fixture parasitics to isolate DUT S-parameters |
 | IBIS-AMI corner | Characterisation of the AMI model at process/voltage/temperature extremes |

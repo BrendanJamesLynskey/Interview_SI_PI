@@ -336,7 +336,7 @@ For $\varepsilon_r = 4.3$, $h/w = 0.6$: $Z_0^{pp} = 377/2.07 \times 0.6 \approx 
 
 3. **Magnetic fringing:** The return current in the reference plane spreads out beyond the trace width. The effective inductance per unit length is therefore lower than the ideal parallel-plate value (the current spreading reduces the enclosed loop area). The parallel-plate model overestimates $L$.
 
-**Net effect:** The parallel-plate model underestimates $C$ and overestimates $L$, giving an overestimate of $Z_0$. For wide traces ($w/h > 10$), fringing is relatively small and the parallel-plate model becomes a reasonable approximation. For typical PCB geometries ($w/h \approx 0.5$–$3$), closed-form corrections (Hammerstad-Jensen) or numerical field solvers are required.
+**Net effect:** The parallel-plate model underestimates $C$ and overestimates $L$, giving an overestimate of $Z_0$. For wide traces ($w/h > 10$), fringing is relatively small and the parallel-plate model becomes a reasonable approximation. For typical PCB geometries ($w/h \approx 0.5\text{–}3$), closed-form corrections (Hammerstad-Jensen) or numerical field solvers are required.
 
 ---
 

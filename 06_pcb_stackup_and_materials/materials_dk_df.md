@@ -284,7 +284,7 @@ PCB laminates use woven fiberglass fabric as mechanical reinforcement. The fabri
 
 **The glass weave effect:**
 
-The woven fabric creates a spatially periodic variation in dielectric constant. Where a glass yarn bundle passes under a trace, the effective $D_k$ is higher (glass $D_k \approx 6$). Where the trace is over an epoxy resin pocket (the void between yarn bundles), the effective $D_k$ is lower (resin $D_k \approx 3.0$–$3.5$).
+The woven fabric creates a spatially periodic variation in dielectric constant. Where a glass yarn bundle passes under a trace, the effective $D_k$ is higher (glass $D_k \approx 6$). Where the trace is over an epoxy resin pocket (the void between yarn bundles), the effective $D_k$ is lower (resin $D_k \approx 3.0\text{–}3.5$).
 
 For a differential pair routed with trace spacing of 150 µm and yarn bundle pitch of ~800 µm (typical of 2116 style), the two traces may lie at different positions relative to the weave pattern:
 
@@ -341,8 +341,8 @@ $$K_{Huray} = 1 + \frac{A_{spheres}}{A_{flat}} \left[1 - e^{-2\delta_s/r}\right]
 
 where $r$ is the sphere radius. The correction factor $K_{Huray} > 1$ multiplies the smooth-surface conductor loss.
 
-For rough ED foil at 10 GHz: $K_{Huray} \approx 1.8$–$2.5$ (80–150% increase in conductor loss).
-For very low profile (VLP) foil at 10 GHz: $K_{Huray} \approx 1.1$–$1.3$.
+For rough ED foil at 10 GHz: $K_{Huray} \approx 1.8\text{–}2.5$ (80–150% increase in conductor loss).
+For very low profile (VLP) foil at 10 GHz: $K_{Huray} \approx 1.1\text{–}1.3$.
 
 **Copper foil grades:**
 
@@ -445,7 +445,7 @@ This margin covers connector insertion loss (~1.5 dB per mated pair at 28 GHz fo
 
 ---
 
-### Q10. Explain the Djordjevic-Sarkar (D-S) model and why it is used in simulation of PCB dielectrics. What error does using a constant-$D_k$/$D_f$ model introduce at 28 GHz?
+### Q10. Explain the Djordjevic-Sarkar (D-S) model and why it is used in simulation of PCB dielectrics. What error does using a constant-$D_k/D_f$ model introduce at 28 GHz?
 
 **Answer:**
 

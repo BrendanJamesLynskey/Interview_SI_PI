@@ -179,7 +179,7 @@ This is negligible relative to a 10 ms rise time. The terminator will not cause 
 
 3. **Reset timing:** The RC time constant with load capacitance determines reset release timing. Adding a series resistor delays the signal reaching the threshold on reset assertion.
 
-**Recommendation:** No series termination is needed on the reset line from a signal integrity perspective. The manager's concern is unwarranted and the component adds unnecessary cost and potential functional risk. If the manager's concern is about noise on the reset line (e.g., from switching supply transients), a small RC filter ($R = 100$–$470\ \Omega$, $C = 1$–$10$ nF) as a specific anti-bounce or noise filter is a more appropriate design choice.
+**Recommendation:** No series termination is needed on the reset line from a signal integrity perspective. The manager's concern is unwarranted and the component adds unnecessary cost and potential functional risk. If the manager's concern is about noise on the reset line (e.g., from switching supply transients), a small RC filter ($R = 100\text{–}470\ \Omega$, $C = 1\text{–}10$ nF) as a specific anti-bounce or noise filter is a more appropriate design choice.
 
 ---
 
