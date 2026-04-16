@@ -432,6 +432,109 @@ MLCC capacitance varies with DC bias (voltage coefficient), temperature, and age
 
 ---
 
+### Q12. The target impedance formula $Z_{target} = \Delta V_{max}/I_{max}$ is really a statement about steady-state sinusoidal excitation. Explain what this means and why the formula can still be applied to time-domain current transients.
+
+**Answer:**
+
+The target impedance is defined in the frequency domain as a bound on the magnitude of the PDN's small-signal impedance:
+
+$$|Z_{PDN}(f)| \leq Z_{target} \quad \text{for all } f \in [f_{low}, f_{high}]$$
+
+Impedance, as a concept, is a **steady-state sinusoidal** quantity. Writing $Z_{PDN}(f) = \Delta V(f) / \Delta I(f)$ presumes that we are injecting a continuous-wave sinusoidal current $\Delta I(f) e^{j 2\pi f t}$ and measuring the resulting sinusoidal voltage perturbation $\Delta V(f) e^{j 2\pi f t}$ at the same frequency, after any transient has decayed. It is not a direct statement about time-domain step or pulse excitation.
+
+**Why the time-domain interpretation still holds (approximately):**
+
+For a linear, time-invariant PDN, the time-domain voltage response to any current waveform $i(t)$ is the inverse Fourier transform:
+
+$$\Delta v(t) = \mathcal{F}^{-1}\{ Z_{PDN}(f) \cdot I(f) \}$$
+
+Peak time-domain voltage is bounded by:
+
+$$|\Delta v(t)|_{peak} \leq \int_{-\infty}^{\infty} |Z_{PDN}(f)| \cdot |I(f)|\, df$$
+
+If $|Z_{PDN}(f)| \leq Z_{target}$ across the full band where $I(f)$ has significant energy, and if $|I(f)| \leq I_{max}$ as a scalar-bound approximation, then the peak time-domain voltage is controlled. But this bound is **loose** — it is a triangle-inequality upper limit, and the actual peak may be much smaller, or in some cases much larger, than the scalar product $Z_{target} \cdot I_{max}$.
+
+**The hidden assumption:**
+
+The formula $Z_{target} = \Delta V_{max}/I_{max}$ implicitly treats $I_{max}$ as the peak of a current spectrum that is approximately flat within the band of interest — which is true for a clean step function. A step's spectrum is $|I(f)| = I_{max}/(2\pi f)$, falling at 20 dB/decade from DC. After accounting for the $1/f$ spectral rolloff, the formula gives:
+
+$$|\Delta v(t)|_{peak,step} \sim Z_{target} \cdot I_{max}$$
+
+only when $|Z_{PDN}|$ rises with frequency at 20 dB/decade or less — which happens to be true for a well-designed flat PDN. So the approximation works in practice *because* good PDN profiles are flat, not because the formula is tight for arbitrary impedance shapes.
+
+**Practical conclusion:**
+
+The target impedance method is a **sufficient** (not tight) design criterion. Meeting $|Z_{PDN}(f)| \leq Z_{target}$ everywhere in band guarantees the time-domain voltage stays within spec for any single current step of magnitude $\leq I_{max}$ with rise time slower than $1/(2\pi f_{high})$. However, it does *not* automatically guarantee robustness against sustained periodic current excitation — especially at PDN resonant frequencies (see Q13).
+
+---
+
+### Q13. Describe the worst-case real-world current waveform that fully excites a PDN resonance, and explain why a resonant peak modestly above $Z_{target}$ can still cause a spec violation that a single-step analysis does not predict.
+
+**Answer:**
+
+The target impedance method implicitly models the load current as a single step (or a single isolated transient). A sustained, *periodic* current excitation with a harmonic landing exactly on a PDN resonance is a fundamentally worse excitation than a single step — and it is commonplace in real systems.
+
+**The worst-case excitation:**
+
+A periodic square-wave current drawn at frequency $f_{res}$ (or any integer sub-harmonic whose odd-numbered harmonics align with $f_{res}$), where $f_{res}$ is the frequency of a PDN impedance peak.
+
+Periodic excitation at a resonant frequency, applied over many cycles, drives the resonator to its **steady-state amplitude**, which for a parallel-LC resonance with quality factor $Q$ is:
+
+$$|\Delta V|_{steady-state} = Q \cdot Z_{DC,avg} \cdot I_{harmonic}$$
+
+In impedance terms, $|Z_{PDN}(f_{res})| = Q \cdot Z_{avg}$ — the quality factor itself sets how high the resonant peak rises above the surrounding impedance. A $Q = 10$ resonance driven by a current harmonic equal to $0.1 \cdot I_{max}$ generates the *same* voltage perturbation as a broadband current of amplitude $I_{max}$ against a flat $Z_{target}$. In other words, a modest resonant peak can be as damaging as a broadband excitation at ten times the spectral amplitude.
+
+**Why this is worse than a single step:**
+
+A single current step has its spectral energy spread across all frequencies from DC to $f_{knee} = 0.5/t_r$. Only the small fraction of spectral energy that lies near $f_{res}$ excites the resonance, and only briefly — the resonator's ringing decays with time constant $\tau = Q/(2\pi f_{res})$. Peak voltage is bounded and the transient is short.
+
+A periodic excitation continuously pumps energy into the resonator cycle after cycle, until steady-state is reached after approximately $Q$ cycles. The resonator does not ring *once*; it rings *indefinitely* at the full steady-state amplitude.
+
+**Concrete example:**
+
+Consider a PDN with:
+- Flat impedance $|Z| = 3\,\text{m}\Omega$ across most of the band
+- Anti-resonant peak $|Z|_{peak} = 15\,\text{m}\Omega$ (a $5\times$ rise) at $f_{res} = 200\,\text{MHz}$, with $Q \approx 5$
+- $Z_{target} = 5\,\text{m}\Omega$
+
+**Single-step analysis:** A 10 A current step contains approximately $10 \cdot (1/2\pi \cdot 0.01)$ A of energy in a 1% band around 200 MHz — call it 0.16 A. The resonance briefly rings at $0.16 \cdot 15\,\text{m}\Omega = 2.4\,\text{mV}$. Below $\Delta V_{max} = 50\,\text{mV}$, so the single-step criterion suggests acceptable behaviour.
+
+**Periodic-excitation analysis:** Now assume the device has a 200 MHz on-die regulator or memory interface generating a repetitive 1 A current harmonic at exactly 200 MHz. Steady-state voltage:
+
+$$|\Delta V|_{steady-state} = 1\,\text{A} \cdot 15\,\text{m}\Omega = 15\,\text{mV}$$
+
+Now suppose the harmonic grows to 3.5 A (common for high-activity data phases):
+
+$$|\Delta V|_{steady-state} = 3.5\,\text{A} \cdot 15\,\text{m}\Omega = 52.5\,\text{mV} \quad (> \Delta V_{max})$$
+
+**Spec violated**, even though the resonant peak was only 3× above $Z_{target}$ and the exciting current (3.5 A) was only 35% of the single-step $I_{max}$. The resonance amplifies what would otherwise be a modest, in-band current into a full-amplitude violation.
+
+**Why this happens in real systems:**
+
+1. **Clock harmonics align with PDN resonances.** If a digital bus switches at 400 MHz with 50% duty cycle, its current spectrum has strong content at 400 MHz, 1.2 GHz, 2.0 GHz, etc. Any PDN resonance landing on one of these frequencies gets fully excited.
+
+2. **DDR memory bus activity.** During write bursts, synchronous switching of many DQ/DQS lines generates current spectra with strong content at the data rate and its harmonics.
+
+3. **On-die switching regulator noise.** Integrated voltage regulators on modern SoCs switch at frequencies (tens to hundreds of MHz) that fall within the band where the board PDN has resonances.
+
+4. **Correlated simultaneous switching (SSO/SSN).** When many I/O drivers switch together at the bus clock rate, the aggregate current has a periodic spectral content that can hit PDN peaks.
+
+**Design mitigation:**
+
+Because periodic excitation at PDN resonances is fundamentally worse than a single step, defensive PDN design demands:
+
+1. **Lower the Q of anti-resonant peaks** via intentional damping (series resistance in bulk capacitor stage, ferrite beads, or resistive terminations). Lower Q spreads the peak over a wider frequency range and reduces its height.
+
+2. **Shift resonances away from known harmonics.** If simulation shows a 400 MHz peak and the system runs a 400 MHz bus, add bypass capacitors to shift the peak to 300 MHz or 500 MHz.
+
+3. **Time-domain PI simulation with realistic current profiles.** Feed an actual or modelled device current waveform (not a step) into a full PDN model. This catches resonance-driven violations that frequency-domain impedance checks miss.
+
+4. **Tighten the target impedance.** Some engineering shops apply a factor of 2–5× margin on $Z_{target}$ specifically to cover periodic-excitation amplification that scalar analysis underestimates.
+
+**Common interview pitfall:** A candidate who answers that "as long as $|Z_{PDN}(f_{res})| < Z_{target}$, the design is fine" has only demonstrated single-step sufficiency. A strong answer acknowledges that $Z_{target}$ is a frequency-domain sinusoidal bound and that the time-domain worst case is sustained resonant excitation, which is independently bounded only by PDN Q.
+
+---
+
 ## Summary: Target Impedance Design Flow
 
 ```

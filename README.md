@@ -28,6 +28,7 @@ Foundational concepts for understanding signal propagation on PCB traces and cab
 - [Reflections and Matching](01_transmission_line_fundamentals/reflections_and_matching.md)
 - [Propagation Delay and Dielectric](01_transmission_line_fundamentals/propagation_delay_and_dielectric.md)
 - [Lossy Lines, Skin Effect, and Dielectric Loss](01_transmission_line_fundamentals/lossy_lines_skin_effect_dielectric.md)
+- [Digital Signal Spectrum and Knee Frequency](01_transmission_line_fundamentals/digital_signal_spectrum_and_knee_frequency.md)
 - [Worked Problems](01_transmission_line_fundamentals/worked_problems/)
   - [Problem 01: Impedance Calculation](01_transmission_line_fundamentals/worked_problems/problem_01_impedance_calculation.md)
   - [Problem 02: Reflection Coefficient](01_transmission_line_fundamentals/worked_problems/problem_02_reflection_coefficient.md)
