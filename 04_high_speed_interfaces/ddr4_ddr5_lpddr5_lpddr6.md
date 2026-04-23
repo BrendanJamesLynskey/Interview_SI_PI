@@ -1,10 +1,10 @@
-# DDR4, DDR5, and LPDDR5
+# DDR4, DDR5, LPDDR5, and LPDDR6
 
 ## Overview
 
-DDR (Double Data Rate) SDRAM is the dominant memory technology in servers, desktops, laptops, and embedded platforms. Unlike point-to-point SerDes links, DDR interfaces are parallel, multidrop, and bidirectional — a combination that creates unique signal integrity challenges. Understanding the physical layer constraints, topology trade-offs, and routing rules for DDR4, DDR5, and LPDDR5 is essential for PCB engineers working on CPU, GPU, FPGA, and SoC platforms.
+DDR (Double Data Rate) SDRAM is the dominant memory technology in servers, desktops, laptops, and embedded platforms. Unlike point-to-point SerDes links, DDR interfaces are parallel, multidrop, and bidirectional — a combination that creates unique signal integrity challenges. Understanding the physical layer constraints, topology trade-offs, and routing rules for DDR4, DDR5, LPDDR5, and LPDDR6 is essential for PCB engineers working on CPU, GPU, FPGA, and SoC platforms.
 
-This document covers the fly-by topology and write levelling mechanism, per-signal routing rules, signal grouping conventions, and the VrefDQ reference voltage scheme. DDR5 introduces per-DIMM power management, on-die ECC, and a new sub-channel architecture; LPDDR5 adds further optimisation for mobile power budgets.
+This document covers the fly-by topology and write levelling mechanism, per-signal routing rules, signal grouping conventions, and the VrefDQ reference voltage scheme. DDR5 introduces per-DIMM power management, on-die ECC, and a new sub-channel architecture; LPDDR5 adds further optimisation for mobile power budgets; **LPDDR6** (JEDEC JESD209-6, ratified 2025) raises data rates to 10.67 Gb/s and beyond by widening sub-channels to 24 bits, mandating on-die equalisation (DFE/FFE/CTLE) at the DRAM receiver, and adding dynamic non-terminating ODT and command-bus parity — all of which materially change the SI rule-set for mobile and on-package memory channels.
 
 ---
 
@@ -122,22 +122,24 @@ At DDR4-3200, the AC noise margin is specified at ~65 mV. If VrefDQ drifts by 25
 
 ---
 
-### Q5. Compare DDR4, DDR5, and LPDDR5 at a high level. What are the key differences in data rate, bus width, topology, and operating voltage?
+### Q5. Compare DDR4, DDR5, LPDDR5, and LPDDR6 at a high level. What are the key differences in data rate, bus width, topology, and operating voltage?
 
 **Answer:**
 
-| Parameter | DDR4 | DDR5 | LPDDR5 |
-|---|---|---|---|
-| Max data rate | 3200 MT/s (JEDEC); 5600 MT/s (XMP/OC) | 8800 MT/s (JEDEC spec) | 8533 MT/s |
-| Bus width per DIMM | 64-bit (+ 8 ECC) | 64-bit split into two 32-bit sub-channels | 16-bit (x16 per die) |
-| VDD | 1.2 V | 1.1 V | 1.05 V (WCK at VDDQ 1.05 V) |
-| Write data clock | DQS from controller | DQS from controller | WCK (write clock, from controller, running at a fraction of the data rate with DDR capture — e.g., WCK at half the data rate for 8 DQ-bits-per-WCK-cycle "WCK:CK=4:1" mode) |
-| On-die ECC | No | Yes (optional) | No |
-| CA training | Per-rank | Per sub-channel | Per channel |
-| Topology | Fly-by CA, P2P DQ | Fly-by CA (per sub-channel), P2P DQ | Point-to-point only |
-| Max channels per DIMM | 1 × 64-bit | 2 × 32-bit sub-channels | N/A (package-on-package) |
-| Ranks per DIMM | 1–4 | 1–2 | 1 (typically) |
-| Power management | External VR | PMIC on DIMM | Integrated PMIC in SoC/module |
+| Parameter | DDR4 | DDR5 | LPDDR5 | LPDDR6 |
+|---|---|---|---|---|
+| Max data rate (initial JEDEC) | 3200 MT/s | 6400 MT/s (roadmap 8800) | 6400 MT/s (LPDDR5X up to 10.67 Gb/s) | 10.67 Gb/s (roadmap 14.4+ Gb/s) |
+| Sub-channel width | n/a (single 64-bit) | 32-bit (2 per DIMM) | 16-bit (2 per x32 die) | **24-bit** (4 per package = 96-bit total I/O) |
+| VDD (core) | 1.2 V | 1.1 V | 1.05 V | ~0.95 V |
+| Write data clock | DQS from controller | DQS from controller | WCK (DDR clock, typically $\approx$ half data rate) | WCK, higher rate with on-die EQ |
+| On-die ECC | No | Yes (optional) | No | Yes |
+| On-die EQ at DRAM RX | None | Limited (DFE for some vendors) | Minimal | **Mandatory DFE + FFE + CTLE** |
+| ODT scheme | Static ODT | Programmable ODT | NT-ODT | **Dynamic NT-ODT** (switches per traffic) |
+| CA/CS protection | Parity (optional) | CRC (optional) | Parity | **Full command-bus parity mandatory** |
+| CA training | Per-rank | Per sub-channel | Per channel | Per sub-channel, more granular |
+| Topology | Fly-by CA, P2P DQ | Fly-by CA (per sub-channel), P2P DQ | Point-to-point only (PoP/CSP) | Point-to-point only (PoP/CAMM2 modules) |
+| Typical form factor | DIMM | DIMM (with PMIC) | PoP / on-package | PoP / on-package / CAMM2 modules |
+| Power management | External VR | PMIC on DIMM | Integrated PMIC in SoC/module | Integrated, with fine-grain power states |
 
 **Sub-channel architecture (DDR5):** Each DDR5 sub-channel is a fully independent 32-bit bus with its own CA, CLK, DQS, and DQ signals. The controller trains each sub-channel separately. This doubles the number of training loops required but halves the bus width per path, making it easier to maintain signal integrity at the higher data rates. It also allows one sub-channel to operate while the other is in a self-refresh state, improving power efficiency.
 
@@ -284,9 +286,83 @@ LPDDR5 DQ/DQS targets 50 Ω single-ended (40–60 Ω tolerance). WCK targets 100
 
 ---
 
+### Q10. What are the key SI/PI innovations in LPDDR6, and how do they change the design rules vs LPDDR5?
+
+**Answer:**
+
+LPDDR6 (JEDEC JESD209-6, ratified July 2025) targets mobile and AI-at-the-edge platforms where LPDDR5X (10.67 Gb/s) is the performance ceiling. To break past that, LPDDR6 introduces several physical-layer innovations.
+
+**1. New sub-channel width — 24 bits instead of 16.**
+
+LPDDR5 uses 16-bit sub-channels (two per ×32 package). LPDDR6 uses **24-bit sub-channels with four per package for a 96-bit total I/O**. This wider per-sub-channel bus reduces the bandwidth demand on each individual pin at a given aggregate rate and improves bandwidth utilisation for the byte-granular access patterns common in AI inference workloads. The wider sub-channel also enables finer-grained power-down (deactivate one 24-bit sub-channel while others run).
+
+SI implication: more DQ/DQS escape routes from the SoC BGA, so package ball count rises. Layout planners must budget for the additional traces in the escape region; DDR5-class escape congestion is now the LPDDR6 norm.
+
+**2. Mandatory on-die receiver equalisation (DFE + FFE + CTLE).**
+
+LPDDR5 receivers are lightly equalised; LPDDR6 DRAM receivers include a fully specified equalisation stack:
+
+- **CTLE** with programmable peaking to compensate channel loss up to the Nyquist of the top data rate.
+- **FFE** pre-taps at the controller side to pre-distort the channel.
+- **DFE** on the DRAM side to cancel post-cursor ISI.
+
+This is the same class of equalisation found in SerDes PHYs at 25 Gb/s+. It is a fundamental departure from the "open-eye" philosophy of earlier DDR generations, which tolerated only minimal channel loss.
+
+**SI implication:** a PCB channel with 3–5 dB of insertion loss at Nyquist — *unacceptable* for LPDDR5 — is tractable for LPDDR6 because the on-die equaliser re-opens the eye. This expands the usable trace length and relaxes the stackup-material constraint for mobile and compact-PCB applications. In exchange, **training becomes much more involved**: LPDDR6 init now includes a coefficient-search pass similar to PCIe, with associated longer boot times.
+
+**3. Dynamic non-terminating ODT (NT-ODT).**
+
+LPDDR5 introduced NT-ODT (a form of ODT that only activates during active bursts to save power). LPDDR6 makes the ODT **dynamic** — its value and activation window are programmable per-traffic-pattern, and the DRAM can enable stronger termination for reads and lighter termination for writes within the same session.
+
+SI implication: peak-vs-average rail current shifts as ODT activates; the PI design must support faster PDN response during the ODT transient. On a CPM (chip power model) flow, the LPDDR6 DRAM's transient current profile includes a new characteristic frequency component from ODT switching — typically tens of MHz.
+
+**4. Command-bus parity / CRC mandatory.**
+
+LPDDR6 requires CRC or parity on the command/address bus by default, not as an option. With CA bus running faster than LPDDR5's CA and with a shared clock domain, the bit-error tolerance is zero; command errors would silently corrupt memory. The parity check catches bus-level errors and triggers a retry.
+
+SI implication: CA bus SI is no longer pass/fail on "eye open at DRAM ball" alone — the system tolerates single-bit CA errors at the cost of retry latency. Production channels are sometimes designed to marginal CA SI deliberately, relying on parity to catch the occasional error. This is a cultural shift from LPDDR5 where a single CA error would crash the system.
+
+**5. Lower VDD (~0.95 V core) and refined AVS (Adaptive Voltage Scaling).**
+
+The core supply drops from 1.05 V (LPDDR5) to ~0.95 V (LPDDR6), plus per-die AVS that continuously adjusts VDD within ~50 mV based on workload.
+
+PI implication: the PDN noise budget tightens proportionally (an 80 mV noise excursion on 0.95 V is now 8.4% — above what most rails tolerate). The combination of lower VDD and AVS places the LPDDR6 PDN among the most demanding in a mobile SoC. Tight on-package decoupling and active rail regulation are required.
+
+**6. Rise-time content and routing rules.**
+
+At 10.67 Gb/s NRZ, Nyquist is 5.33 GHz and rise-time spectral content extends above 15 GHz. Routing rules become stringent:
+
+- DQ trace stub length < 2 mm (LPDDR5: < 5 mm).
+- Glass-weave mitigation required for all PCBs running at top rate.
+- Intra-byte length matching ±5 mil (LPDDR5: ±15 mil).
+- Differential pair skew < 1 ps intra-pair.
+
+This is DDR5-class rule stringency on what was traditionally a simpler mobile-memory channel.
+
+**7. PoP and on-package-substrate routing.**
+
+LPDDR6 is predominantly delivered as package-on-package (PoP) or in co-packaged / in-module form factors (CAMM2 standard for laptops). The routing distances are extremely short (1–10 mm), which makes transmission-line behaviour marginal and forces the SI model to treat each segment as lumped.
+
+**Summary comparison (SI/PI design rule changes from LPDDR5 to LPDDR6):**
+
+| Rule | LPDDR5 | LPDDR6 |
+|---|---|---|
+| Max channel IL at Nyquist | ~3 dB | ~5–7 dB (enabled by on-die EQ) |
+| CA stub length | 5 mm | 2 mm |
+| Intra-byte length match | ±15 mil | ±5 mil |
+| VDD tolerance (% of rail) | ±5% | ±4% (tighter absolute value) |
+| Training time | ms | tens of ms (EQ coefficient search) |
+| PCB material requirement | FR4 marginal | Low-Df (Df ≤ 0.008 at 5 GHz) |
+| Glass-weave mitigation | Recommended | Required at top rate |
+| Command-bus error handling | System halts | Parity retry |
+
+**Interview angle:** LPDDR6 is the first mainstream memory technology to adopt SerDes-style equalisation at the DRAM receiver, a design philosophy change that will shape DDR6 (expected ~2027) and HBM5. Candidates who can talk fluently about this change — particularly how training protocols and parity change the SI-vs-cost trade-off — signal strong domain awareness.
+
+---
+
 ## Tier 3: Advanced
 
-### Q10. A DDR5-6400 design fails write levelling training on one byte lane of a 4-DRAM unbuffered channel. The controller reports that the DQS delay required to align byte lane 2 is at the maximum of the PHY's delay range (511 steps × 2 ps/step = 1022 ps). Walk through the systematic debug approach.
+### Q11. A DDR5-6400 design fails write levelling training on one byte lane of a 4-DRAM unbuffered channel. The controller reports that the DQS delay required to align byte lane 2 is at the maximum of the PHY's delay range (511 steps × 2 ps/step = 1022 ps). Walk through the systematic debug approach.
 
 **Answer:**
 
@@ -347,7 +423,7 @@ This keeps the required write levelling delay correction within the PHY's range 
 
 ---
 
-### Q11. Derive the maximum allowable stub length for a DDR5-8000 fly-by DRAM stub, given that the stub resonance frequency must be above 5× the Nyquist frequency of the data signal.
+### Q12. Derive the maximum allowable stub length for a DDR5-8000 fly-by DRAM stub, given that the stub resonance frequency must be above 5× the Nyquist frequency of the data signal.
 
 **Answer:**
 
@@ -388,7 +464,7 @@ JEDEC DDR5 routing guidelines specify stubs ≤ 2.5 mm, consistent with this ana
 
 ---
 
-### Q12. A DDR5-6400 system shows random single-bit errors on byte lane 3 at elevated temperature (85°C). The errors are not reproducible at room temperature and do not appear on any other byte lane. Describe a systematic investigation methodology.
+### Q13. A DDR5-6400 system shows random single-bit errors on byte lane 3 at elevated temperature (85°C). The errors are not reproducible at room temperature and do not appear on any other byte lane. Describe a systematic investigation methodology.
 
 **Answer:**
 
@@ -450,3 +526,9 @@ If the system allows, perform BIOS/firmware-level memory training at elevated te
 | RCD | Register Clock Driver; re-buffers CA/CLK signals on RDIMM to isolate controller loading |
 | Stub resonance | Quarter-wave resonance of a T-branch stub that creates a notch in the frequency response |
 | Write levelling range | Maximum delay adjustment available in the PHY delay line for write levelling correction |
+| NT-ODT | Non-Terminating On-Die Termination; terminates only during active bursts to save power (LPDDR5/6) |
+| Dynamic NT-ODT | LPDDR6 extension: ODT strength and window programmable per-traffic-pattern |
+| CAMM2 | Compression Attached Memory Module v2; laptop form factor standardised for LPDDR5X/LPDDR6 |
+| On-die DFE/FFE/CTLE | Receiver-side equalisation at the DRAM; mandatory in LPDDR6, opens eye on lossier channels |
+| Command-bus parity | LPDDR6 (and optional DDR5) CA-bus error detection; triggers retry rather than system halt |
+| AVS | Adaptive Voltage Scaling; per-die workload-tracking VDD adjustment, standard in LPDDR6 |

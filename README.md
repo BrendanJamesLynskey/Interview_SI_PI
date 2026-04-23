@@ -71,7 +71,7 @@ Design and analysis of power distribution networks for stable voltage supply.
 
 Standard interfaces and compliance requirements for modern computing and communication systems.
 
-- [DDR4, DDR5, and LPDDR5](04_high_speed_interfaces/ddr4_ddr5_lpddr5.md)
+- [DDR4, DDR5, LPDDR5, and LPDDR6](04_high_speed_interfaces/ddr4_ddr5_lpddr5_lpddr6.md)
 - [PCIe Gen 4, Gen 5, and Gen 6](04_high_speed_interfaces/pcie_gen4_gen5_gen6.md)
 - [USB3 and USB4](04_high_speed_interfaces/usb3_usb4.md)
 - [Ethernet and SerDes](04_high_speed_interfaces/ethernet_and_serdes.md)
