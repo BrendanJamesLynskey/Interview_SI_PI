@@ -209,11 +209,13 @@ where $m(t)$ is the modulation waveform ($0 \le m \le 1$ for down-spread).
 
 **Effect on TIE and eye diagram:**
 
-The SSC modulation appears as a very low-frequency sinusoidal jitter component. At 33 kHz modulation rate, the peak TIE deviation is:
+Sinusoidal frequency modulation of a carrier by peak frequency deviation $\Delta f$ at modulation rate $f_{mod}$ produces a peak *phase* deviation (modulation index) of $\beta = \Delta f / f_{mod}$ radians, and a peak *time* deviation on the data edges (TIE) of:
 
-$$TIE_{peak} = \frac{\Delta f}{f_{mod}} \cdot \frac{1}{2\pi} \approx \frac{0.005 \times 2.5\ \text{GHz}}{33\ \text{kHz}} \cdot \frac{1}{2\pi} \approx 60\ \text{ns peak}$$
+$$TIE_{peak} = \frac{\beta}{2\pi f_{data}} = \frac{\Delta f}{2\pi\, f_{data}\, f_{mod}}$$
 
-This 60 ns of TIE is enormous compared to a 400 ps UI at 2.5 GHz. However, if the receiver's CDR tracks the SSC modulation (which PCIe CDR must, per specification — CDR bandwidth covers the SSC rate), the CDR absorbs the SSC jitter and the effective TIE seen by the decision circuit is only the *residual* jitter above the CDR bandwidth.
+For PCIe REFCLK (100 MHz, ±0.25% down-spread peak ≈ 250 kHz peak deviation, 33 kHz modulation rate): on the REFCLK itself, $TIE_{peak} \approx 250\text{k} / (2\pi \cdot 10^8 \cdot 33\text{k}) \approx 12$ ps. But because the data clock is multiplied up from the REFCLK (e.g., by 25× for 2.5 GHz data), the data-rate phase excursion is much larger — on the order of tens of ns of *accumulated* TIE at the data rate.
+
+This accumulated TIE is enormous compared to a 400 ps UI at 2.5 GHz. However, if the receiver's CDR tracks the SSC modulation (which PCIe CDR must, per specification — CDR loop BW covers 33 kHz), the CDR absorbs the SSC jitter and the effective TIE seen by the decision circuit is only the *residual* jitter above the CDR bandwidth (the part of the SSC spectrum the CDR fails to track).
 
 **Effect on bathtub curves:**
 

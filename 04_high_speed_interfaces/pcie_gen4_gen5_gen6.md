@@ -154,15 +154,17 @@ For a microstrip or stripline trace on Megtron 6, the insertion loss per unit le
 
 $$\alpha_{total} \approx \alpha_{conductor} + \alpha_{dielectric}$$
 
-Conductor loss (skin effect dominant): $\alpha_c \propto \sqrt{f}$. For a 1 oz copper stripline at 1 GHz, $\alpha_c \approx 0.5$ dB/inch. At 16 GHz: $\alpha_c(16) \approx 0.5 \times \sqrt{16} = 2.0$ dB/inch.
+Conductor loss (skin effect dominant): $\alpha_c \propto \sqrt{f}$. For a typical 5 mil, 1 oz copper, 50 Ω stripline at 1 GHz, $\alpha_c \approx 0.12$ dB/inch. At 16 GHz: $\alpha_c(16) \approx 0.12 \times \sqrt{16} \approx 0.5$ dB/inch (HVLP copper); rough copper inflates this by a further 30–60% via the roughness multiplier.
 
-Dielectric loss: $\alpha_d \propto Df \times \sqrt{Dk} \times f$. For Megtron 6 at 16 GHz, $\alpha_d \approx 0.4$ dB/inch.
+Dielectric loss: $\alpha_d \propto Df \times \sqrt{Dk} \times f$. For Megtron 6 at 16 GHz ($D_f \approx 0.005$), $\alpha_d \approx 0.55$ dB/inch.
 
-Total: $\alpha_{total} \approx 2.4$ dB/inch at 16 GHz.
+Including a 1.4× roughness factor for standard HVLP copper:
+
+$$\alpha_{total} \approx 1.4 \times 0.5 + 0.55 \approx 1.25\ \text{dB/inch at 16 GHz}$$
 
 For 25 cm ≈ 9.84 inches:
 
-$$IL_{trace} \approx 9.84 \times 2.4 \approx -23.6 \text{ dB}$$
+$$IL_{trace} \approx 9.84 \times 1.25 \approx -12.3 \text{ dB}$$
 
 **Step 2 — Connector loss.**
 
@@ -185,23 +187,23 @@ $$IL_{packages} \approx -2.0 \text{ dB}$$
 **Step 5 — Total channel insertion loss.**
 
 $$IL_{total} = IL_{trace} + IL_{connector} + IL_{vias} + IL_{packages}$$
-$$IL_{total} \approx -23.6 - 2.0 - 1.2 - 2.0 = -28.8 \text{ dB}$$
+$$IL_{total} \approx -12.3 - 2.0 - 1.2 - 2.0 \approx -17.5 \text{ dB}$$
 
-**Step 6 — Compare to Gen 5 limit.**
+**Step 6 — Compare to Gen 5 reference-channel limits.**
 
-PCIe Gen 5 specifies a maximum channel insertion loss of approximately **-36 dB** at 16 GHz for the 12-inch reference channel model. The calculated -28.8 dB is below this limit, suggesting the channel has margin.
+PCIe Gen 5 specifies its channel limits as a frequency-dependent insertion-loss mask that varies with the reference channel model (CEM add-in card, server backplane, OCP). The total end-to-end channel budget at 16 GHz is typically in the **36 dB** region including TX and RX package allocations — so roughly 30–32 dB is available for PCB, connector, and via loss on a CEM channel. The calculated -17.5 dB PCB + connector + via + package is comfortably inside this budget.
 
 However, COM analysis must also account for:
 - Crosstalk from adjacent lanes (FEXT, NEXT)
 - Return loss (reflections from impedance mismatches)
 - Jitter contribution
 
-A first-order assessment suggests the channel is **likely to pass COM** with the low-loss laminate. The same channel on FR4 (Df ≈ 0.022) would be:
+A first-order assessment suggests the channel is **likely to pass COM** with the low-loss laminate. The same channel on FR4 ($D_f \approx 0.020$ at 10 GHz) would be:
 
-$$\alpha_{d,FR4}(16) \approx 5 \times \alpha_{d,Megtron6} \approx 2.0 \text{ dB/inch}$$
-$$IL_{trace,FR4} \approx 9.84 \times (2.0 + 2.0) = -39.4 \text{ dB}$$
+$$\alpha_{d,FR4}(16) \approx 4 \times \alpha_{d,Megtron6} \approx 2.2\ \text{dB/inch}$$
+$$IL_{trace,FR4} \approx 9.84 \times (0.7 + 2.2) \approx -29\ \text{dB}$$
 
-Total with FR4: approximately -44 dB — **far exceeding** the budget. PCIe Gen 5 is not practical on FR4 at 25 cm trace lengths.
+Total with FR4: approximately -34 dB — close to the limit with no crosstalk/RL margin. PCIe Gen 5 on FR4 at 25 cm is very marginal and production-risky.
 
 ---
 

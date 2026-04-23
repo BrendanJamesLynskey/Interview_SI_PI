@@ -341,9 +341,9 @@ In practice, the stop-band extends from approximately $f_0/2$ to $f_0$ for a wel
 
 **Example:** For $L_{via} = 0.8\ nH$, $C_{gap} = 0.2\ pF$:
 
-$$f_0 = \frac{1}{2\pi\sqrt{0.8\times10^{-9} \times 0.2\times10^{-12}}} = \frac{1}{2\pi\sqrt{1.6\times10^{-22}}} = \frac{1}{2\pi \times 1.265\times10^{-11}} \approx 1.26\ GHz$$
+$$f_0 = \frac{1}{2\pi\sqrt{0.8\times10^{-9} \times 0.2\times10^{-12}}} = \frac{1}{2\pi\sqrt{1.6\times10^{-22}}} = \frac{1}{2\pi \times 1.265\times10^{-11}} \approx 12.6\ \text{GHz}$$
 
-The stop-band would suppress propagation from approximately 630 MHz to 1.26 GHz.
+The stop-band would suppress propagation over roughly 6.3–12.6 GHz. To target a lower stop-band (e.g., a clock harmonic around 1 GHz), increase $L_{via}$ and $C_{gap}$ by ~100× — for example $L_{via} \approx 10\ \text{nH}$ (taller via to distant plane), $C_{gap} \approx 20\ \text{pF}$ (larger patches, narrower gaps).
 
 **Limitations of EBG:**
 - Only suppresses propagation within the stop-band — outside the band, noise propagates normally

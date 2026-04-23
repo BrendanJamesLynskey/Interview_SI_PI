@@ -351,23 +351,27 @@ Integrated FEXT = -35 dBV → $V_{FEXT} = 10^{-35/20} = 17.8$ mV peak. Assuming 
 
 **Receiver thermal noise:**
 
-A typical 25GbE receiver has an equivalent input noise of -60 dBm in a 12.89 GHz bandwidth = $10^{-6}$ W into 50 Ω → $V_{noise} = \sqrt{10^{-6} \times 50} = 7.07$ mV rms.
+A typical 25GbE receiver has an equivalent input-referred noise on the order of **−60 to −75 dBm** integrated over the signal bandwidth. Taking −60 dBm = $10^{-9}$ W into 50 Ω (differential): $V_{noise} = \sqrt{10^{-9} \times 50} \approx 224\ \mu\text{V}$ rms. More aggressive receivers (−70 dBm) give ~70 µV rms. Real 25GbE receivers sit in this range; the exact number depends on the analog front-end's noise figure and the integration bandwidth.
+
+For this worked example use $\sigma_{rx} \approx 0.22$ mV rms.
 
 **Total noise (RSS):**
 
-$$\sigma_{total} = \sqrt{\sigma_{jitter}^2 + \sigma_{FEXT}^2 + \sigma_{rx}^2} = \sqrt{2.1^2 + 5.9^2 + 7.07^2} \approx \sqrt{4.4 + 34.8 + 50.0} \approx \sqrt{89.2} \approx 9.4 \text{ mV rms}$$
+$$\sigma_{total} = \sqrt{\sigma_{jitter}^2 + \sigma_{FEXT}^2 + \sigma_{rx}^2} = \sqrt{2.1^2 + 5.9^2 + 0.22^2} \approx \sqrt{4.4 + 34.8 + 0.05} \approx \sqrt{39.3} \approx 6.3\ \text{mV rms}$$
+
+Receiver thermal noise is small compared to FEXT and jitter contributions here — the channel is crosstalk-and-jitter dominated, not thermal-noise limited.
 
 **Step 3 — Compute SNR and COM equivalent.**
 
-$$SNR = 20\log_{10}\left(\frac{A_{after-CTLE}}{\sigma_{total}}\right) = 20\log_{10}\left(\frac{177}{9.4}\right) = 20\log_{10}(18.8) \approx 25.5 \text{ dB}$$
+$$SNR = 20\log_{10}\left(\frac{A_{after-CTLE}}{\sigma_{total}}\right) = 20\log_{10}\left(\frac{177}{6.3}\right) \approx 29\ \text{dB}$$
 
 **Step 4 — Compare to minimum required SNR.**
 
 For NRZ at $BER = 10^{-15}$, the required $Q$-factor is approximately 8.0 ($20\log_{10}(8.0) = 18.1$ dB).
 
-$$COM_{equivalent} = SNR - SNR_{required} = 25.5 - 18.1 = +7.4 \text{ dB}$$
+$$COM_{equivalent} \approx SNR - SNR_{required} \approx 29 - 18.1 \approx +11\ \text{dB}$$
 
-**Conclusion:** COM equivalent ≈ **+7.4 dB**, which is well above the 0 dB threshold. This channel passes.
+**Conclusion:** COM equivalent ≈ **+11 dB**, comfortably above the 0 dB threshold. This channel passes with large margin.
 
 **Important caveat:** This simplified analysis ignores several effects that the full COM script includes (non-stationary noise, channel impedance variation with frequency, higher-order ISI from the channel pulse response, transmitter jitter spectrum shaping). The actual COM value from a full MATLAB simulation may differ by ±2 dB, but the channel is unlikely to fail given a +7.4 dB first-order margin.
 

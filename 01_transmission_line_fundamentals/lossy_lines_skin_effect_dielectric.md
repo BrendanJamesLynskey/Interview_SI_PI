@@ -110,9 +110,11 @@ $$\alpha_{total} = \alpha_c + \alpha_d$$
 
 $$\alpha_c = \frac{R_{sq}}{Z_0 w}\ \text{(Np/m)} \quad \propto \sqrt{f}$$
 
-A commonly used approximation for a microstrip:
+A commonly used engineering fit (see Q9 below for calibration) expresses conductor loss in dB/inch as:
 
-$$\alpha_c\ [\text{dB/inch}] \approx \frac{0.1}{Z_0 w[\text{mil}]} \sqrt{f[\text{GHz}]}$$
+$$\alpha_c\ [\text{dB/inch}] \approx A_c\,\sqrt{f[\text{GHz}]}$$
+
+where $A_c$ is a geometry- and roughness-dependent coefficient. For a 50 $\Omega$ stripline with standard 1 oz copper, $A_c \approx 0.06$–$0.08$ dB/inch/$\sqrt{\text{GHz}}$; for narrower traces (5 mil) the coefficient rises as the current crowds into a smaller cross-section. Closed-form prefactors from first principles also exist (e.g., $\alpha_c = R_{sq}/(Z_0 w)$ Np/m for a microstrip, with $R_{sq}$ the copper surface resistance), but the constants depend on cross-section geometry; the empirical $A_c$ form above is what SI tools calibrate against field-solver results.
 
 **Dielectric loss:**
 
@@ -126,12 +128,14 @@ $$\text{IL}(f)\ [\text{dB/inch}] = \alpha_c \sqrt{f} + \alpha_d f$$
 
 At low frequency, $\alpha_c \sqrt{f}$ dominates. At high frequency, $\alpha_d f$ dominates. The crossover frequency depends on the material: for FR4, dielectric loss dominates above approximately 2–3 GHz; for low-loss laminates, the crossover is at 5–10 GHz.
 
-**Example — 50 $\Omega$ FR4 stripline, 6-mil trace, $\varepsilon_r = 4.3$, $Df = 0.022$:**
+**Example — 50 $\Omega$ FR4 stripline, 6-mil trace, $\varepsilon_r = 4.3$, $Df = 0.020$ at 10 GHz:**
 
-At 5 GHz:
-$$\alpha_c \approx \frac{0.1}{50 \times 6} \sqrt{5} = \frac{0.1 \times 2.236}{300} \approx 0.00075\ \text{dB/inch}\ \times \text{length scaling factor}$$
+At 5 GHz (using $A_c \approx 0.08$ dB/inch/$\sqrt{\text{GHz}}$ for a 6-mil trace, and the dielectric-loss formula above):
+$$\alpha_c \approx 0.08 \times \sqrt{5} \approx 0.18\ \text{dB/inch}$$
+$$\alpha_d \approx 2.3 \times \sqrt{4.3} \times 0.020 \times 5 \approx 0.48\ \text{dB/inch}$$
+$$\alpha_{total} \approx 0.66\ \text{dB/inch at 5 GHz}$$
 
-Practical values: at 5 GHz, a typical 50 $\Omega$ FR4 stripline has approximately 0.8–1.0 dB/inch total loss. At 10 GHz, this rises to 1.8–2.2 dB/inch. A 10-inch channel at 10 GHz would have 18–22 dB insertion loss — far beyond what most receivers can tolerate without equalization.
+At 10 GHz: $\alpha_c \approx 0.25$ dB/inch, $\alpha_d \approx 0.95$ dB/inch, total ≈ 1.2 dB/inch. A 10-inch channel at 10 GHz therefore accumulates ~12 dB of insertion loss on FR4 — aggressive but tractable with CTLE; pushing the channel to 20+ dB of loss requires length extension, a lossier stackup, or a higher frequency.
 
 ---
 

@@ -407,19 +407,26 @@ Front-side capacitors cannot be placed directly under the BGA — they must go a
 
 **Practical inductance comparison:**
 
-Front-side cap, 8 mm from BGA power ball (plane spreading):
+Front-side cap, 8 mm from BGA power ball, reaching via tight plane-pair spreading:
 
-$$L_{spreading} \approx \frac{\mu_0 h}{2\pi} \ln\left(\frac{8}{0.15}\right) \approx \frac{4\pi\times10^{-7}\times100\times10^{-6}}{2\pi}\ln(53) \approx 20\ nH \times 3.97 \approx 3.2\ nH$$
+$$L_{spreading} \approx \frac{\mu_0 h_{pp}}{2\pi} \ln\left(\frac{d}{r_0}\right) = \frac{4\pi\times10^{-7}\times100\times10^{-6}}{2\pi}\ln(53) \approx 2\times10^{-11}\times 3.97 \approx 79\ \text{pH}$$
 
-(using $h = 100\ \mu m$, $d = 8\ mm$, $r_0 = 0.15\ mm$)
+(using plane-pair separation $h_{pp} = 100\ \mu m$, lateral distance $d = 8\ mm$, via radius $r_0 = 0.15\ mm$)
 
-Back-side cap, 1.6 mm board thickness via:
+To this front-side path must also be added the capacitor's mounted ESL (trace + via to plane pair) of typically 400–800 pH, so the total front-side path is of order **0.5–1 nH**.
 
-$$L_{via} \approx 0.2 \times h_{via} \approx 0.2 \times 1.6 = 0.32\ nH$$
+Back-side cap, 1.6 mm board-thickness via straight up to the BGA ball:
 
-(using 0.2 nH/mm rule of thumb for a 0.3 mm diameter via)
+$$L_{via} \approx 0.2\ \text{nH/mm} \times 1.6\ \text{mm} = 0.32\ \text{nH}$$
 
-The back-side capacitor's total inductance is approximately 10x lower in this scenario — a major advantage for high-frequency coverage.
+Plus mounted ESL on the same side of 0.1–0.3 nH → total **0.4–0.6 nH**.
+
+In this tight-plane-pair scenario the front-side and back-side paths are comparable. Back-side decoupling genuinely wins when:
+- Front-side placement is forced far from the BGA pin by layout congestion (lateral distance grows large).
+- Plane-pair separation is thicker (e.g., 4-layer boards with 30+ mil prepreg) — $L_{spreading}$ scales linearly with $h_{pp}$.
+- The BGA is large and central power balls cannot be reached by any front-side trace in under ~10 mm.
+
+For high-performance parts where back-side decoupling is used, the advantage is frequently 2–3× lower total loop inductance, not 10×.
 
 ---
 

@@ -106,15 +106,15 @@ Conversion examples:
 | 0.316 | 10 dB | Acceptable |
 | 1.0 | 0 dB | Total reflection |
 
-**PCIe Gen 4 (16 GT/s) channel limits:**
+**PCIe Gen 4 (16 GT/s) channel limits (indicative — consult the PCIe Base Spec for the authoritative frequency-dependent masks):**
 
-| Parameter | Limit | Notes |
+| Parameter | Typical limit | Notes |
 |---|---|---|
-| Max insertion loss at Nyquist (8 GHz) | 36 dB | Total channel including package, via, connector, PCB trace |
-| S11 ≤ -6 dB (return loss ≥ 6 dB) up to 8 GHz | $|S_{11}| \le 0.5$ |
-| Differential insertion loss (Sdd21) | $\le 36$ dB at 8 GHz | Measured in mixed-mode |
+| Channel IL at Nyquist (8 GHz) | ≈ 28 dB total | CEM reference channel, including package, via, connector, PCB trace |
+| Return loss $|S_{dd11}|$ | $\le -8$ dB at 4 GHz, mask-based above | Frequency-dependent RL mask |
+| Differential IL (Sdd21) | $\le 28$ dB at 8 GHz (approx) | Measured in mixed-mode against reference channel |
 
-The 36 dB limit for PCIe Gen 4 is quite aggressive and typically requires low-loss laminate materials ($D_f < 0.004$) and careful via design with backdrilling.
+Meeting a ~28 dB IL budget at 8 GHz typically requires mid-loss laminate ($D_f \approx 0.005$), controlled via design, backdrilling of through-hole via stubs, and a clean differential return path. **Note:** The authoritative limits are published as frequency-dependent masks in the PCIe Base Specification and CEM specification; always consult those documents rather than treating the single-number limits above as the full spec.
 
 ---
 

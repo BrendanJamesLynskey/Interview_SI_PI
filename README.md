@@ -44,6 +44,7 @@ Analysis and optimization of signal quality in high-speed digital designs.
 - [ISI and Equalization](02_signal_integrity/isi_and_equalisation.md)
 - [Jitter Analysis](02_signal_integrity/jitter_analysis.md)
 - [Package Effects on Signal Integrity](02_signal_integrity/package_effects_on_si.md)
+- [Return Path and Reference-Plane Discontinuities](02_signal_integrity/return_path_and_reference_planes.md)
 - [Worked Problems](02_signal_integrity/worked_problems/)
   - [Problem 01: Insertion Loss Budget](02_signal_integrity/worked_problems/problem_01_insertion_loss_budget.md)
   - [Problem 02: Crosstalk Estimation](02_signal_integrity/worked_problems/problem_02_crosstalk_estimation.md)
@@ -59,6 +60,8 @@ Design and analysis of power distribution networks for stable voltage supply.
 - [Plane Resonance](03_power_integrity/plane_resonance.md)
 - [VRM and PMIC Design](03_power_integrity/vrm_and_pmic_design.md)
 - [Package Effects on Power Integrity](03_power_integrity/package_effects_on_pi.md)
+- [PDN Flatness and the Rogue-Wave Problem](03_power_integrity/pdn_flatness_and_rogue_wave.md)
+- [PDN-Induced Jitter](03_power_integrity/pdn_induced_jitter.md)
 - [Worked Problems](03_power_integrity/worked_problems/)
   - [Problem 01: Target Impedance](03_power_integrity/worked_problems/problem_01_target_impedance.md)
   - [Problem 02: Capacitor Selection](03_power_integrity/worked_problems/problem_02_capacitor_selection.md)
@@ -72,6 +75,8 @@ Standard interfaces and compliance requirements for modern computing and communi
 - [PCIe Gen 4, Gen 5, and Gen 6](04_high_speed_interfaces/pcie_gen4_gen5_gen6.md)
 - [USB3 and USB4](04_high_speed_interfaces/usb3_usb4.md)
 - [Ethernet and SerDes](04_high_speed_interfaces/ethernet_and_serdes.md)
+- [SerDes Link Training and Lane Margining](04_high_speed_interfaces/serdes_link_training_and_lane_margining.md)
+- [Chiplets, UCIe, and Advanced Packaging](04_high_speed_interfaces/chiplets_ucie_and_advanced_packaging.md)
 - [Worked Problems](04_high_speed_interfaces/worked_problems/)
   - [Problem 01: DDR Routing Rules](04_high_speed_interfaces/worked_problems/problem_01_ddr_routing_rules.md)
   - [Problem 02: PCIe Loss Budget](04_high_speed_interfaces/worked_problems/problem_02_pcie_loss_budget.md)
@@ -85,6 +90,7 @@ Techniques and tools for validating SI/PI designs through measurement and simula
 - [Oscilloscope Probing](05_measurement_and_simulation/oscilloscope_probing.md)
 - [Simulation Tools and Methods](05_measurement_and_simulation/simulation_tools_and_methods.md)
 - [Correlation: Simulation to Measurement](05_measurement_and_simulation/correlation_sim_to_measurement.md)
+- [IEEE P370 De-Embedding and S-Parameter Quality Metrics](05_measurement_and_simulation/ieee_p370_de_embedding_and_s_parameter_quality.md)
 - [Worked Problems](05_measurement_and_simulation/worked_problems/)
   - [Problem 01: TDR Interpretation](05_measurement_and_simulation/worked_problems/problem_01_tdr_interpretation.md)
   - [Problem 02: De-Embedding](05_measurement_and_simulation/worked_problems/problem_02_de_embedding.md)
@@ -98,10 +104,18 @@ PCB design considerations for controlled-impedance transmission lines.
 - [Materials: Dk and Df](06_pcb_stackup_and_materials/materials_dk_df.md)
 - [Via Design and Backdrilling](06_pcb_stackup_and_materials/via_design_and_backdrilling.md)
 - [Controlled Impedance](06_pcb_stackup_and_materials/controlled_impedance.md)
+- [Glass-Weave (Fiber-Weave) Skew](06_pcb_stackup_and_materials/glass_weave_skew.md)
+- [Copper Surface Roughness and Conductor Loss Models](06_pcb_stackup_and_materials/surface_roughness_models.md)
 - [Worked Problems](06_pcb_stackup_and_materials/worked_problems/)
   - [Problem 01: Stackup for DDR5](06_pcb_stackup_and_materials/worked_problems/problem_01_stackup_for_ddr5.md)
   - [Problem 02: Via Stub Resonance](06_pcb_stackup_and_materials/worked_problems/problem_02_via_stub_resonance.md)
   - [Problem 03: Material Selection](06_pcb_stackup_and_materials/worked_problems/problem_03_material_selection.md)
+
+## Common Pitfalls and Errata
+
+A curated list of SI/PI misconceptions, formula traps, spec misquotes, and design gotchas — drawn from Bogatin, Smith & Sandler, Howard Johnson, Shlepnev, Simonovich, and industry spec updates.
+
+- [Common SI/PI Pitfalls and Errata](common_pitfalls_and_errata.md)
 
 ## 07 Quizzes
 

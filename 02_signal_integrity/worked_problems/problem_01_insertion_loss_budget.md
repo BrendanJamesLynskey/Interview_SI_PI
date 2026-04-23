@@ -14,7 +14,7 @@ You are a signal integrity engineer reviewing a PCIe Gen 4 (16 GT/s) host-to-add
 
 - Two vias with backdrilling on the motherboard: each contributes $-0.5$ dB at 8 GHz.
 - Two vias without backdrilling on the add-in card: each contributes $-1.2$ dB at 8 GHz (stub resonance at 9 GHz, but significant loss at 8 GHz).
-- PCIe Gen 4 maximum channel insertion loss limit: **-36 dB** at 8 GHz (Nyquist frequency for 16 GT/s NRZ).
+- PCIe Gen 4 channel insertion loss budget (total end-to-end): **≈ -28 dB** at 8 GHz for the CEM reference channel. The exact limit is a frequency-dependent mask in the PCI-SIG spec; we treat 28 dB as the single-number compliance point for this problem.
 
 **Questions:**
 
@@ -128,9 +128,9 @@ $$IL_{AIC} = 4 \times 0.835 = 3.34\ \text{dB}$$
 | RX package | 1.00 |
 | **Total** | **14.58 dB** |
 
-The total channel IL of 14.58 dB is well within the PCIe Gen 4 -36 dB limit. The channel passes with margin $= 36 - 14.58 = 21.4\ \text{dB}$.
+The total channel IL of 14.58 dB is well within the PCIe Gen 4 -28 dB budget. The channel passes with margin $= 28 - 14.58 \approx 13.4\ \text{dB}$.
 
-**Important note for the interview:** The question asked to check whether the channel fails. It does not — it has substantial margin. The original problem framing assumed a channel that might be marginal, but this well-designed channel with Megtron 6 on the motherboard and a short add-in card trace passes comfortably. The PCIe Gen 4 -36 dB limit is relevant for long server backplane channels (24+ inches with FR4 or challenging via structures).
+**Important note for the interview:** The question asked to check whether the channel fails. It does not — it has solid margin. The PCIe Gen 4 budget is most often challenged by long server-backplane channels (24+ inches with FR4 or unbackdrilled vias).
 
 Let us instead consider a **failure scenario** by changing the conditions to reflect a longer, less-optimised design:
 
@@ -163,7 +163,7 @@ $$IL_{AIC} = 8 \times 0.835 = 6.68\ \text{dB}$$
 | RX package | 1.00 |
 | **Total** | **41.23 dB** |
 
-**This channel FAILS.** Total IL = 41.23 dB exceeds the 36 dB limit by **5.23 dB**.
+**This channel FAILS.** Total IL = 41.23 dB exceeds the 28 dB budget by **13.2 dB**.
 
 ---
 
@@ -185,9 +185,9 @@ Replace FR4 ($D_f = 0.020$) with Megtron 6 ($D_f = 0.004$):
 
 $$IL_{MB,Megtron6} = 30 \times (0.099 + 0.004 \times 2.3 \times 2 \times 8) = 30 \times (0.099 + 0.147) = 30 \times 0.246 = 7.38\ \text{dB}$$
 
-Saving vs FR4: $25.05 - 7.38 = 17.67$ dB. This alone brings the channel below 36 dB.
+Saving vs FR4: $25.05 - 7.38 = 17.67$ dB. This alone brings the channel below the 28 dB budget.
 
-New total: $41.23 - 17.67 = 23.56$ dB. Passes with 12.4 dB margin.
+New total: $41.23 - 17.67 = 23.56$ dB. Passes with $\sim 4.4$ dB margin.
 
 **Fix 2 — Backdrill all vias:**
 
@@ -195,7 +195,7 @@ Replace 4× unbackdrilled vias (1.5 dB each) with backdrilled vias (0.5 dB each)
 
 Saving: $4 \times (1.5 - 0.5) = 4.0$ dB.
 
-Combined with Fix 1: total = $23.56 - 4.0 = 19.56$ dB. Excellent margin.
+Combined with Fix 1: total = $23.56 - 4.0 = 19.56$ dB — $\sim 8.4$ dB margin below the 28 dB budget.
 
 **Fix 3 — Reduce trace length (if routing allows):**
 

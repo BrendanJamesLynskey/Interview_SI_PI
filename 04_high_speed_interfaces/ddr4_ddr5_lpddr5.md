@@ -131,7 +131,7 @@ At DDR4-3200, the AC noise margin is specified at ~65 mV. If VrefDQ drifts by 25
 | Max data rate | 3200 MT/s (JEDEC); 5600 MT/s (XMP/OC) | 8800 MT/s (JEDEC spec) | 8533 MT/s |
 | Bus width per DIMM | 64-bit (+ 8 ECC) | 64-bit split into two 32-bit sub-channels | 16-bit (x16 per die) |
 | VDD | 1.2 V | 1.1 V | 1.05 V (WCK at VDDQ 1.05 V) |
-| Write data clock | DQS from controller | DQS from controller | WCK (write clock, from controller, 2× data rate) |
+| Write data clock | DQS from controller | DQS from controller | WCK (write clock, from controller, running at a fraction of the data rate with DDR capture — e.g., WCK at half the data rate for 8 DQ-bits-per-WCK-cycle "WCK:CK=4:1" mode) |
 | On-die ECC | No | Yes (optional) | No |
 | CA training | Per-rank | Per sub-channel | Per channel |
 | Topology | Fly-by CA, P2P DQ | Fly-by CA (per sub-channel), P2P DQ | Point-to-point only |
@@ -141,7 +141,7 @@ At DDR4-3200, the AC noise margin is specified at ~65 mV. If VrefDQ drifts by 25
 
 **Sub-channel architecture (DDR5):** Each DDR5 sub-channel is a fully independent 32-bit bus with its own CA, CLK, DQS, and DQ signals. The controller trains each sub-channel separately. This doubles the number of training loops required but halves the bus width per path, making it easier to maintain signal integrity at the higher data rates. It also allows one sub-channel to operate while the other is in a self-refresh state, improving power efficiency.
 
-**LPDDR5 write clock (WCK):** LPDDR5 replaces DQS with a dedicated write clock WCK running at the full data rate (not half rate as in DDR4/5). WCK is source-synchronous from the DRAM to the controller during reads and from the controller to the DRAM during writes. This eliminates the DQS preamble and postamble transitions that consume power in DDR4/5.
+**LPDDR5 write clock (WCK):** LPDDR5 replaces DQS with a dedicated write clock WCK. WCK is a DDR clock (data captured on both edges) whose *frequency* relationship to the primary CK is programmable via the WCK:CK ratio (2:1, 4:1, 8:1 options). For LPDDR5 at a given data rate, WCK runs at roughly half the data rate — i.e., one WCK period covers two DQ UIs. WCK is source-synchronous from the DRAM to the controller during reads and from the controller to the DRAM during writes.
 
 ---
 

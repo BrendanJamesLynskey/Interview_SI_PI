@@ -142,11 +142,14 @@ For a typical 10 Gbps SerDes CTLE:
 - DC gain: $A_{DC} = 0.5$ (−6 dB to not amplify low-frequency noise)
 - Zero frequency: $f_z = 1$ GHz
 - Pole frequency: $f_p = 5$ GHz
-- Peak gain: $0.5 \times 5 = 2.5$ (approximately +8 dB peak above DC)
+- Peak absolute gain: $A_{DC} \times (f_p/f_z) = 0.5 \times 5 = 2.5$ (= +8 dB absolute)
+- Peak gain *relative to DC* (the "peaking"): $f_p/f_z = 5$ = +14 dB
 
-**Peaking magnitude in dB:**
+**Peaking magnitude in dB (boost above DC):**
 
 $$G_{peak,dB} = 20\log_{10}(f_p/f_z) = 20\log_{10}(5) \approx 14\ \text{dB above DC}$$
+
+Note the distinction: the CTLE's absolute peak gain is +8 dB (because DC gain is −6 dB), but the *peaking* — the boost above DC that actually compensates channel loss — is +14 dB.
 
 **CTLE placement:**
 

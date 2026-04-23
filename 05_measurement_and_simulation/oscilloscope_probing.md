@@ -148,7 +148,7 @@ When two separate single-ended channels measure $V_+$ and $V_-$ independently an
 
 1. **Channel skew:** Even 1 ps of time offset between the two channels creates a differential error at high frequencies. For a 100 ps edge, 1 ps skew represents 1% of the transition time — visible as a glitch on the computed difference.
 
-2. **Gain mismatch:** 0.5% gain difference between two scope channels produces $\text{CMRR} = 20\log_{10}(200/1) = 46$ dB at DC, but CMRR degrades with frequency as the response curves diverge.
+2. **Gain mismatch:** A fractional gain mismatch $\delta$ gives CMRR = $20\log_{10}(1/\delta)$ dB at DC. 1% mismatch → 40 dB CMRR; 0.5% → 46 dB. CMRR degrades further with frequency as the two channels' response curves diverge.
 
 3. **Cable length mismatch:** Two probe cables of different lengths introduce differential delay, acting as skew.
 

@@ -109,7 +109,7 @@ The ball-out (or pin-map) is the physical assignment of die signals to package b
 
 **Key SI principles for ball-out design:**
 
-- **Signal–ground ball ratio:** For high-speed signals, target at least 1 ground ball for every 2 signals (1:2), and ideally 1:1 for SerDes lanes above 25 Gb/s. Each signal ball should have at least one ground ball as an immediate orthogonal neighbour to provide a low-inductance return path.
+- **Signal–ground ball ratio:** For high-speed signals, a minimum of 1 ground ball per signal (1:1) is the starting point. For SerDes lanes above 25 Gb/s, production practice is typically **2:1 (ground:signal) or higher** — each differential pair is surrounded by ground balls on all non-pair sides, so the ratio rises to 3–4 grounds per P/N pair. Each signal ball should have ground balls as immediate orthogonal neighbours to provide a low-inductance return path.
 - **Differential pairs adjacent:** True (P) and complement (N) of a differential pair are placed on adjacent balls, and the pair is surrounded by ground balls on remaining sides.
 - **Aggressor isolation:** Single-ended high-speed signals (e.g., DDR DQ) are spaced apart by ground or low-activity signals to limit crosstalk on the package and during PCB escape.
 - **Power/ground placement:** Power and ground balls are distributed across the centre of the BGA (under the die area) to provide low-inductance current paths to the PDN, not concentrated at the periphery where they would force long current loops through the package.
