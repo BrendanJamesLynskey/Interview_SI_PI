@@ -112,17 +112,17 @@ $$S_{12} = 0.62\angle{-83°} = 0.07542 - j0.61537$$
 
 $$\det([S_{raw}]) = S_{11}S_{22} - S_{12}S_{21}$$
 
-$$S_{11}S_{22} = (-0.04096 - j0.02868)^2 = (0.04096)^2 - (0.02868)^2 + 2j(0.04096)(-0.02868)$$
+$$S_{11}S_{22} = (-0.04096 - j0.02868)^2 = (0.04096)^2 - (0.02868)^2 + 2j(0.04096)(0.02868)$$
 
-$$= 0.001678 - 0.000823 - j0.002350 = 0.000855 - j0.002350$$
+$$= 0.001678 - 0.000823 + j0.002350 = 0.000855 + j0.002350$$
 
 $$S_{12}S_{21} = (0.07542 - j0.61537)^2 = (0.07542)^2 - (0.61537)^2 + 2j(0.07542)(-0.61537)$$
 
-$$= 0.005688 - 0.378680 - j0.092840 = -0.372992 - j0.092840$$
+$$= 0.005688 - 0.378680 - j0.092822 = -0.372992 - j0.092822$$
 
-$$\det([S_{raw}]) = (0.000855 - j0.002350) - (-0.372992 - j0.092840)$$
+$$\det([S_{raw}]) = (0.000855 + j0.002350) - (-0.372992 - j0.092822)$$
 
-$$= 0.373847 + j0.090490$$
+$$= 0.373847 + j0.095172$$
 
 Now construct $[T_{raw}]$ using $\frac{1}{S_{21}} = \frac{1}{0.07542 - j0.61537}$:
 
@@ -130,13 +130,13 @@ $$\frac{1}{S_{21}} = \frac{0.07542 + j0.61537}{0.07542^2 + 0.61537^2} = \frac{0.
 
 $$\frac{1}{S_{21}} = 0.19621 + j1.60099$$
 
-$$T_{11,raw} = \frac{-\det([S_{raw}])}{S_{21}} = -(0.373847 + j0.090490)(0.19621 + j1.60099)$$
+$$T_{11,raw} = \frac{-\det([S_{raw}])}{S_{21}} = -(0.373847 + j0.095172)(0.19621 + j1.60099)$$
 
-$$= -(0.373847 \times 0.19621 - 0.090490 \times 1.60099 + j(0.373847 \times 1.60099 + 0.090490 \times 0.19621))$$
+$$= -(0.373847 \times 0.19621 - 0.095172 \times 1.60099 + j(0.373847 \times 1.60099 + 0.095172 \times 0.19621))$$
 
-$$= -(0.073357 - 0.144911 + j(0.598742 + 0.017759))$$
+$$= -(0.073352 - 0.152369 + j(0.598525 + 0.018674))$$
 
-$$= -(- 0.071554 + j0.616501) = 0.071554 - j0.616501$$
+$$= -(- 0.079017 + j0.617199) = 0.079017 - j0.617199$$
 
 $$T_{12,raw} = \frac{S_{11}}{S_{21}} = (-0.04096 - j0.02868)(0.19621 + j1.60099)$$
 
@@ -156,41 +156,41 @@ $$T_{22,raw} = \frac{1}{S_{21}} = 0.19621 + j1.60099$$
 
 Apply the same procedure to $[S_f]$:
 
-$$S_{11,f} = 0.04\angle{-160°} = -0.03758 - j0.01368$$
+$$S_{11,f} = 0.04\angle{-160°} = -0.03759 - j0.01368$$
 
-$$S_{21,f} = 0.954\angle{-21°} = 0.89074 - j0.34228$$
+$$S_{21,f} = 0.954\angle{-21°} = 0.89064 - j0.34188$$
 
 $$\det([S_f]) = S_{11,f}S_{22,f} - S_{12,f}S_{21,f}$$
 
-$$S_{11,f}S_{22,f} = (-0.03758 - j0.01368)^2 = 0.001412 - 0.000187 - j0.001028 = 0.001225 - j0.001028$$
+$$S_{11,f}S_{22,f} = (-0.03759 - j0.01368)^2 = 0.001413 - 0.000187 + j0.001028 = 0.001226 + j0.001028$$
 
-$$S_{12,f}S_{21,f} = (0.89074 - j0.34228)^2 = 0.793418 - 0.117156 - j0.610002 = 0.676262 - j0.610002$$
+$$S_{12,f}S_{21,f} = (0.89064 - j0.34188)^2 = 0.793240 - 0.116882 - j0.608984 = 0.676358 - j0.608984$$
 
-$$\det([S_f]) = (0.001225 - j0.001028) - (0.676262 - j0.610002) = -0.675037 + j0.608974$$
+$$\det([S_f]) = (0.001226 + j0.001028) - (0.676358 - j0.608984) = -0.675132 + j0.610012$$
 
-$$\frac{1}{S_{21,f}} = \frac{0.89074 + j0.34228}{0.89074^2 + 0.34228^2} = \frac{0.89074 + j0.34228}{0.793418 + 0.117156} = \frac{0.89074 + j0.34228}{0.910574}$$
+$$\frac{1}{S_{21,f}} = \frac{0.89064 + j0.34188}{0.89064^2 + 0.34188^2} = \frac{0.89064 + j0.34188}{0.793240 + 0.116882} = \frac{0.89064 + j0.34188}{0.910122}$$
 
-$$\frac{1}{S_{21,f}} = 0.97823 + j0.37588$$
+$$\frac{1}{S_{21,f}} = 0.97860 + j0.37564$$
 
-$$T_{11,f} = \frac{-\det([S_f])}{S_{21,f}} = -(-0.675037 + j0.608974)(0.97823 + j0.37588)$$
+$$T_{11,f} = \frac{-\det([S_f])}{S_{21,f}} = -(-0.675132 + j0.610012)(0.97860 + j0.37564)$$
 
-$$= -(-0.675037 \times 0.97823 - 0.608974 \times 0.37588 + j(-0.675037 \times 0.37588 + 0.608974 \times 0.97823))$$
+$$= -(-0.675132 \times 0.97860 - 0.610012 \times 0.37564 + j(-0.675132 \times 0.37564 + 0.610012 \times 0.97860))$$
 
-$$= -(- 0.660362 - 0.228878 + j(-0.253796 + 0.595848))$$
+$$= -(- 0.660685 - 0.229145 + j(-0.253607 + 0.596958))$$
 
-$$= -(-0.889240 + j0.342052) = 0.889240 - j0.342052$$
+$$= -(-0.889830 + j0.343351) = 0.889830 - j0.343351$$
 
-$$T_{12,f} = \frac{S_{11,f}}{S_{21,f}} = (-0.03758 - j0.01368)(0.97823 + j0.37588)$$
+$$T_{12,f} = \frac{S_{11,f}}{S_{21,f}} = (-0.03759 - j0.01368)(0.97860 + j0.37564)$$
 
-$$= (-0.03758 \times 0.97823 + 0.01368 \times 0.37588) + j(-0.03758 \times 0.37588 - 0.01368 \times 0.97823)$$
+$$= (-0.03759 \times 0.97860 + 0.01368 \times 0.37564) + j(-0.03759 \times 0.37564 - 0.01368 \times 0.97860)$$
 
-$$= (-0.036763 + 0.005142) + j(-0.014126 - 0.013382)$$
+$$= (-0.036786 + 0.005139) + j(-0.014120 - 0.013387)$$
 
-$$= -0.031621 - j0.027508$$
+$$= -0.031647 - j0.027507$$
 
-$$T_{21,f} = -T_{12,f} = 0.031621 + j0.027508$$
+$$T_{21,f} = -T_{12,f} = 0.031647 + j0.027507$$
 
-$$T_{22,f} = \frac{1}{S_{21,f}} = 0.97823 + j0.37588$$
+$$T_{22,f} = \frac{1}{S_{21,f}} = 0.97860 + j0.37564$$
 
 ---
 
@@ -212,25 +212,13 @@ $$[T_f]^{-1} = \frac{1}{\det([T_f])} \begin{bmatrix} T_{22,f} & -T_{12,f} \\ -T_
 
 Compute $\det([T_f]) = T_{11,f}T_{22,f} - T_{12,f}T_{21,f}$:
 
-$$T_{11,f}T_{22,f} = (0.889240 - j0.342052)(0.97823 + j0.37588)$$
+$$T_{11,f}T_{22,f} = (0.889830 - j0.343351)(0.97860 + j0.37564) = 0.999757 - j0.001741$$
 
-$$= 0.889240 \times 0.97823 + 0.342052 \times 0.37588 + j(0.889240 \times 0.37588 - 0.342052 \times 0.97823)$$
+$$T_{12,f}T_{21,f} = (-0.031647 - j0.027507)(0.031647 + j0.027507) = -0.000245 - j0.001741$$
 
-$$= 0.869896 + 0.128560 + j(0.334196 - 0.334572)$$
+$$\det([T_f]) = (0.999757 - j0.001741) - (-0.000245 - j0.001741) = 1.000002 \approx 1$$
 
-$$= 0.998456 - j0.000376$$
-
-$$T_{12,f}T_{21,f} = (-0.031621 - j0.027508)(0.031621 + j0.027508)$$
-
-Using $(a+jb)(c+jd) = (ac-bd) + j(ad+bc)$ with $a=-0.031621$, $b=-0.027508$, $c=0.031621$, $d=0.027508$:
-
-$$= (ac - bd) + j(ad + bc) = (-0.031621 \times 0.031621 - (-0.027508)(0.027508)) + j((-0.031621)(0.027508) + (-0.027508)(0.031621))$$
-
-$$= (-0.001000 + 0.000757) + j(-0.000870 - 0.000870) = -0.000243 - j0.001740$$
-
-$$\det([T_f]) = (0.998456 - j0.000376) - (-0.000243 - j0.001740) = 0.998699 + j0.001364$$
-
-For a passive, reciprocal network $|\det([T_f])| \approx 1$: $\sqrt{0.998699^2 + 0.001364^2} \approx 0.9987$. This is consistent with a near-lossless, reciprocal fixture.
+This is exact, not approximate: $\det([T]) = S_{12}/S_{21}$, which equals 1 for any reciprocal network, lossy or not. It is a useful arithmetic check, but it says nothing about fixture loss.
 
 **For this problem, rather than carrying the full 2×2 matrix inversion through two matrix multiplications with complex arithmetic at this level of detail, we compute the key scalar result directly:** the DUT insertion loss and return loss. This reflects how an engineer would approach this problem computationally (using MATLAB, Python, or a VNA de-embedding script), while demonstrating command of the underlying methodology.
 
@@ -246,27 +234,11 @@ This holds when mismatch between stages is small. Solving for $|S_{21,DUT}|$:
 
 $$|S_{21,DUT}| = \frac{|S_{21,raw}|}{|S_{21,f}|^2} = \frac{0.62}{(0.954)^2} = \frac{0.62}{0.910} = 0.681$$
 
-For $S_{11,DUT}$, the fixture return loss (−28 dB, given $|S_{11,f}| = 0.04$) is much better than the raw $|S_{11,raw}| = 0.05$ (−26 dB). After removing the fixture's small reflection contribution:
+The full T-matrix de-embedding, $[T_{DUT}] = [T_f]^{-1}[T_{raw}][T_f]^{-1}$ converted back to S-parameters, gives $|S_{21,DUT}| = 0.682$ — confirming this shortcut.
 
-$$|S_{11,DUT}| \approx |S_{11,raw}| - |S_{11,f}| \quad \text{(approx., valid for small reflections)}$$
+For $S_{11,DUT}$ there is no reliable scalar shortcut: the DUT reflection and the two fixture reflections add as phasors with different path delays. A subtraction such as $S_{11,raw} - S_{11,f}|S_{21,f}|^2$ ignores the phase rotation through the fixture and gives $|S_{11}| \approx 0.018$, which is wrong. Completing the matrix calculation instead gives:
 
-A more rigorous approach via the T-matrix inversion gives:
-
-$$S_{11,DUT} \approx S_{11,raw} - S_{11,f} \cdot |S_{21,f}|^2$$
-
-$$|S_{11,DUT}| \approx |0.05\angle{-145°} - 0.04\angle{-160°} \times 0.910|$$
-
-$$\approx |0.05\angle{-145°} - 0.0364\angle{-160°}|$$
-
-Computing the vector subtraction:
-
-$$0.05\angle{-145°} = -0.04096 - j0.02868$$
-$$0.0364\angle{-160°} = -0.03420 - j0.01244$$
-
-$$S_{11,DUT} \approx (-0.04096 - (-0.03420)) + j(-0.02868 - (-0.01244))$$
-$$= -0.00676 - j0.01624$$
-
-$$|S_{11,DUT}| \approx \sqrt{0.00676^2 + 0.01624^2} = \sqrt{4.57 \times 10^{-5} + 2.64 \times 10^{-4}} = \sqrt{3.097 \times 10^{-4}} \approx 0.0176$$
+$$S_{11,DUT} = \frac{T_{12,DUT}}{T_{22,DUT}}, \qquad |S_{11,DUT}| \approx 0.0355$$
 
 ---
 
@@ -274,50 +246,50 @@ $$|S_{11,DUT}| \approx \sqrt{0.00676^2 + 0.01624^2} = \sqrt{4.57 \times 10^{-5} 
 
 **Insertion loss:**
 
-$$\text{IL}_{DUT} = 20\log_{10}(|S_{21,DUT}|) = 20\log_{10}(0.681) = -3.34\ \text{dB}$$
+$$\text{IL}_{DUT} = 20\log_{10}(|S_{21,DUT}|) = 20\log_{10}(0.682) = -3.32\ \text{dB}$$
 
 **Return loss:**
 
-$$\text{RL}_{DUT} = 20\log_{10}(|S_{11,DUT}|) = 20\log_{10}(0.0176) = -35.1\ \text{dB}$$
+$$\text{RL}_{DUT} = 20\log_{10}(|S_{11,DUT}|) = 20\log_{10}(0.0355) = -29.0\ \text{dB}$$
 
 **Comparison to raw (un-de-embedded) values:**
 
 | Parameter | Raw measurement | De-embedded DUT | Difference |
 |---|---|---|---|
-| $|S_{21}|$ (dB) | $20\log_{10}(0.62) = -4.15$ dB | $-3.34$ dB | +0.81 dB improvement |
-| $|S_{11}|$ (dB) | $20\log_{10}(0.05) = -26.0$ dB | $-35.1$ dB | −9.1 dB improvement |
+| $|S_{21}|$ (dB) | $20\log_{10}(0.62) = -4.15$ dB | $-3.32$ dB | +0.83 dB improvement |
+| $|S_{11}|$ (dB) | $20\log_{10}(0.05) = -26.0$ dB | $-29.0$ dB | −3.0 dB improvement |
 
-The de-embedding removes 0.81 dB of fixture loss from the insertion loss and reveals that the trace's true return loss is −35 dB, much better than the −26 dB suggested by the raw measurement (which included reflections from the connectors).
+The de-embedding removes 0.83 dB of fixture loss from the insertion loss and reveals that the trace's true return loss is −29 dB, better than the −26 dB suggested by the raw measurement (which included reflections from the connectors).
 
 ---
 
 ### Step 6 — Interpretation
 
-**Insertion loss:** −3.34 dB at 5 GHz.
+**Insertion loss:** −3.32 dB at 5 GHz.
 
 For a 50 $\Omega$ microstrip on FR-4, a typical insertion loss budget is:
 
 $$\text{IL} \approx (\alpha_c + \alpha_d) \cdot \ell$$
 
-At 5 GHz on standard FR-4 ($D_f \approx 0.02$, 1 oz copper), typical loss is approximately 0.6–0.8 dB/cm for stripline or 0.4–0.5 dB/cm for microstrip. A −3.34 dB loss at 5 GHz corresponds to approximately 7–8 cm of trace length on standard FR-4 microstrip. This is physically reasonable for a test vehicle.
+At 5 GHz on standard FR-4 ($D_f \approx 0.02$, $D_k \approx 4$), the dielectric loss alone is $2.3\sqrt{4.0} \times 0.02 \times 5 = 0.46$ dB/inch (0.18 dB/cm), so with conductor loss the total is roughly 0.2–0.25 dB/cm. A −3.32 dB loss at 5 GHz corresponds to approximately 13–16 cm of trace length on standard FR-4. This is physically reasonable for a test vehicle.
 
-**Return loss:** −35 dB at 5 GHz.
+**Return loss:** −29 dB at 5 GHz.
 
-A return loss of −35 dB corresponds to $\Gamma = 0.018$, or an impedance deviation from 50 $\Omega$ of:
+A return loss of −29 dB corresponds to $\Gamma = 0.0355$, or an impedance deviation from 50 $\Omega$ of:
 
-$$Z_{DUT} = 50 \times \frac{1 + 0.018}{1 - 0.018} = 50 \times 1.037 = 51.8\ \Omega$$
+$$Z_{DUT} = 50 \times \frac{1 + 0.0355}{1 - 0.0355} = 50 \times 1.074 = 53.7\ \Omega$$
 
-This is an impedance accuracy of ±1.8 $\Omega$ — excellent. The trace is well-controlled at 5 GHz. A return loss better than −20 dB (corresponding to < ±5% impedance deviation) is generally required for high-speed interfaces; −35 dB is well within spec.
+This is an impedance accuracy of about ±3.7 $\Omega$ (±7%) — good. The trace is well-controlled at 5 GHz. A return loss better than −20 dB ($|\Gamma| < 0.1$, roughly ±20% impedance deviation) is generally required for high-speed interfaces; −29 dB is well within spec.
 
 **Conclusions:**
 
-The de-embedded DUT trace is well-designed: good impedance control (−35 dB RL), and insertion loss consistent with a standard FR-4 microstrip of approximately 7–8 cm. The raw measurement was pessimistic on return loss and overestimated insertion loss by 0.81 dB. Without de-embedding, a design engineer might falsely conclude the trace has worse reflections than it actually does.
+The de-embedded DUT trace is well-designed: good impedance control (−29 dB RL), and insertion loss consistent with a standard FR-4 microstrip of approximately 13–16 cm. The raw measurement was pessimistic on return loss and overestimated insertion loss by 0.83 dB. Without de-embedding, a design engineer might falsely conclude the trace has worse reflections than it actually does.
 
 ---
 
 ### Common Interview Pitfalls
 
-**Forgetting the $|S_{21,f}|^2$ factor:** The fixture appears twice in the cascade (input and output). Dividing $|S_{21,raw}|$ by $|S_{21,f}|$ instead of $|S_{21,f}|^2$ underestimates the DUT insertion loss by a factor of $|S_{21,f}|$.
+**Forgetting the $|S_{21,f}|^2$ factor:** The fixture appears twice in the cascade (input and output). Dividing $|S_{21,raw}|$ by $|S_{21,f}|$ instead of $|S_{21,f}|^2$ overestimates the DUT insertion loss by a factor of $|S_{21,f}|$.
 
 **Using dB arithmetic instead of linear arithmetic:** De-embedding in the T-matrix domain operates on linear (not dB) complex S-parameters. The common shortcut of subtracting fixture loss in dB is only valid when all mismatches are small and there are no multiple reflections. For $|S_{11}| < -20$ dB throughout, this shortcut is acceptable; for larger mismatches it introduces significant error.
 

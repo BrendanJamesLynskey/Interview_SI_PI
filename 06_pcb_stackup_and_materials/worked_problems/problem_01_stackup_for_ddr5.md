@@ -4,7 +4,7 @@
 
 You are the lead PCB designer for a server memory subsystem board. The board must support:
 
-- **Interface:** DDR5-4800 (2400 MT/s per pin, 64-bit wide data bus + 8 ECC bits = 72 signals, plus address/command/control)
+- **Interface:** DDR5-4800 (4800 MT/s per pin, 2400 MHz clock, 64-bit wide data bus + 8 ECC bits = 72 signals, plus address/command/control)
 - **Components:** One CPU/SoC package (BGA, 0.65 mm ball pitch) and two DDR5 RDIMMs per channel (connector footprints)
 - **Topology:** Fly-by daisy-chain for address/command/clock; point-to-point for data bytes
 - **Maximum trace length:** 100 mm for data, 150 mm for address/command
@@ -28,7 +28,7 @@ You are the lead PCB designer for a server memory subsystem board. The board mus
 
 | Parameter | Value |
 |---|---|
-| Data rate | 4800 MT/s (2400 MT/s per pin, DDR) |
+| Data rate | 4800 MT/s per pin (2400 MHz clock, DDR) |
 | Data signal Nyquist | 2400 MHz = 2.4 GHz |
 | Address/command Nyquist | ~1.2 GHz (command encoded at half data rate) |
 | Single-ended impedance (JEDEC spec) | 40 Ω (data), 40 Ω (address) |
@@ -99,35 +99,34 @@ Note: L6 (PWR) copper coverage differs from L2 (GND). To maintain symmetry, copp
 
 **Trace width calculation — L3 stripline (DQ data signals):**
 
-Geometry: L3 is a symmetric stripline between GND1 (L2) and GND2 (L4). Total dielectric $b = 110 + 200 + 110 = 420$ µm? No — $b$ is the distance from L2 to L4 only, which is the prepreg above L3 (110 µm) + the core between L3-pad and L4-foil. The actual $b$ depends on the foil and core arrangement. Simplified: $b_{L2-L4} = 110 + 110 = 220$ µm (prepreg above + prepreg below the L3 trace, with the L4 copper as the lower reference).
+Geometry: L3 is a stripline between GND1 (L2) and GND2 (L4). From the stackup, Core A (200 µm) lies between L2 and L3 and the prepreg (110 µm) between L3 and L4, so $b_{L2-L4} = 200 + 110 = 310$ µm. The trace is offset rather than centred, so the centred-stripline formula below is an approximation.
 
-Using $b = 220$ µm, $T = 18$ µm (½ oz copper), $\epsilon_r = 4.20$:
+Using $b = 310$ µm, $T = 18$ µm (½ oz copper), $\epsilon_r = 4.20$:
 
-$$40 = \frac{60}{\sqrt{4.20}} \ln\left(\frac{4 \times 220}{0.67\pi(0.8W + 18)}\right) = 29.28 \ln\left(\frac{880}{2.104(0.8W + 18)}\right)$$
+$$40 = \frac{60}{\sqrt{4.20}} \ln\left(\frac{4 \times 310}{0.67\pi(0.8W + 18)}\right) = 29.28 \ln\left(\frac{1240}{2.104(0.8W + 18)}\right)$$
 
-$$\ln\left(\frac{880}{2.104(0.8W + 18)}\right) = \frac{40}{29.28} = 1.366$$
+$$\ln\left(\frac{1240}{2.104(0.8W + 18)}\right) = \frac{40}{29.28} = 1.366$$
 
-$$\frac{880}{2.104(0.8W + 18)} = e^{1.366} = 3.919$$
+$$\frac{1240}{2.104(0.8W + 18)} = e^{1.366} = 3.919$$
 
-$$2.104(0.8W + 18) = \frac{880}{3.919} = 224.5 \implies 0.8W + 18 = 106.7 \implies W = \frac{106.7 - 18}{0.8} = 110.9 \text{ µm}$$
+$$2.104(0.8W + 18) = \frac{1240}{3.919} = 316.4 \implies 0.8W + 18 = 150.4 \implies W = \frac{150.4 - 18}{0.8} = 165.5 \text{ µm}$$
 
-**DQ line trace width on L3: approximately 111 µm (4.4 mil).**
+**DQ line trace width on L3: approximately 166 µm (6.5 mil).**
 
 **Verify with sensitivity check:**
 
 Manufacturing width variation: ±20 µm (typical for ½ oz copper).
 
-Width sensitivity at $W = 111$ µm:
+Width sensitivity at $W = 166$ µm (differentiating the formula, $dZ_0/dW = -29.28 \times 0.8/(0.8W + T)$):
 
-$$\frac{dZ_0}{dW} \approx -\frac{40}{111} \times \frac{0.8}{\ln(880/(2.104 \times 106.7))} = -0.360 \times \frac{0.8}{1.366} = -0.211 \text{ Ω/µm}$$
+$$\frac{dZ_0}{dW} \approx -\frac{29.28 \times 0.8}{150.4} = -0.156 \text{ Ω/µm}$$
 
-$$\Delta Z_0 = \pm 20 \times 0.211 = \pm 4.2 \text{ Ω} \quad (\pm 10.5\%)$$
+$$\Delta Z_0 = \pm 20 \times 0.156 = \pm 3.1 \text{ Ω} \quad (\pm 7.8\%)$$
 
-The ±10.5% width-only variation is just slightly outside the ±10% tolerance specification. Corrective options:
+The ±7.8% width-only variation is inside the ±10% tolerance specification, but leaves little room for dielectric-thickness and Dk variation. Options to tighten it:
 
 - Increase copper fill on L3 to use ½ oz copper with controlled-depth etch (reduces width variation to ±12 µm).
 - Specify tight etch tolerance on L3 in the fabrication notes.
-- Widen the design target to 115 µm (slightly below 40 Ω nominal, at ~39 Ω) to move away from the high-sensitivity region.
 
 Field-solver verification (Polar Si9000 or Mentor Hyperlynx) should be used for the final width before Gerber release.
 
@@ -161,7 +160,7 @@ Plane capacitance (L4-L6, separated by L5 prepreg + L5 copper + core contributio
 
 $$C_{plane} \approx \frac{4.20 \times 8.85 \times 10^{-12} \times A_{overlap}}{310 \times 10^{-6}}$$
 
-For a 60 × 80 mm VDD plane: $C_{plane} \approx 57$ nF. This provides high-frequency PDN support from ~100 MHz up to the plane resonance frequency.
+For a 60 × 80 mm VDD plane: $C_{plane} \approx 0.58$ nF. This provides high-frequency PDN support from ~100 MHz up to the plane resonance frequency.
 
 ---
 
@@ -177,33 +176,33 @@ For a 60 × 80 mm VDD plane: $C_{plane} \approx 57$ nF. This provides high-frequ
 
 **Stub length:**
 
-Via useful depth to L3, working precisely through the stackup (L1 to L2 is 110 µm prepreg, L2 to L3 is 200 µm core + 110 µm prepreg):
+Via useful depth to L3, working through the stackup (L1 to L2 is 110 µm prepreg, L2 to L3 is the 200 µm Core A):
 
-- L1 to L2 centre: ~110 µm (prepreg thickness)
-- L2 to L3: ~200 + 110 µm = 310 µm (core A + prepreg to L3 foil)
-- Via signal exit at L3: total depth from surface = ~420 µm
+- L1 to L2: ~110 µm (prepreg thickness)
+- L2 to L3: ~200 µm (Core A)
+- Via signal exit at L3: total depth from surface = ~310 µm (plus copper)
 
-Stub = remaining via below L3 = $1400 - 420 = 980$ µm.
+Stub = remaining via below L3 = $1400 - 310 = 1090$ µm.
 
 **Stub resonance frequency:**
 
-$$f_{res} = \frac{c/\sqrt{\epsilon_r}}{4 \times l_{stub}} = \frac{300/\sqrt{4.2}}{4 \times 0.98 \text{ mm}} = \frac{146.3 \text{ mm/ns}}{3.92 \text{ mm}} = 37.3 \text{ GHz}$$
+$$f_{res} = \frac{c/\sqrt{\epsilon_r}}{4 \times l_{stub}} = \frac{300/\sqrt{4.2}}{4 \times 1.09 \text{ mm}} = \frac{146.3 \text{ mm/ns}}{4.36 \text{ mm}} = 33.6 \text{ GHz}$$
 
 **Is backdrilling needed?**
 
-DDR5-4800 Nyquist: 2.4 GHz. The stub resonance at 37.3 GHz is $37.3/2.4 = 15.5 \times f_{Nyquist}$. The stub is far above the signal band.
+DDR5-4800 Nyquist: 2.4 GHz. The stub resonance at 33.6 GHz is $33.6/2.4 = 14 \times f_{Nyquist}$. The stub is far above the signal band.
 
 **Below-resonance stub loading check:**
 
 $$\alpha_{stub} \approx 20 \log_{10}\left|1 + j\frac{\pi \times f_{Nyq} \times l_{stub} \times Z_0}{v_p \times Z_{via}}\right|$$
 
-$$= 20 \log_{10}\left|1 + j\frac{\pi \times 2.4 \times 0.98 \times 50}{146.3 \times 45}\right| = 20 \log_{10}\left|1 + j\frac{369.3}{6584}\right|$$
+$$= 20 \log_{10}\left|1 + j\frac{\pi \times 2.4 \times 1.09 \times 50}{146.3 \times 45}\right| = 20 \log_{10}\left|1 + j\frac{410.9}{6584}\right|$$
 
-$$= 20 \log_{10}(1 + 0.0561^2)^{1/2} \approx 20 \log_{10}(1.00157) \approx 0.014 \text{ dB}$$
+$$= 20 \log_{10}(1 + 0.0624^2)^{1/2} \approx 20 \log_{10}(1.00195) \approx 0.017 \text{ dB}$$
 
-**Stub contribution at 2.4 GHz: 0.014 dB — completely negligible.**
+**Stub contribution at 2.4 GHz: 0.017 dB — completely negligible.**
 
-**Verdict: Backdrilling is NOT required** for DDR5-4800 BGA vias on this 1.4 mm, 8-layer board. The stub resonance is 15× the Nyquist frequency and the sub-resonance loading loss is less than 0.02 dB.
+**Verdict: Backdrilling is NOT required** for DDR5-4800 BGA vias on this 1.4 mm, 8-layer board. The stub resonance is 14× the Nyquist frequency and the sub-resonance loading loss is less than 0.02 dB.
 
 This would change for future DDR6 or higher data rate interfaces. At DDR5-6400 (Nyquist = 3.2 GHz), the stub still poses no problem. At DDR5-8800 (Nyquist = 4.4 GHz), recheck stub loading — still likely acceptable on a 1.4 mm board.
 
@@ -219,7 +218,7 @@ This would change for future DDR6 or higher data rate interfaces. At DDR5-6400 (
 | DQ trace layer | L3 (stripline) |
 | CA trace layer | L5 (stripline) |
 | DQ target impedance | 40 Ω ± 10% |
-| DQ trace width on L3 | ~111 µm (4.4 mil) |
+| DQ trace width on L3 | ~166 µm (6.5 mil) |
 | DQS differential impedance | 80 Ω differential |
 | CK differential impedance | 85 Ω differential |
 | Backdrilling required | No (stub resonance >> Nyquist) |

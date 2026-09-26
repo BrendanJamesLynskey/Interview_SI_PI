@@ -121,13 +121,13 @@ This means 28.2% of the incident voltage is being reflected. The return loss vio
 
 **Likely cause:** A 1 dB violation at Nyquist, but passing at all lower frequencies, is the signature of a via transition with a resonance slightly below 12.89 GHz. Check the via stub lengths. A backdrilled via with a 0.25 mm residual stub has a resonance at:
 
-$$f_{res} = \frac{1}{4 \times 0.25 \times 6.59 \times 10^{-3}} = \frac{1}{6.59 \times 10^{-4}} \approx 1517 \text{ GHz}$$
+$$f_{res} = \frac{1}{4 \times 0.25 \times 6.59 \times 10^{-3}\ \text{ns}} = \frac{1}{6.59 \times 10^{-3}\ \text{ns}} \approx 152 \text{ GHz}$$
 
 That is far too high. Consider a via with a BGA capture pad that creates a capacitive discontinuity. The via's capacitance and inductance form a resonant structure. A via with 0.5 pF capacitance and 0.2 nH inductance resonates at:
 
-$$f_{res} = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{0.5 \times 10^{-12} \times 0.2 \times 10^{-9}}} = \frac{1}{2\pi \times 3.16 \times 10^{-11}} \approx 5 \text{ GHz}$$
+$$f_{res} = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{0.5 \times 10^{-12} \times 0.2 \times 10^{-9}}} = \frac{1}{2\pi \times 1.0 \times 10^{-11}} \approx 16 \text{ GHz}$$
 
-The resonance is at 5 GHz, but its effect on return loss extends up to 12.89 GHz. Alternatively, an impedance mismatch at the connector interface could cause this pattern.
+The resonance is at about 16 GHz, just above Nyquist, so its skirt degrades return loss at 12.89 GHz. Alternatively, an impedance mismatch at the connector interface could cause this pattern.
 
 ---
 

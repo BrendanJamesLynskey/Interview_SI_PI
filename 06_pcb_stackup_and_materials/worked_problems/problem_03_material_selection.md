@@ -15,7 +15,7 @@ You are the SI lead for a new line card design. Three applications must be suppo
 - Total channel insertion loss budget at Nyquist: −15 dB (IEEE 802.3 clause 93)
 
 **Application C — DDR5-5600 local memory:**
-- 2800 MT/s (1400 MHz clock, 2800 MT/s effective)
+- 5600 MT/s (2800 MHz clock; Nyquist 2.8 GHz)
 - Channel length: 70 mm
 - Total channel insertion loss budget: −10 dB at 2.8 GHz
 
@@ -28,7 +28,7 @@ You are the SI lead for a new line card design. Three applications must be suppo
 **Questions:**
 
 1. For each application, calculate the maximum allowable trace loss per 100 mm.
-2. For each application, determine whether FR4, IS680, or Megtron 6 is adequate. Show the calculation.
+2. For each application, determine whether FR4, a mid-loss laminate (ML; illustrative Dk/Df values below, not a specific product), or Megtron 6 is adequate. Show the calculation.
 3. Determine the minimum copper foil grade required (STD/HTE, VLP, HVLP) for Application A (PCIe Gen5).
 4. Specify a single laminate for the entire board that satisfies all three applications and justify the choice.
 5. Identify any remaining risk in the material selection.
@@ -109,7 +109,7 @@ We first evaluate with VLP copper.
 
 **Dielectric loss model ($f \cdot D_f$ scaling, $\sqrt{\epsilon_r}$ factor):**
 
-$$\alpha_d(f) = 27.3 \frac{\sqrt{\epsilon_r} \cdot f[\text{GHz}]}{300} \cdot D_f \text{ dB/100mm}$$
+$$\alpha_d(f) = 27.3 \frac{\sqrt{\epsilon_r} \cdot f[\text{GHz}]}{300} \cdot D_f \text{ dB/mm}$$
 
 **--- FR4 evaluation ($D_k = 4.2$, $D_f = 0.020$ at relevant frequencies) ---**
 
@@ -147,29 +147,29 @@ $$\alpha_{total}^{FR4}(2.8) = 1.76 \text{ dB/100mm}$$
 
 **FR4 vs. budget of 13.9 dB/100mm: PASS** (1.76 << 13.9). FR4 easily meets DDR5-5600 requirements.
 
-**--- IS680 evaluation ($D_k = 3.77$, $D_f = 0.007$ at 12.5 GHz, $0.008$ at 16 GHz) ---**
+**--- Mid-loss laminate (ML) evaluation (illustrative: $D_k = 3.77$, $D_f = 0.007$ at 12.5 GHz, $0.008$ at 16 GHz) ---**
 
-**IS680 at 16 GHz (Application A):**
+**ML at 16 GHz (Application A):**
 
-$$\alpha_d^{IS680}(16) = 27.3 \times \frac{\sqrt{3.77} \times 16}{300} \times 0.008 = 27.3 \times \frac{1.942 \times 16}{300} \times 0.008$$
+$$\alpha_d^{ML}(16) = 27.3 \times \frac{\sqrt{3.77} \times 16}{300} \times 0.008 = 27.3 \times \frac{1.942 \times 16}{300} \times 0.008$$
 
 $$= 27.3 \times 0.10357 \times 0.008 = 0.02262 \text{ dB/mm} = 2.26 \text{ dB/100mm}$$
 
-$$\alpha_c^{IS680}(16, VLP) = 0.35 \times 4 \times 1.4 = 1.96 \text{ dB/100mm}$$
+$$\alpha_c^{ML}(16, VLP) = 0.35 \times 4 \times 1.4 = 1.96 \text{ dB/100mm}$$
 
-$$\alpha_{total}^{IS680}(16) = 2.26 + 1.96 = 4.22 \text{ dB/100mm}$$
+$$\alpha_{total}^{ML}(16) = 2.26 + 1.96 = 4.22 \text{ dB/100mm}$$
 
-**IS680 vs. budget of 5.0 dB/100mm: PASS** (4.22 < 5.0) — with 0.78 dB/100mm margin.
+**ML vs. budget of 5.0 dB/100mm: PASS** (4.22 < 5.0) — with 0.78 dB/100mm margin.
 
-**IS680 at 12.5 GHz (Application B):**
+**ML at 12.5 GHz (Application B):**
 
-$$\alpha_d^{IS680}(12.5) = 27.3 \times \frac{1.942 \times 12.5}{300} \times 0.007 = 27.3 \times 0.08092 \times 0.007 = 1.547 \text{ dB/100mm}$$
+$$\alpha_d^{ML}(12.5) = 27.3 \times \frac{1.942 \times 12.5}{300} \times 0.007 = 27.3 \times 0.08092 \times 0.007 = 1.547 \text{ dB/100mm}$$
 
-$$\alpha_c^{IS680}(12.5, VLP) = 1.73 \text{ dB/100mm}$$
+$$\alpha_c^{ML}(12.5, VLP) = 1.73 \text{ dB/100mm}$$
 
-$$\alpha_{total}^{IS680}(12.5) = 3.28 \text{ dB/100mm}$$
+$$\alpha_{total}^{ML}(12.5) = 3.28 \text{ dB/100mm}$$
 
-**IS680 vs. budget of 4.8 dB/100mm: PASS** (3.28 < 4.8) — with 1.52 dB/100mm margin.
+**ML vs. budget of 4.8 dB/100mm: PASS** (3.28 < 4.8) — with 1.52 dB/100mm margin.
 
 **--- Megtron 6 evaluation ($D_k = 3.64$, $D_f = 0.004$ at 16 GHz) ---**
 
@@ -197,7 +197,7 @@ $$\alpha_{total}^{M6}(16) = 3.07 \text{ dB/100mm}$$
 | VLP | 1.4 | $0.35 \times 4 \times 1.4 = 1.96$ dB/100mm |
 | HVLP | 1.15 | $0.35 \times 4 \times 1.15 = 1.61$ dB/100mm |
 
-**Total loss with different copper grades on IS680 (Application A at 16 GHz, budget = 5.0 dB/100mm):**
+**Total loss with different copper grades on ML (Application A at 16 GHz, budget = 5.0 dB/100mm):**
 
 | Copper grade | $\alpha_d$ | $\alpha_c$ | Total | vs. Budget |
 |---|---|---|---|---|
@@ -205,9 +205,9 @@ $$\alpha_{total}^{M6}(16) = 3.07 \text{ dB/100mm}$$
 | VLP | 2.26 | 1.96 | **4.22** | PASS (+0.78 margin) |
 | HVLP | 2.26 | 1.61 | **3.87** | PASS (+1.13 margin) |
 
-**Minimum copper grade for Application A (PCIe Gen5) on IS680: VLP.**
+**Minimum copper grade for Application A (PCIe Gen5) on ML: VLP.**
 
-STD/HTE copper fails PCIe Gen5 even on IS680 because conductor loss at 16 GHz dominates. VLP passes with 0.78 dB/100mm margin. HVLP provides additional margin and is recommended if the cost delta is acceptable.
+STD/HTE copper fails PCIe Gen5 even on ML because conductor loss at 16 GHz dominates. VLP passes with 0.78 dB/100mm margin. HVLP provides additional margin and is recommended if the cost delta is acceptable.
 
 **With Megtron 6 (for comparison):**
 
@@ -225,40 +225,40 @@ Megtron 6 + HVLP is the most comfortable combination but also the most expensive
 
 **Summary of material adequacy:**
 
-| Application | FR4 | IS680 | Megtron 6 |
+| Application | FR4 | ML | Megtron 6 |
 |---|---|---|---|
 | A: PCIe Gen5 @ 16 GHz | Fail | Pass (VLP req.) | Pass (VLP sufficient) |
 | B: 100GbE @ 12.5 GHz | Fail | Pass | Pass |
 | C: DDR5 @ 2.8 GHz | Pass | Pass | Pass |
 
-**Recommendation: IS680 with VLP copper foil.**
+**Recommendation: ML with VLP copper foil.**
 
 **Justification:**
 
-1. **All three applications pass** with IS680 + VLP. PCIe Gen5 at 5.0 dB/100mm budget is met at 4.22 dB/100mm (0.78 dB margin). 100GbE at 4.8 dB/100mm is met at 3.28 dB/100mm (1.52 dB margin). DDR5-5600 is trivially met.
+1. **All three applications pass** with ML + VLP. PCIe Gen5 at 5.0 dB/100mm budget is met at 4.22 dB/100mm (0.78 dB margin). 100GbE at 4.8 dB/100mm is met at 3.28 dB/100mm (1.52 dB margin). DDR5-5600 is trivially met.
 
-2. **IS680 is less expensive than Megtron 6** — approximately 2–3× FR4 cost vs. 3–5× for Megtron 6. Over a large-volume production run, the cost difference is significant.
+2. **ML is less expensive than Megtron 6** — approximately 2–3× FR4 cost vs. 3–5× for Megtron 6. Over a large-volume production run, the cost difference is significant.
 
-3. **IS680 processability** is good. It behaves similarly to standard FR4 in the fabrication shop (lamination parameters, drill speed, plating chemistry). Megtron 6 requires slightly modified drill parameters and lamination press profiles — not a showstopper, but IS680 is the simpler choice.
+3. **ML processability** is good. It behaves similarly to standard FR4 in the fabrication shop (lamination parameters, drill speed, plating chemistry). Megtron 6 requires slightly modified drill parameters and lamination press profiles — not a showstopper, but ML is the simpler choice.
 
-4. **IS680 has sufficient $T_g$** (>180°C) for typical datacenter operating environments. If the board requires soldering with Pb-free solder (SAC305, peak temperature ~260°C), IS680's $T_g$ is adequate for the brief thermal excursion.
+4. **ML has sufficient $T_g$** (>180°C) for typical datacenter operating environments. If the board requires soldering with Pb-free solder (SAC305, peak temperature ~260°C), ML's $T_g$ is adequate for the brief thermal excursion.
 
 5. **Megtron 6 is the conservative choice** if:
    - The channel models include worst-case dielectric and copper tolerance (±15% on $D_f$ is common in production batches)
-   - The design is used across multiple board fabricator sources (IS680 has tighter single-source availability than Megtron 6)
+   - The design is used across multiple board fabricator sources (a single-source mid-loss material can be harder to multi-source than Megtron 6)
    - The PCIe Gen5 channel length may increase in a future board revision
 
-If the design team wants additional margin (e.g., to allow a longer PCIe Gen5 channel in the next revision) or if the fabricator's IS680 batch $D_f$ has been measured higher than nominal, **Megtron 6 + VLP copper** is the appropriate upgrade path.
+If the design team wants additional margin (e.g., to allow a longer PCIe Gen5 channel in the next revision) or if the fabricator's ML batch $D_f$ has been measured higher than nominal, **Megtron 6 + VLP copper** is the appropriate upgrade path.
 
 ---
 
 ### Step 5 — Remaining Risks
 
-**Risk 1: IS680 $D_f$ batch variation**
+**Risk 1: ML $D_f$ batch variation**
 
-IS680 datasheet specifies $D_f = 0.004$ at 2 GHz. At 16 GHz, the value can be 0.007–0.010 depending on frequency extrapolation and lot variation. If the worst-case $D_f$ at 16 GHz is 0.010:
+A mid-loss laminate's datasheet $D_f$ at 2 GHz is typically lower — assume 0.004. At 16 GHz, the value can be 0.007–0.010 depending on frequency extrapolation and lot variation. If the worst-case $D_f$ at 16 GHz is 0.010:
 
-$$\alpha_d^{IS680,worst}(16) = 27.3 \times \frac{1.942 \times 16}{300} \times 0.010 = 2.82 \text{ dB/100mm}$$
+$$\alpha_d^{ML,worst}(16) = 27.3 \times \frac{1.942 \times 16}{300} \times 0.010 = 2.82 \text{ dB/100mm}$$
 
 $$\alpha_{total}^{worst}(16) = 2.82 + 1.96 = 4.78 \text{ dB/100mm}$$
 
@@ -266,9 +266,9 @@ This is within the 5.0 dB budget (0.22 dB margin), but the margin is thin. **Act
 
 **Risk 2: Glass weave effect on differential pairs**
 
-The 100GbE KR4 lanes and PCIe Gen5 lanes are all differential. IS680 uses standard woven glass (not spread-weave). If the differential pairs are routed parallel to the glass weave direction, intra-pair skew from glass weave inhomogeneity can cause differential-to-common mode conversion, degrading $S_{cc21}$ and worsening radiated EMI.
+The 100GbE KR4 lanes and PCIe Gen5 lanes are all differential. The laminate is assumed to use standard woven glass (not spread-weave). If the differential pairs are routed parallel to the glass weave direction, intra-pair skew from glass weave inhomogeneity can cause differential-to-common mode conversion, degrading $S_{cc21}$ and worsening radiated EMI.
 
-**Action:** Specify differential trace routing at 45° to the PCB x-axis (assuming x-axis is aligned to the warp or fill direction of the glass weave). Include this routing constraint in the design rules. Alternatively, specify IS680 with spread-weave option if available.
+**Action:** Specify differential trace routing at 45° to the PCB x-axis (assuming x-axis is aligned to the warp or fill direction of the glass weave). Include this routing constraint in the design rules. Alternatively, specify the laminate with a spread-weave option if available.
 
 **Risk 3: Conductor loss model accuracy**
 
@@ -282,15 +282,15 @@ All within the 5.0 dB budget. **Action:** Confirm the VLP copper roughness speci
 
 **Risk 4: Frequency-dependent material model in simulation**
 
-If the channel simulation uses constant-value $D_k = 3.77$ and $D_f = 0.007$ (the IS680 datasheet value at 2 GHz) rather than a Djordjevic-Sarkar frequency-dependent model, the simulation will underestimate insertion loss at 16 GHz. The actual $D_f$ at 16 GHz may be 0.010 vs. the 0.007 used in simulation.
+If the channel simulation uses constant-value $D_k = 3.77$ and $D_f = 0.004$ (the low-frequency datasheet value) rather than a Djordjevic-Sarkar frequency-dependent model, the simulation will underestimate insertion loss at 16 GHz. The actual $D_f$ at 16 GHz may be 0.007–0.010 vs. the 0.004 used in simulation.
 
-**Action:** Extract a broadband Djordjevic-Sarkar material model from IS680 measured data (or request the laminate supplier's frequency-dependent data file) and use it in all channel simulations. Confirm the simulation predicts channel compliance before committing to a board layout.
+**Action:** Extract a broadband Djordjevic-Sarkar material model from ML measured data (or request the laminate supplier's frequency-dependent data file) and use it in all channel simulations. Confirm the simulation predicts channel compliance before committing to a board layout.
 
 ---
 
 ### Final Material Specification
 
-**Selected laminate:** Isola IS680
+**Selected laminate:** a qualified mid-loss laminate meeting $D_k \approx 3.8$ and $D_f \leq 0.008$ at 16 GHz (the ML values used above are illustrative; check the chosen material's datasheet)
 **Copper foil grade:** VLP (RMS roughness $\leq 1.0$ µm, confirmed by supplier datasheet)
 **Copper weight:** ½ oz (18 µm) on all signal layers
 **Glass weave:** Standard 2116 style (specify routing at 45° to weave for critical differential pairs)
@@ -303,10 +303,10 @@ If the channel simulation uses constant-value $D_k = 3.77$ and $D_f = 0.007$ (th
 
 ### Common Interview Pitfalls
 
-**Using a single $D_f$ value across all frequencies:** A candidate who uses $D_f = 0.004$ (the IS680 1 GHz value) to compute loss at 16 GHz will underestimate dielectric loss by approximately 2.5×. Always use the material data at or near the operating frequency.
+**Using a single $D_f$ value across all frequencies:** A candidate who uses $D_f = 0.004$ (the low-frequency datasheet value) to compute loss at 16 GHz will underestimate dielectric loss by approximately 2.5×. Always use the material data at or near the operating frequency.
 
 **Ignoring copper roughness:** Selecting a material entirely on $D_f$ without accounting for conductor roughness leads to optimistic loss estimates. At 16 GHz, the roughness penalty on STD copper can add more loss than the entire dielectric loss on a low-$D_f$ laminate. Both loss mechanisms must be evaluated together.
 
-**Recommending Megtron 6 without justification:** Defaulting to the most expensive material without demonstrating that IS680 fails the budget is an incomplete engineering answer. In a production design, material cost is a real constraint. The engineer must show the calculation, demonstrate whether each material passes or fails, and recommend the lowest-cost material that satisfies all requirements.
+**Recommending Megtron 6 without justification:** Defaulting to the most expensive material without demonstrating that ML fails the budget is an incomplete engineering answer. In a production design, material cost is a real constraint. The engineer must show the calculation, demonstrate whether each material passes or fails, and recommend the lowest-cost material that satisfies all requirements.
 
 **Forgetting the connector and via loss allocation:** A candidate who applies the full channel budget to the trace, ignoring connector and via losses, will compute a falsely relaxed loss-per-unit-length limit and may select a weaker material than required.

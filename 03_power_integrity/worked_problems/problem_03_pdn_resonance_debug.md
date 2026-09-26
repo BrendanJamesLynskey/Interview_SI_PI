@@ -132,7 +132,7 @@ For 6 × 470 µF polymer caps with $L_{ESL} = 4\ nH$ each: $L_{bulk,eff} = 4/6 =
 
 For 8 × 10 µF X5R MLCCs (derated to 8.5 µF each): $C_{MLCC} = 68\ \mu F$
 
-$$f_{AR,1} = \frac{1}{2\pi\sqrt{0.667\times10^{-9} \times 68\times10^{-6}}} = \frac{1}{2\pi \times 6.73\times10^{-9}} \approx 23.6\ MHz$$
+$$f_{AR,1} = \frac{1}{2\pi\sqrt{0.667\times10^{-9} \times 68\times10^{-6}}} = \frac{1}{2\pi \times 213\times10^{-9}} \approx 0.75\ MHz$$
 
 For 8 × 10 µF MLCC ($L_{MLCC,eff} = 0.9/8 = 0.1125\ nH$) and 16 × 100 nF ($C_{HF} = 1.6\ \mu F$):
 
@@ -192,7 +192,7 @@ At 200 MHz, the same resonance still exists in the PDN, but no switching harmoni
 ```
 
 Key features to look for:
-- Anti-resonance peaks at ~23 MHz and ~12 MHz (from Part b analysis)
+- Anti-resonance peaks at ~0.75 MHz and ~12 MHz (from Part b analysis)
 - A peak at 312 MHz (confirming the hypothesis)
 - Plane resonance peaks above 900 MHz
 
@@ -240,7 +240,7 @@ Use 0201 100 nF X7R capacitors with lower ESL ($L_{ESL} \approx 0.35\ nH$, $f_{S
 
 $$|Z_{peak}| \approx \frac{Z_0}{Q} \times \frac{1}{1 + N_{added} \cdot C_{added} \cdot Z_0 \cdot \omega_{res}}$$
 
-More accurately: each capacitor below its SRF at 312 MHz (i.e., whose SRF is above 312 MHz) presents a capacitive impedance that short-circuits the resonance. Adding 20 × 10 nF 0201 MLCCs ($f_{SRF} \approx 90\ MHz < 312\ MHz$ — they are inductive at 312 MHz, so this won't help directly). Better: add 20 × 1 nF 0201 capacitors with $f_{SRF} = 1/(2\pi\sqrt{0.3\times10^{-9}\times1\times10^{-9}}) \approx 290\ MHz$ — these are capacitive at 312 MHz and will bypass the resonance directly.
+More accurately: each capacitor below its SRF at 312 MHz (i.e., whose SRF is above 312 MHz) presents a capacitive impedance that short-circuits the resonance. Adding 20 × 10 nF 0201 MLCCs ($f_{SRF} \approx 90\ MHz < 312\ MHz$ — they are inductive at 312 MHz, so this won't help directly). Better: add 20 × 1 nF 0201 capacitors with $f_{SRF} = 1/(2\pi\sqrt{0.3\times10^{-9}\times1\times10^{-9}}) \approx 290\ MHz$ — at 312 MHz they are just past series resonance, each only $\approx 0.08\ \Omega$ inductive, so twenty in parallel present $\approx 4\ m\Omega$ (plus ESR/20) and will bypass the resonance directly.
 
 **Predicted effect:** Reduce peak impedance from 45 m$\Omega$ to approximately 5–10 m$\Omega$ (estimate: 5x to 10x reduction from loading the resonance with 20 shunt capacitors).
 
@@ -271,7 +271,7 @@ The plane capacitance per unit area doubles:
 
 $$C_{plane,2mil} = \varepsilon_0 \varepsilon_r \frac{A}{h/2} = 2 \times C_{plane,4mil}$$
 
-**Predicted effect:** Shifting the plane inductance characteristic downward shifts all resonant features higher in frequency and reduces their impedance by up to 6 dB (2x). It also provides more distributed bypass capacitance, reducing the Q of existing resonances. This is a long-term, fundamental fix but requires a PCB respin.
+**Predicted effect:** The plane-cavity mode frequencies depend only on the plane dimensions and $\varepsilon_r$, so they do not move; halving $h$ halves the cavity impedance, reducing the peaks by up to 6 dB (2x). It also provides more distributed bypass capacitance, reducing the Q of existing resonances. This is a long-term, fundamental fix but requires a PCB respin.
 
 ---
 

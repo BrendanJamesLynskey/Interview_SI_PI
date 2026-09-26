@@ -169,7 +169,7 @@ The measured NEXT is 85 mV. FEXT is estimated at 179 mV. Worst-case: they add (i
 
 NEXT at the near-end receiver: 85 mV reduces the high noise margin from 220 mV to $220 - 85 = 135$ mV. This is marginal but not immediately failing.
 
-FEXT at the far-end receiver: 179 mV exceeds 135 mV available margin. FEXT alone would corrupt data at the far-end DRAM.
+FEXT at the far-end receiver: 179 mV leaves only 41 mV of the 220 mV margin at that end — far too little for supply noise, SSN and reflections.
 
 **Noise margin used by FEXT:**
 

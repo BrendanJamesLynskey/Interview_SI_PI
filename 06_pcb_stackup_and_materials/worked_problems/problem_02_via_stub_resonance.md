@@ -91,7 +91,7 @@ The ratio is 3.35 — marginally above the $3 \times$ threshold but below the mo
 
 **Assessment:** The stub resonance is outside the primary PCIe Gen4 signal band. However, with $f_{res}/f_{Nyq} = 3.35$, the below-resonance stub loading at 8 GHz is not negligible. The stub creates a reactive discontinuity below its resonance frequency that contributes additional insertion loss through capacitive loading. This must be quantified (Step 4) rather than dismissed.
 
-**Additionally:** PCIe Gen4 uses 128b/130b encoding with a PRBS-based test pattern. The IHV-defined compliance channel must meet $|S_{dd21}| \leq -10$ dB at 8 GHz. Stub loss is additive to conductor loss and dielectric loss in the total channel budget. A 1–2 dB stub contribution on a channel with a 10 dB budget could be the difference between passing and failing compliance.
+**Additionally:** PCIe Gen4 uses 128b/130b encoding with a PRBS-based test pattern. The end-to-end channel loss budget is about 28 dB at 8 GHz. Stub loss is additive to conductor loss and dielectric loss in the total channel budget, so on a channel already near its budget a 1–2 dB stub contribution could be the difference between passing and failing compliance.
 
 ---
 
@@ -103,13 +103,9 @@ The stub is a section of via barrel. Using the coaxial approximation:
 
 $$Z_{via} = \frac{60}{\sqrt{\epsilon_r}} \ln\left(\frac{D_{antipad}}{D_{barrel}}\right)$$
 
-The finished hole diameter is the drill diameter minus plating allowance:
+The inner conductor of this coax is the plated barrel. Plating grows inward from the drilled wall, so the finished hole is $0.25 - 2 \times 0.025 = 0.20$ mm, but the barrel's outer surface — the one facing the antipad — stays at the drill diameter, 0.25 mm. The antipad is 0.85 mm.
 
-$$D_{barrel} = D_{drill} - 2 \times t_{plating}? \quad \text{No — } D_{barrel} \text{ is the drilled hole after plating}$$
-
-Actually: the drill bit diameter is 0.25 mm; the plated finished hole is approximately $0.25 - 2 \times 0.025 = 0.20$ mm (the plating fills inward). The antipad is 0.85 mm.
-
-$$Z_{via} = \frac{60}{\sqrt{3.7}} \ln\left(\frac{0.85}{0.20}\right) = 31.18 \times \ln(4.25) = 31.18 \times 1.447 = 45.1 \text{ Ω}$$
+$$Z_{via} = \frac{60}{\sqrt{3.7}} \ln\left(\frac{0.85}{0.25}\right) = 31.19 \times \ln(3.4) = 31.19 \times 1.224 = 38.2 \text{ Ω}$$
 
 **Shunt-stub admittance at 8 GHz:**
 
@@ -123,23 +119,23 @@ $$\theta = \frac{2\pi f [\text{GHz}] \times l_{stub} [\text{mm}]}{v_p [\text{mm/
 
 The stub admittance (open-circuited stub, shunt-connected):
 
-$$Y_{stub} = \frac{j}{Z_{via}} \tan(\theta) = \frac{j}{45.1} \tan(0.4695) = \frac{j}{45.1} \times 0.508 = j \times 0.01127 \text{ S}$$
+$$Y_{stub} = \frac{j}{Z_{via}} \tan(\theta) = \frac{j}{38.2} \tan(0.4695) = \frac{j}{38.2} \times 0.507 = j \times 0.01328 \text{ S}$$
 
 **Voltage transmission coefficient ($Z_0 = 50$ Ω):**
 
-$$S_{21} = \frac{1}{1 + Y_{stub} \cdot Z_0 / 2} = \frac{1}{1 + j \times 0.01127 \times 25} = \frac{1}{1 + j \times 0.2817}$$
+$$S_{21} = \frac{1}{1 + Y_{stub} \cdot Z_0 / 2} = \frac{1}{1 + j \times 0.01328 \times 25} = \frac{1}{1 + j \times 0.3320}$$
 
-$$|S_{21}| = \frac{1}{\sqrt{1 + 0.2817^2}} = \frac{1}{\sqrt{1 + 0.07935}} = \frac{1}{\sqrt{1.07935}} = \frac{1}{1.03891} = 0.9625$$
+$$|S_{21}| = \frac{1}{\sqrt{1 + 0.3320^2}} = \frac{1}{\sqrt{1 + 0.1102}} = \frac{1}{\sqrt{1.1102}} = \frac{1}{1.0537} = 0.9491$$
 
-$$|S_{21}|_{dB} = 20 \log_{10}(0.9625) = -0.332 \text{ dB}$$
+$$|S_{21}|_{dB} = 20 \log_{10}(0.9491) = -0.454 \text{ dB}$$
 
-**The un-drilled stub contributes approximately 0.33 dB of insertion loss at the PCIe Gen4 Nyquist frequency of 8 GHz.**
+**The un-drilled stub contributes approximately 0.45 dB of insertion loss at the PCIe Gen4 Nyquist frequency of 8 GHz.**
 
-This is for a single via transition. A PCIe Gen4 channel typically has two via transitions (transmitter launch + receiver launch). Total stub loss: approximately $2 \times 0.33 = 0.66$ dB from via stubs alone.
+This is for a single via transition. A PCIe Gen4 channel typically has two via transitions (transmitter launch + receiver launch). Total stub loss: approximately $2 \times 0.45 = 0.91$ dB from via stubs alone.
 
-In the context of a 10 dB IHV channel loss budget at 8 GHz, a 0.66 dB contribution is significant (6.6% of budget). Combined with connector loss (~1.0–1.5 dB per connector pair at 8 GHz) and trace loss (~3–5 dB for 200 mm of Megtron 6 at 8 GHz), the stubs push the budget further.
+In the context of the ~28 dB PCIe Gen4 channel loss budget at 8 GHz, a 0.91 dB contribution is a noticeable 3% of the budget, and it arrives with a reflection. Combined with connector loss (~1.0–1.5 dB per connector pair at 8 GHz) and trace loss (~3–5 dB for 200 mm of Megtron 6 at 8 GHz), the stubs push the budget further.
 
-**Recommendation:** The stub is marginal. Backdrilling should be evaluated.
+**Recommendation:** The stub exceeds a 0.3 dB per-via allowance. Backdrilling should be evaluated.
 
 ---
 
@@ -157,37 +153,23 @@ $$\alpha_{stub} \approx 10 \log_{10}\left(1 + \left(\frac{\pi f l_{stub} Z_0}{v_
 
 Setting $\alpha_{stub} = 0.3$ dB:
 
-$$1 + \left(\frac{\pi \times 8 \times l_{stub} \times 50}{155.9 \times 45.1}\right)^2 = 10^{0.03} = 1.0715$$
+$$1 + \left(\frac{\pi \times 8 \times l_{stub} \times 50}{155.9 \times 38.2}\right)^2 = 10^{0.03} = 1.0715$$
 
-$$\left(\frac{1256.6 \times l_{stub}}{7031}\right)^2 = 0.0715$$
+$$\frac{1256.6 \times l_{stub}}{5955} = \sqrt{0.0715} = 0.2674 \implies l_{stub} = \frac{0.2674 \times 5955}{1256.6} = 1.27 \text{ mm}$$
 
-$$\frac{1256.6 \times l_{stub}}{7031} = \sqrt{0.0715} = 0.2674$$
+The small-angle step understates the loss, because $\tan\theta > \theta$ ($\tan 0.47 = 0.51$). Solving with the exact $\tan\theta$:
 
-$$l_{stub} = \frac{0.2674 \times 7031}{1256.6} = \frac{1880}{1256.6} = 1.496 \text{ mm}$$
+$$\tan\theta \leq 0.2674 \times \frac{2 Z_{via}}{Z_0} = 0.2674 \times \frac{76.4}{50} = 0.408 \implies \theta \leq 0.388 \text{ rad}$$
 
-Hmm — this is slightly larger than our current 1.455 mm stub. That means the un-drilled stub loss (0.33 dB) is above our 0.3 dB target, but only just. Backdrilling to 1.4 mm would give the same result. Let us instead solve more carefully with the exact formula at 8 GHz.
+$$l_{stub,max} = \frac{0.388 \times 155.9}{2\pi \times 8} = 1.20 \text{ mm for the 0.3 dB limit}$$
 
-**Target: $l_{stub}$ such that $|S_{21}|^2$ gives loss $\leq 0.3$ dB.**
+The current 1.455 mm stub (0.45 dB) exceeds this, so backdrilling is required to meet the 0.3 dB criterion. The shunt model also omits reflection-mode effects, so the true stub penalty is slightly higher still.
 
-$10^{0.3/10} - 1 = 10^{0.03} - 1 = 0.0715$.
+**Prudent engineering margin:** Apply an additional 50% margin on stub length to account for model uncertainty and to reduce stub loss at the 3rd harmonic (24 GHz). The backdrilled target should be:
 
-$$\left(\frac{\pi f l_{stub} Z_0}{v_p Z_{via}}\right)^2 \leq 0.0715$$
+$$l_{stub,target} = 1.20 \times 0.50 = 0.60 \text{ mm}$$
 
-$$l_{stub} \leq \frac{v_p Z_{via}}{\pi f Z_0} \sqrt{0.0715} = \frac{155.9 \times 45.1}{\pi \times 8 \times 50} \times 0.2674$$
-
-$$= \frac{7031}{1256.6} \times 0.2674 = 5.595 \times 0.2674 = 1.496 \text{ mm}$$
-
-The current stub (1.455 mm) is already slightly below this limit. Let us recheck: we computed $|S_{21}|_{dB} = -0.332$ dB, which is 0.032 dB above the 0.3 dB threshold — barely. Using the exact formula:
-
-$$l_{stub,max} = 1.496 \text{ mm for 0.3 dB limit}$$
-
-Since our stub is 1.455 mm, the stub already just barely passes the 0.3 dB criterion. However, the calculation does not include reflection-mode loss (the $S_{11}$ returned energy also reduces $S_{21}$ in the exact two-port sense), so the effective stub loss is slightly higher than the shunt-model approximation.
-
-**Prudent engineering margin:** Apply an additional 50% margin on stub length to account for model uncertainty and to reduce stub loss at the 3rd harmonic (24 GHz, which may be relevant for PCIe Gen4 FEC). The backdrilled target should be:
-
-$$l_{stub,target} = 1.496 \times 0.50 = 0.75 \text{ mm}$$
-
-Hmm — that seems large for a backdrill. Let us use the standard industry practice: backdrill to leave a **0.25 mm (10 mil) residual stub**, which:
+Standard industry practice is tighter still: backdrill to leave a **0.25 mm (10 mil) residual stub**, which:
 
 - Provides >50% margin on the 0.3 dB loss criterion
 - Is achievable within standard fabricator depth tolerance of ±50 µm
@@ -211,11 +193,11 @@ $$\theta_{new} = \frac{2\pi \times 8 \times 0.25}{155.9} = \frac{12.57}{155.9} =
 
 $$\tan(\theta_{new}) = 0.0808$$
 
-$$|S_{21}| = \frac{1}{\sqrt{1 + (0.0808 \times 50 / (2 \times 45.1))^2}} = \frac{1}{\sqrt{1 + (0.0895)^2}} = \frac{1}{\sqrt{1.008}} = 0.9960$$
+$$|S_{21}| = \frac{1}{\sqrt{1 + (0.0808 \times 50 / (2 \times 38.2))^2}} = \frac{1}{\sqrt{1 + (0.0529)^2}} = \frac{1}{\sqrt{1.0028}} = 0.9986$$
 
-$$|S_{21}|_{dB} = 20\log_{10}(0.9960) = -0.035 \text{ dB}$$
+$$|S_{21}|_{dB} = 20\log_{10}(0.9986) = -0.012 \text{ dB}$$
 
-**Stub loss after backdrilling: 0.035 dB — negligible.**
+**Stub loss after backdrilling: 0.012 dB — negligible.**
 
 ---
 
@@ -226,12 +208,12 @@ $$|S_{21}|_{dB} = 20\log_{10}(0.9960) = -0.035 \text{ dB}$$
 | Stub length (un-drilled) | 1.455 mm |
 | First resonance (un-drilled) | 26.8 GHz |
 | $f_{res} / f_{Nyq}$ (un-drilled) | 3.35 |
-| Stub loss at 8 GHz (un-drilled) | 0.33 dB |
+| Stub loss at 8 GHz (un-drilled) | 0.45 dB |
 | Target backdrill stub length | 0.25 mm (10 mil) |
 | First resonance after backdrilling | 156 GHz |
-| Stub loss at 8 GHz after backdrilling | 0.035 dB |
-| Loss improvement from backdrilling | 0.30 dB per via |
-| Two-via PCIe channel improvement | ~0.60 dB |
+| Stub loss at 8 GHz after backdrilling | 0.012 dB |
+| Loss improvement from backdrilling | 0.44 dB per via |
+| Two-via PCIe channel improvement | ~0.88 dB |
 
 ---
 
@@ -239,7 +221,7 @@ $$|S_{21}|_{dB} = 20\log_{10}(0.9960) = -0.035 \text{ dB}$$
 
 **Forgetting to account for effective $\epsilon_r$ in the via:** Using $c$ directly (without $\sqrt{\epsilon_r}$) in the resonance formula overpredicts the resonance frequency by a factor of $\sqrt{3.7} \approx 1.92$ — a factor of nearly 2 error.
 
-**Assuming the stub is always harmful:** A 26.8 GHz resonance on a PCIe Gen4 channel (8 GHz Nyquist) is not creating a resonance in-band. The harm is sub-resonance reactive loading (0.33 dB). Whether this requires correction depends on the total channel budget. Always calculate the actual loss contribution before mandating backdrilling.
+**Assuming the stub is always harmful:** A 26.8 GHz resonance on a PCIe Gen4 channel (8 GHz Nyquist) is not creating a resonance in-band. The harm is sub-resonance reactive loading (0.45 dB). Whether this requires correction depends on the total channel budget. Always calculate the actual loss contribution before mandating backdrilling.
 
 **Specifying backdrill depth by total depth rather than stub length:** Fabricators execute backdrilling to a specified depth from the back side of the board. The designer must specify the intended stub length (or equivalently, the drill depth from the back face), not just "backdrill the PCIe vias." A clear specification is: "Backdrill signal vias on L4 from the bottom face to within 10 mil (0.25 mm) of the L4 pad centre plane."
 

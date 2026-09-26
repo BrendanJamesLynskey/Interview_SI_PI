@@ -81,9 +81,9 @@ $$\Delta t_{DQS2} = 7 \times 6.59 = 46.1 \text{ ps}$$
 
 At DDR5-5600, the DQS period is 357 ps. A 46 ps DQS intra-pair skew is 12.9% of the DQS period. Write DQS centring training will attempt to compensate, but the skew also converts differential DQS to common-mode, reducing the differential strobe amplitude to:
 
-$$V_{diff,degraded} \approx V_{diff,nominal} \times \cos\left(\pi \times \frac{\Delta t}{T_{DQS}}\right) = V_{diff} \times \cos(0.129\pi) \approx 0.916 \times V_{diff}$$
+$$V_{diff,degraded} \approx V_{diff,nominal} \times \cos\left(\pi \times \frac{\Delta t}{T_{DQS}}\right) = V_{diff} \times \cos(0.129\pi) \approx 0.919 \times V_{diff}$$
 
-A ~9% amplitude reduction, combined with increased EMI from the common-mode component, makes this a high-severity violation.
+A ~8% amplitude reduction, combined with increased EMI from the common-mode component, makes this a high-severity violation.
 
 **Violation 4 — DQ byte lane 2 length matching:**
 
@@ -117,7 +117,7 @@ At DDR5-5600, the DQ setup window ($t_{DS}$) is approximately 20 ps. A 92 ps ske
 | DQ17 byte lane matching | High | ±0.38 mm | +3 mm | 8× over |
 | DQ18 byte lane matching | High | ±0.38 mm | -5 mm | 13× over |
 | DQ19 byte lane matching | Critical | ±0.38 mm | +14 mm | 37× over |
-| DQ20–DQ23 byte lane | High | ±0.38 mm | -1 to +3 mm | 3–8× over |
+| DQ20–DQ23 byte lane | High | ±0.38 mm | -3 to +2 mm | 3–8× over |
 | DM2# byte lane matching | High | ±0.38 mm | -8 mm | 21× over |
 
 ---
@@ -210,17 +210,17 @@ The reflected waveform adds to the main signal at the fly-by junction with a tim
 
 $$V_{initial} = V_{swing} \times \frac{Z_{load}}{Z_0 + Z_{load}}$$
 
-After the stub round-trip, the reflected wave modifies the waveform at 105.4 ps post-transition. At DDR5-5600, the next transition (minimum) could arrive at 178.6 ps. The stub reflection arrives at 105.4 ps — **59%** of the way to the next data edge. This creates a ringing artifact that overlaps the pre-cursor of the next bit edge.
+After the stub round-trip, the reflected wave modifies the waveform at 105.4 ps post-transition. With the 357 ps CA UI, the next transition (minimum) could arrive at 357 ps. The stub reflection arrives at 105.4 ps — **30%** of the way into the bit — so the ringing distorts the settling of the current bit ahead of its sampling point.
 
-**Pre-cursor ISI effect:**
+**Stub ringing (post-cursor ISI):**
 
-The 8 mm stub reflection is equivalent to a pre-cursor ISI that the training algorithm cannot compensate. Write levelling only corrects phase alignment; it cannot correct waveform distortion caused by stub reflections. The CA signal arrives at DRAM 0 (closest to the controller) with less distortion, but each successive DRAM in the fly-by chain sees the cumulative reflections from all preceding stubs — DRAMs near the end of the chain see the worst distortion.
+The 8 mm stub reflection arrives after the edge — post-cursor ringing that the training algorithm cannot compensate. Write levelling only corrects phase alignment; it cannot correct waveform distortion caused by stub reflections. The CA signal arrives at DRAM 0 (closest to the controller) with less distortion, but each successive DRAM in the fly-by chain sees the cumulative reflections from all preceding stubs — DRAMs near the end of the chain see the worst distortion.
 
 **Quantitative result:**
 
 A SPICE simulation of a DDR5-5600 fly-by CA chain with 8 mm stubs and 22 Ω series resistors would typically show:
 - Eye opening at the last DRAM reduced by 30–50% in height compared to a 2.5 mm stub design
-- Pre-cursor ringing amplitude: 15–25% of signal swing
+- Stub ringing amplitude: 15–25% of signal swing
 - Worst-case eye opening at 400 mV swing: approximately 200–250 mV (vs 320+ mV specification minimum)
 
 The design would fail write training with a high probability, and even if training locked, the margins would be insufficient for reliable operation across voltage and temperature corners.

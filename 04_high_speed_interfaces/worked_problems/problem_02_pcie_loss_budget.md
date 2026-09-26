@@ -179,16 +179,16 @@ On standard FR4 (Df = 0.022 at 16 GHz, Dk = 4.2, roughness factor ~2.5):
 
 $$\alpha_{d,FR4}(16 \text{ GHz}) \approx 27.3 \times \frac{0.022 \times \sqrt{4.2}}{18.75 \times 10^{-3}} \approx 27.3 \times \frac{0.0451}{0.01875} = 65.6 \text{ dB/m} = 0.0656 \text{ dB/mm}$$
 
-$$\alpha_{c,FR4} \approx 0.0515 \times 2.0 = 0.0657 \text{ dB/mm} \text{ (rougher copper on FR4)}$$
+$$\alpha_{c,FR4} \approx 2.5 \times 0.0286 = 0.0715 \text{ dB/mm} \text{ (smooth-copper loss × roughness factor 2.5)}$$
 
-$$\alpha_{total,FR4} \approx 0.131 \text{ dB/mm at 16 GHz}$$
+$$\alpha_{total,FR4} \approx 0.137 \text{ dB/mm at 16 GHz}$$
 
-$$IL_{trace,MB,FR4} = 220 \times 0.131 = -28.8 \text{ dB}$$
+$$IL_{trace,MB,FR4} = 220 \times 0.137 = -30.2 \text{ dB}$$
 
-$$IL_{total,FR4} = -28.8 - 3.3 \times (0.131/0.0654) - 1.5 - 2.0 - 0.5 - 1.0 - 0.8$$
-$$= -28.8 - 10.0 - 1.5 - 2.0 - 0.5 - 1.0 - 0.8 = -44.6 \text{ dB}$$
+$$IL_{total,FR4} = -30.2 - 50 \times 0.137 - 1.5 - 2.0 - 0.5 - 1.0 - 0.8$$
+$$= -30.2 - 6.9 - 1.5 - 2.0 - 0.5 - 1.0 - 0.8 = -42.9 \text{ dB}$$
 
-This would be -44.6 dB vs the -36 dB limit → the channel **fails** by 8.6 dB on FR4.
+This would be -42.9 dB vs the -36 dB limit → the channel **fails** by 6.9 dB on FR4.
 
 ---
 
@@ -208,7 +208,7 @@ This still passes (-28.7 dB vs -36 dB limit), but with only +7.3 dB margin — l
 
 Now suppose the design also had a worse connector (non-Gen5-rated at -4 dB):
 
-$$IL_{total,failing} = -28.7 - (-2.0 + -4.0) = -30.7 \text{ dB at 16 GHz}$$
+$$IL_{total,failing} = -28.7 + 2.0 - 4.0 = -30.7 \text{ dB at 16 GHz}$$
 
 Add a non-backdrilled via pair: +3 dB worse:
 
@@ -219,9 +219,9 @@ Still passes, but barely (+2.3 dB). Given COM simulation typically adds 1–3 dB
 **Minimum fix in this failing scenario:**
 
 1. **Upgrade to Gen 5 rated connector:** Saves ~2 dB. Cost: connector upgrade (~$0.50/connector at board quantities).
-2. **Backdrill the motherboard vias:** Saves ~2 dB per via pair. Cost: one additional drill pass (~$0.05/board at volume).
+2. **Backdrill the motherboard vias:** Saves the ~3 dB the unbackdrilled pair added. Cost: one additional drill pass (~$0.05/board at volume).
 
-These two changes together recover approximately +4 dB — sufficient to pass COM comfortably. The laminate upgrade (to Megtron 6) would be reserved for a more severe deficit.
+These two changes together recover approximately +5 dB — sufficient to pass COM comfortably. The laminate upgrade (to Megtron 6) would be reserved for a more severe deficit.
 
 ---
 

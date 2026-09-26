@@ -55,7 +55,7 @@ $$\alpha_{skin}(f) = \frac{R_s}{2} \sqrt{\frac{f}{f_0}} \cdot \frac{1}{Z_0}\ \te
 
 A convenient approximation in practical units (dB per inch at frequency $f$ in GHz) for a 50 $\Omega$ stripline:
 
-$$\alpha_{skin} \approx \frac{A_{skin}}{\sqrt{f}}\ \text{dB/inch at } f\ \text{GHz}$$
+$$\alpha_{skin} \approx A_{skin} \sqrt{f}\ \text{dB/inch at } f\ \text{GHz}$$
 
 where $A_{skin}$ depends on trace geometry and copper finish. For a 5 mil wide, 50 $\Omega$ stripline on standard 1 oz copper (RMS roughness $\approx 0.6\ \mu$m):
 
@@ -69,7 +69,7 @@ $$A_{diel} = \frac{\pi \sqrt{\varepsilon_r} D_f}{c \cdot \ln(10)/20}$$
 
 In practical SI units:
 
-$$A_{diel} \approx 4.34 \cdot \pi \cdot \sqrt{\varepsilon_r} \cdot D_f / c$$
+$$A_{diel} \approx 8.686 \cdot \pi \cdot \sqrt{\varepsilon_r} \cdot D_f / c$$
 
 where $c = 11.8$ inch/ns. More directly:
 
@@ -183,11 +183,11 @@ $$IL_{AIC} = 8 \times 0.835 = 6.68\ \text{dB}$$
 
 Replace FR4 ($D_f = 0.020$) with Megtron 6 ($D_f = 0.004$):
 
-$$IL_{MB,Megtron6} = 30 \times (0.099 + 0.004 \times 2.3 \times 2 \times 8) = 30 \times (0.099 + 0.147) = 30 \times 0.246 = 7.38\ \text{dB}$$
+$$IL_{MB,Megtron6} = 30 \times (0.099 + 2.3 \times 1.924 \times 0.004 \times 8) = 30 \times (0.099 + 0.142) = 30 \times 0.241 = 7.23\ \text{dB}$$
 
-Saving vs FR4: $25.05 - 7.38 = 17.67$ dB. This alone brings the channel below the 28 dB budget.
+Saving vs FR4: $25.05 - 7.23 = 17.82$ dB. This alone brings the channel below the 28 dB budget.
 
-New total: $41.23 - 17.67 = 23.56$ dB. Passes with $\sim 4.4$ dB margin.
+New total: $41.23 - 17.82 = 23.41$ dB. Passes with $\sim 4.6$ dB margin.
 
 **Fix 2 — Backdrill all vias:**
 
@@ -195,7 +195,7 @@ Replace 4× unbackdrilled vias (1.5 dB each) with backdrilled vias (0.5 dB each)
 
 Saving: $4 \times (1.5 - 0.5) = 4.0$ dB.
 
-Combined with Fix 1: total = $23.56 - 4.0 = 19.56$ dB — $\sim 8.4$ dB margin below the 28 dB budget.
+Combined with Fix 1: total = $23.41 - 4.0 = 19.41$ dB — $\sim 8.6$ dB margin below the 28 dB budget.
 
 **Fix 3 — Reduce trace length (if routing allows):**
 
@@ -215,8 +215,8 @@ With the lower-loss connector ($-0.3$ dB instead of $-1.0$ dB):
 
 Saving: $1.0 - 0.3 = 0.7$ dB.
 
-For the original passing channel (14.58 dB): margin improves from 21.4 dB to 22.1 dB.
-For the failing channel after Fix 1 only (23.56 dB): margin improves from 12.4 dB to 13.1 dB.
+For the original passing channel (14.58 dB): margin improves from 13.4 dB to 14.1 dB.
+For the failing channel after Fix 1 only (23.41 dB): margin improves from 4.6 dB to 5.3 dB.
 
 The connector improvement provides a small benefit (0.7 dB). It does not rescue a failing channel on its own, but every dB of margin is valuable for manufacturing yield at the upper end of trace length tolerances.
 
@@ -255,12 +255,12 @@ This analysis explains why low-$D_f$ laminate materials are the most effective l
 | Parameter | Value |
 |---|---|
 | Original channel total IL (original parameters) | 14.58 dB |
-| PCIe Gen 4 IL limit | 36.0 dB |
-| Margin (original) | +21.4 dB (passes) |
+| PCIe Gen 4 IL limit | 28.0 dB |
+| Margin (original) | +13.4 dB (passes) |
 | Modified (failing) channel total IL | 41.23 dB |
-| Deficit | -5.23 dB (fails) |
-| IL after laminate upgrade (Megtron 6, 30 in) | 23.56 dB |
-| IL after laminate + backdrill | 19.56 dB |
+| Deficit | -13.23 dB (fails) |
+| IL after laminate upgrade (Megtron 6, 30 in) | 23.41 dB |
+| IL after laminate + backdrill | 19.41 dB |
 | Skin-effect crossover frequency (Megtron 6) | 3.9 GHz |
 
 ## Key Takeaways

@@ -84,7 +84,7 @@ $$0.8w + 0.7 = \frac{7.104}{0.67\pi} = \frac{7.104}{2.104} = 3.376$$
 
 $$0.8w = 2.676 \implies \boxed{w_{SL} = 3.3\ \text{mil}}$$
 
-**Note on stripline geometry:** The stripline trace is narrower than the microstrip trace (3.3 vs 6.7 mil) for the same 50 $\Omega$ target. This is because the stripline is fully immersed in dielectric (higher effective Dk, lower $Z_0$), requiring a narrower trace to raise $Z_0$ back to 50 $\Omega$. The stripline geometry also has a thinner total dielectric (10 mil plane-to-plane vs. 4 mil for microstrip), which further increases capacitance and requires a narrower trace to compensate.
+**Note on stripline geometry:** The stripline trace is narrower than the microstrip trace (3.3 vs 6.7 mil) for the same 50 $\Omega$ target. This is because the stripline is fully immersed in dielectric (higher effective Dk, lower $Z_0$), requiring a narrower trace to raise $Z_0$ back to 50 $\Omega$. The stripline also sees two reference planes (5 mil above and 5 mil below) instead of one, which further increases capacitance and requires a narrower trace to compensate.
 
 ---
 
@@ -124,11 +124,11 @@ $$\boxed{Z_0^{SL} = 50\ \Omega \pm 3.4\ \Omega\ (^{+7\%}_{-7\%})} \quad \text{fr
 
 **Key observation:** The stripline is more sensitive to etch variation than the microstrip (6.85 vs. 4.81 $\Omega$/mil), because the narrower trace geometry ($w = 3.3$ mil) means the same 0.5 mil width change is a larger *fractional* change. A 0.5 mil change on a 3.3 mil trace is 15% variation, whereas on a 6.7 mil trace it is only 7.5%.
 
-**Combined tolerance budget:** The etch tolerance combines with dielectric height variation (typically $\pm 5$%) and Dk variation (typically $\pm 3$%). Adding these in root-sum-square:
+**Combined tolerance budget:** The etch tolerance combines with dielectric height variation (typically $\pm 5$%) and Dk variation (typically $\pm 3$%). From the stripline formula, $\pm 5$% on $b$ gives $\pm 28.93 \ln(1.05) = \pm 1.4\ \Omega$, and $\pm 3$% on Dk gives $\pm 50 \times 1.5\% = \pm 0.7\ \Omega$. Adding these in root-sum-square:
 
-$$\sigma_{total} \approx \sqrt{(3.4)^2 + (2.5)^2 + (1.5)^2} \approx 4.6\ \Omega$$
+$$\Delta Z_{RSS} \approx \sqrt{(3.4)^2 + (1.4)^2 + (0.7)^2} \approx 3.8\ \Omega$$
 
-Total $\pm 3\sigma$ stripline range: $50 \pm 14\ \Omega$ — well outside $\pm 10$% without tight process control. This illustrates why controlled-impedance PCBs require the manufacturer to measure and adjust the process to hit the specification.
+Each term is already a tolerance limit, so the statistical stripline range is $50 \pm 3.8\ \Omega$ ($\pm 7.6$%), and the straight worst-case sum is $\pm 5.5\ \Omega$ ($\pm 11$%) — outside $\pm 10$%, with etch as the dominant term. This illustrates why controlled-impedance PCBs require the manufacturer to measure and adjust the process to hit the specification.
 
 ---
 

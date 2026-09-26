@@ -195,29 +195,27 @@ $$f_{AR} = \frac{1}{2\pi\sqrt{L_{A,eff} \cdot C_{B,total}}} = \frac{1}{2\pi\sqrt
 
 $$= \frac{1}{2\pi\sqrt{4.27\times10^{-14}}} = \frac{1}{2\pi \times 206.7\times10^{-9}} \approx 770\ kHz$$
 
-**Anti-resonance peak impedance (lossless approximation):**
+**Characteristic impedance of the resonant loop:**
 
-$$|Z_{AR}| \approx \sqrt{\frac{L_{A,eff}}{C_{B,total}}} = \sqrt{\frac{0.571\times10^{-9}}{74.8\times10^{-6}}} = \sqrt{7.63\times10^{-6}} \approx 2.76\ m\Omega$$
+$$Z_0 = \sqrt{\frac{L_{A,eff}}{C_{B,total}}} = \sqrt{\frac{0.571\times10^{-9}}{74.8\times10^{-6}}} = \sqrt{7.63\times10^{-6}} \approx 2.76\ m\Omega$$
+
+$Z_0$ is not the peak itself: the peak height depends on the loop resistance ($Q = Z_0/R$), and the bulk bank's own 3.29 mF pulls the resonance below the simple $L_{A,eff}$–$C_{B,total}$ estimate. Evaluating the full parallel network (both banks with their ESR, ESL and C) numerically gives:
+
+$$|Z_{AR}| \approx 3.35\ m\Omega \text{ at } \approx 620\ kHz$$
 
 **Assessment:**
 
-$|Z_{AR}| \approx 2.76\ m\Omega > Z_{target} = 2\ m\Omega$ — this peak **violates the target impedance**.
+$|Z_{AR}| \approx 3.35\ m\Omega > Z_{target} = 2\ m\Omega$ — this peak **violates the target impedance**. And because $Z_0 = 2.76\ m\Omega$ is itself above the target, no amount of damping can bring the peak below 2 mΩ: optimal damping ($R_{loop} \approx Z_0$) flattens the peak to about $Z_0$, not below it.
 
-**Mitigation — damping resistor:**
+**Mitigation 1 — damping resistor on one bulk capacitor (does not work here):**
 
-Add a series resistor $R_d$ to one of the bulk capacitors to add damping. The optimal damping value:
+Putting a $2\ m\Omega$ resistor in series with one of the seven Part A capacitors changes that branch from 8 to 10 mΩ, so the bank ESR only moves from 1.14 to 1.18 mΩ. The computed peak falls from 3.35 to 3.31 mΩ — negligible.
 
-$$R_d \approx |Z_{AR}| - R_{ESR,A,total} = 2.76\ m\Omega - \frac{8\ m\Omega}{7} = 2.76 - 1.14 = 1.62\ m\Omega$$
+**Mitigation 2 — lower $Z_0$ by adding mid-frequency capacitance:**
 
-In practice, replace one Part A capacitor (say, capacitor A7) with a series combination of Part A + $2\ m\Omega$ surface-mount resistor. The damped peak impedance:
+$$|Z_{AR,5B}| \approx 3.08\ m\Omega \text{ (5 Part B)}, \quad 2.47\ m\Omega \text{ (8 Part B)}, \quad 1.97\ m\Omega \text{ (12 Part B)}$$
 
-$$|Z_{AR,damped}| \approx \frac{R_{ESR,A,total} + R_d}{2} \approx \frac{1.14 + 1.62}{2} \approx 1.38\ m\Omega < 2\ m\Omega \quad \checkmark$$
-
-**Alternative:** Add one more Part B capacitor ($N_B = 5$):
-
-$$|Z_{AR,5B}| = \sqrt{\frac{0.571\times10^{-9}}{5 \times 18.7\times10^{-6}}} = \sqrt{\frac{0.571\times10^{-9}}{93.5\times10^{-6}}} = \sqrt{6.11\times10^{-6}} \approx 2.47\ m\Omega$$
-
-Still above target — the damping resistor approach is more effective here.
+Twelve Part B capacitors (224 µF derated) are needed to bring the anti-resonance peak just under 2 mΩ. The alternative is to lower the bulk-path inductance (more, lower-ESL bulk capacitors or shorter mounting), which lowers $Z_0$ directly.
 
 ---
 
@@ -226,11 +224,11 @@ Still above target — the damping resistor approach is more effective here.
 | Stage | Part | Count | $f_{SRF}$ | $R_{ESR,total}$ | $C_{total}$ | Coverage |
 |---|---|---|---|---|---|---|
 | Bulk | A (470 µF polymer) | 7 | 116 kHz | 1.14 m$\Omega$ | 3.29 mF | DC to ~150 kHz |
-| Mid-freq | B (22 µF 0805 MLCC) | 4 | 1.22 MHz | 0.75 m$\Omega$ | 75 µF | 500 kHz to 5 MHz |
-| High-freq | C (4.7 µF 0402 MLCC) | TBD | ~3.1 MHz | — | — | 2–20 MHz |
+| Mid-freq | B (22 µF 0805 MLCC) | 12 | 1.22 MHz | 0.25 m$\Omega$ | 224 µF | 500 kHz to 5 MHz |
+| High-freq | C (4.7 µF 0402 MLCC) | TBD | ~3.0 MHz | — | — | 2–20 MHz |
 | VHF | D (100 nF 0402 MLCC) | TBD | ~22.5 MHz | — | — | 10–100 MHz |
 
-**For Part C (4.7 µF 0402, $f_{SRF} \approx 3.1\ MHz$):**
+**For Part C (4.7 µF 0402, $f_{SRF} \approx 3.0\ MHz$):**
 
 Number needed (ESR criterion): $N_C = R_{ESR,C}/Z_{target} = 8/2 = 4$.
 
@@ -242,8 +240,8 @@ Number needed (ESR criterion): $N_D = R_{ESR,D}/Z_{target} = 35/2 = 17.5 \righta
 
 | Stage | Part | Count | Notes |
 |---|---|---|---|
-| Bulk | 470 µF polymer (A) | 7 | One with 2 m$\Omega$ series damping resistor |
-| Mid-freq | 22 µF 0805 MLCC (B) | 4 | X5R, 6.3 V rated |
+| Bulk | 470 µF polymer (A) | 7 | |
+| Mid-freq | 22 µF 0805 MLCC (B) | 12 | X5R, 6.3 V rated; 12 (not 4) to hold the bulk/MLCC anti-resonance below 2 mΩ |
 | High-freq | 4.7 µF 0402 MLCC (C) | 4 | X7R |
 | VHF | 100 nF 0402 MLCC (D) | 18 | X7R, placed adjacent to BGA power pins |
 

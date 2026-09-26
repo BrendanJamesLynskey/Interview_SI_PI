@@ -40,7 +40,7 @@ The displayed waveform (voltage at the TDR launch port vs. time) is described by
 
 $$v_p = \frac{c}{\sqrt{\varepsilon_r}} = \frac{3 \times 10^8\ \text{m/s}}{\sqrt{4.0}} = \frac{3 \times 10^8}{2} = 1.5 \times 10^8\ \text{m/s}$$
 
-Equivalently, $v_p = 15\ \text{cm/ns} = 6.67\ \text{ps/cm}$.
+Equivalently, $v_p = 15\ \text{cm/ns}$, i.e. $66.7\ \text{ps/cm}$.
 
 ---
 
@@ -184,11 +184,11 @@ A PCB via has a series inductance of approximately 0.5–1.5 nH. A connector pin
 
 **Impact at 10 Gbps:**
 
-The series inductance forms a high-pass filter with the transmission line capacitance. The 3 dB frequency is:
+The series inductance, driven from $Z_0$ and loaded by $Z_0$, forms a low-pass filter. Consistent with $\tau = L/2Z_0$ above, the 3 dB frequency is:
 
-$$f_{-3dB} = \frac{Z_0}{2\pi L} = \frac{50}{2\pi \times 4.5 \times 10^{-9}} \approx 1.77\ \text{GHz}$$
+$$f_{-3dB} = \frac{2Z_0}{2\pi L} = \frac{100}{2\pi \times 4.5 \times 10^{-9}} \approx 3.5\ \text{GHz}$$
 
-The Nyquist frequency for 10 Gbps is 5 GHz — well above 1.77 GHz. This inductance will significantly attenuate the high-frequency content of the signal, adding eye closure and increasing jitter. Corrective action is required: backdrill the via stub, use a via-in-pad design, or select a lower-inductance connector footprint.
+The Nyquist frequency for 10 Gbps is 5 GHz — above 3.5 GHz. This inductance will significantly attenuate the high-frequency content of the signal, adding eye closure and increasing jitter. Corrective action is required: backdrill the via stub, use a via-in-pad design, or select a lower-inductance connector footprint.
 
 ---
 

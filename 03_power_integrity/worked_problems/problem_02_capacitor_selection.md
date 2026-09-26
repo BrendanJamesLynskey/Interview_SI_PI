@@ -231,19 +231,19 @@ $$f_{AR} = \frac{1}{2\pi\sqrt{L_{P1,eff} \times C_{M1,total}}} = \frac{1}{2\pi\s
 
 $$= \frac{1}{2\pi\sqrt{2.93\times10^{-15}}} = \frac{1}{2\pi \times 54.2\times10^{-9}} \approx 2.94\ MHz$$
 
-**Anti-resonance peak impedance (lossless approximation):**
+**Characteristic impedance of the loop:**
 
-$$|Z_{AR}| = \sqrt{\frac{L_{P1,eff}}{C_{M1,total}}} = \sqrt{\frac{0.115\times10^{-9}}{25.5\times10^{-6}}} = \sqrt{4.51\times10^{-6}} \approx 2.12\ m\Omega$$
+$$Z_0 = \sqrt{\frac{L_{P1,eff}}{C_{M1,total}}} = \sqrt{\frac{0.115\times10^{-9}}{25.5\times10^{-6}}} = \sqrt{4.51\times10^{-6}} \approx 2.12\ m\Omega$$
 
-**Assessment:** $|Z_{AR}| = 2.12\ m\Omega$ is just above $Z_{target} = 2\ m\Omega$. This is a marginal violation that must be addressed.
+$Z_0$ is not the peak: the peak height is set by $Q = Z_0 / R_{loop}$, and here $R_{loop} = 0.46 + 5/3 = 2.13\ m\Omega \approx Z_0$, so $Q \approx 1$ and the resonance is critically damped. Also, 2.94 MHz is above the M1 SRF (2.06 MHz), where M1 is no longer capacitive, so the simple formula does not locate the peak. Evaluating the full P1 ∥ M1 network (ESR, ESL and C of both banks) numerically gives:
 
-**Mitigation — increase $N_{M1}$ to 4:**
+$$|Z_{AR}| \approx 1.30\ m\Omega \text{ at } \approx 1.5\ MHz \text{ (3 × M1)}, \quad 1.28\ m\Omega \text{ (4 × M1)}$$
 
-$$C_{M1,4} = 4 \times 8.5\ \mu F = 34\ \mu F$$
+**Assessment:** The P1–M1 anti-resonance is **below** $Z_{target} = 2\ m\Omega$ — no mitigation is needed for this pair; the fourth M1 is not required by it.
 
-$$|Z_{AR,4}| = \sqrt{\frac{0.115\times10^{-9}}{34\times10^{-6}}} = \sqrt{3.38\times10^{-6}} \approx 1.84\ m\Omega < 2\ m\Omega \quad \checkmark$$
+**The pair that does violate:** Adding the 25 × M3 stage creates an M1–M3 anti-resonance of $\approx 10\ m\Omega$ at $\approx 10\ MHz$ (computed for the full network), five times the target. Above a few MHz the mounted ESL of the MLCC banks (0.7 nH/4, 0.5 nH/25) sets the impedance, so the ESR-based counts in (d) and (e) cannot hold 2 mΩ there; that region needs many more low-ESL capacitors or reliance on package and on-die capacitance.
 
-$$\boxed{N_{M1} = 4\ \text{resolves the anti-resonance violation}}$$
+$$\boxed{N_{M1} = 3\text{–}4\ \text{is adequate for the P1–M1 pair; the M1–M3 peak (≈10 mΩ at ≈10 MHz) is the real violation}}$$
 
 ---
 
@@ -253,7 +253,7 @@ $$\boxed{N_{M1} = 4\ \text{resolves the anti-resonance violation}}$$
 
 | Stage | Part | Count | $f_{SRF}$ | $R_{ESR,total}$ | Coverage |
 |---|---|---|---|---|---|
-| Bulk | P1 (220 µF polymer) | 26 | ~230 kHz | 0.46 m$\Omega$ | DC to ~300 kHz |
+| Bulk | P1 (220 µF polymer) | 26 | ~196 kHz | 0.46 m$\Omega$ | DC to ~300 kHz |
 | Mid-freq | M1 (10 µF 0402 X5R) | 4 | 2.06 MHz | 1.25 m$\Omega$ | 500 kHz to 10 MHz |
 | High-freq | M3 (100 nF 0402 X7R) | 25 | 22.5 MHz | 2.0 m$\Omega$ | 10 MHz to 100 MHz |
 
@@ -284,8 +284,8 @@ $$\boxed{N_{M1} = 4\ \text{resolves the anti-resonance violation}}$$
 | Bulk cap count | 26 × 220 µF polymer |
 | Mid-freq MLCC count | 4 × 10 µF 0402 X5R (M1) |
 | High-freq MLCC count | 25 × 100 nF 0402 X7R (M3) |
-| Anti-resonance frequency | 2.94 MHz |
-| Anti-resonance peak (after mitigation) | 1.84 m$\Omega$ ✓ |
+| P1–M1 anti-resonance | ≈1.5 MHz, 1.30 m$\Omega$ ✓ |
+| M1–M3 anti-resonance | ≈10 MHz, ≈10 m$\Omega$ ✗ (see Part f) |
 
 ---
 

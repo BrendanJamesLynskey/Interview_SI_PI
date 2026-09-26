@@ -116,7 +116,7 @@ PCIe uses AC-coupled differential signalling with embedded impedance matching. T
 
 **Recommendation: No discrete termination required.** The PCIe PHY contains built-in on-die termination (typically 50 $\Omega$ per wire, making 100 $\Omega$ differential). The board trace must be a controlled-impedance differential pair routed to the specification; the termination is integrated into the silicon.
 
-The board designer's responsibility is impedance control, not termination component placement. The 0.75 inch length, while electrically long by the criterion, is short relative to the PCIe receiver's equalization capability. Standard PCIe Gen 4 channels specify up to 16 dB insertion loss (including connectors and long traces) — a 0.75 inch stub is negligible.
+The board designer's responsibility is impedance control, not termination component placement. The 0.75 inch length, while electrically long by the criterion, is short relative to the PCIe receiver's equalization capability. PCIe Gen 4 channels are budgeted up to 28 dB insertion loss at 8 GHz (including connectors and long traces) — a 0.75 inch stub is negligible.
 
 **Trace E — 1 Gb Ethernet SerDes (8 inches, 50 ps rise time):**
 
@@ -140,13 +140,13 @@ As calculated in Part (a), Trace D has $T_D = 131$ ps and $t_r/6 = 5$ ps. The ra
 
 **Physical argument:**
 
-The reflection coefficient for a mismatched source driving this trace is, for a typical PCIe PHY output impedance of 50 $\Omega$ single-ended (100 $\Omega$ differential) into an 85 $\Omega$ differential line:
+The reflection coefficient at a typical PCIe PHY termination of 50 $\Omega$ single-ended (100 $\Omega$ differential) on an 85 $\Omega$ differential line (compare like with like — differential to differential):
 
-$$\Gamma = \frac{85 - 50}{85 + 50} = \frac{35}{135} = +0.26$$
+$$\Gamma = \frac{100 - 85}{100 + 85} = \frac{15}{185} = +0.08$$
 
-An initial reflected wave of 26% of the incident wave amplitude would return from the load discontinuity after $2 \times 131 = 262$ ps. For a 30 ps rise time signal, the round-trip delay is $262/30 \approx 9$ rise times — the reflected wave is a completely distinct event, not merely a superposition with the rising edge. The reflected pulse would cause:
+An initial reflected wave of 8% of the incident wave amplitude would return from the load discontinuity after $2 \times 131 = 262$ ps. For a 30 ps rise time signal, the round-trip delay is $262/30 \approx 9$ rise times — the reflected wave is a completely distinct event, not merely a superposition with the rising edge. The reflected pulse would cause:
 
-1. A 26% voltage perturbation at the source after 262 ps — visible as undershoot or overshoot depending on load type
+1. An 8% voltage perturbation at the source after 262 ps — visible as undershoot or overshoot depending on load type
 2. A second smaller reflection from the source back toward the load after 524 ps
 
 At 16 GT/s PCIe Gen 4, the bit period is 62.5 ps. A 262 ps echo would arrive 4 bit periods after the original edge — spreading inter-symbol interference across 4 bits. The eye would be significantly degraded.
@@ -214,7 +214,7 @@ Any PCIe Gen 5 trace longer than 0.36 mm (14 mil) is electrically long and requi
 | Gen 5 | 32 GT/s | 15 ps | 14 mil (0.36 mm) |
 | Gen 6 | 64 GT/s | 8 ps | 7.6 mil (0.19 mm) |
 
-The trend is clear: with each generation doubling the data rate, the maximum lumped-circuit trace length halves. At PCIe Gen 6, even the pad dimensions (typically 20–30 mil) exceed the electrically-short threshold. This is why PCIe Gen 6 transitions to PAM-4 (Pulse Amplitude Modulation with 4 levels) to reduce the symbol rate — the Nyquist frequency of 16 GHz allows the signal integrity community slightly more electrical length per symbol than a 32 Gbaud NRZ scheme would require.
+The trend is clear: with each generation doubling the data rate, the maximum lumped-circuit trace length halves. At PCIe Gen 6, even the pad dimensions (typically 20–30 mil) exceed the electrically-short threshold. This is why PCIe Gen 6 transitions to PAM-4 (Pulse Amplitude Modulation with 4 levels) to reduce the symbol rate — the Nyquist frequency of 16 GHz allows the signal integrity community slightly more electrical length per symbol than a 64 Gbaud NRZ scheme would require.
 
 ---
 

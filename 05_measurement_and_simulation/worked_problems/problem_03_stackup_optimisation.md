@@ -5,7 +5,7 @@
 You are the SI engineer for a new 8-layer PCB that must support two high-speed interfaces:
 
 - **DDR5-4800:** 64 data bits + 8 ECC bits routed as single-ended microstrip on the top layer (L1) at 40 $\Omega$ single-ended (80 $\Omega$ differential)
-- **PCIe Gen 5 (16 GT/s):** 16 differential pairs routed as differential stripline on an inner layer at 85 $\Omega$ differential impedance; requires total channel insertion loss $\leq -28$ dB at the Nyquist frequency of 8 GHz
+- **PCIe Gen 4 (16 GT/s):** 16 differential pairs routed as differential stripline on an inner layer at 85 $\Omega$ differential impedance; requires total channel insertion loss $\leq -28$ dB at the Nyquist frequency of 8 GHz
 
 **Current stackup proposal (before optimisation):**
 
@@ -71,7 +71,7 @@ $$0.8W = 160.6\ \mu\text{m} \implies W = 200.7\ \mu\text{m} \approx 201\ \mu\tex
 
 **Result: A trace width of approximately 200 $\mu$m (8 mils) is required for 40 $\Omega$ microstrip on L1.**
 
-**Sanity check:** $W/H = 200/100 = 2$. For microstrip, when $W > H$, impedance tends toward lower values. With a $H = 100\ \mu$m core, a 200 $\mu$m trace giving 40 $\Omega$ is physically reasonable — standard 50 $\Omega$ microstrip would be narrower ($W \approx 100\ \mu$m for the same stack height).
+**Sanity check:** $W/H = 200/100 = 2$. For microstrip, when $W > H$, impedance tends toward lower values. With a $H = 100\ \mu$m core, a 200 $\mu$m trace giving 40 $\Omega$ is physically reasonable — standard 50 $\Omega$ microstrip would be narrower ($W \approx 140\ \mu$m for the same stack height, from the same formula).
 
 ---
 
@@ -160,7 +160,7 @@ In practice, the precise values are verified with a 2D field solver (Polar SI900
 **Channel configuration:**
 
 - Total channel length: 15 inches
-- Loss budget total: −28 dB (from PCIe Gen 5 specification)
+- Loss budget total: −28 dB (from PCIe Gen 4 specification)
 - Connector and via transition loss: 1.5 dB (given)
 - Available for trace loss: $28 - 1.5 = 26.5$ dB
 
@@ -174,7 +174,7 @@ $$\text{IL}_{trace} = 2.1 \times 15 = 31.5\ \text{dB}$$
 
 $$\text{IL}_{total} = 31.5 + 1.5 = 33.0\ \text{dB}$$
 
-**Assessment:** The channel exceeds the −28 dB budget by **5 dB**. The current stackup does not meet PCIe Gen 5 requirements on FR-4. Corrective action is required.
+**Assessment:** The channel exceeds the −28 dB budget by **5 dB**. The current stackup does not meet PCIe Gen 4 requirements on FR-4. Corrective action is required.
 
 ---
 
@@ -243,7 +243,7 @@ Replace the core and prepreg materials for the L2-L4 stack (surrounding the PCIe
 
 $$\text{IL}_{total} \approx 25.05\ \text{dB} \leq 28\ \text{dB}\quad \checkmark$$
 
-**Margin: 2.95 dB** — adequate for PCIe Gen 5 compliance including manufacturing tolerance.
+**Margin: 2.95 dB** — adequate for PCIe Gen 4 compliance including manufacturing tolerance.
 
 ---
 
@@ -286,6 +286,6 @@ At $H = 100\ \mu$m with $W \approx 200\ \mu$m, the trace is wide relative to the
 
 **Using single-ended loss for differential channels without verification:** Differential insertion loss $\approx$ single-ended insertion loss when the pair is tightly coupled and the odd-mode is well-defined. When pairs are loosely coupled (wide spacing) or routed with ground stitching between pairs, the modes decouple and the differential insertion loss must be measured directly on the differential pair, not inferred from single-ended measurement.
 
-**Selecting the most expensive low-loss material without cost justification:** Megtron 7 at $D_f = 0.0015$ would pass easily, but it costs 5.5× FR-4. Isola IS410 at $D_f = 0.013$ passes with 2.95 dB margin at 1.5× cost. In a real design, specify the cheapest material that meets the requirement with a reasonable margin — not the best-performing material available.
+**Selecting the most expensive low-loss material without cost justification:** Megtron 7 at $D_f = 0.0015$ would pass easily, but it costs 5.5× FR-4. Isola IS410 at $D_f = 0.013$ passes (1.15 dB margin alone, 2.95 dB with 1 oz copper) at 1.5× cost. In a real design, specify the cheapest material that meets the requirement with a reasonable margin — not the best-performing material available.
 
 **Ignoring the manufacturing tolerance stack-up:** The $\pm 10\%$ tolerance on dielectric thickness and $\pm 10\%$ on trace width means the achieved impedance can vary by ±5 $\Omega$ from nominal. A design that passes with zero margin in simulation may fail when fabricated. Always design for a minimum 1–2 dB insertion loss margin to accommodate manufacturing variability.
