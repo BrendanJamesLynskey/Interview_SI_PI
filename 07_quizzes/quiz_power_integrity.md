@@ -150,7 +150,7 @@ Suggested time: 25 minutes.
 
 - A) Add more 10 uF capacitors near the VRM to boost the mid-frequency response
 - B) Increase the number of PCB layers to reduce plane resistance
-- C) Add 100 nF ceramic capacitors (0201 package) directly under the CPU package at the power delivery vias, targeting their SRF to around 450 MHz to create a local impedance minimum
+- C) Reduce the loop inductance at the CPU: add many low-ESL ceramic capacitors (e.g., 0201 or reverse-geometry) in parallel directly under the CPU package at the power delivery vias, and add on-package capacitance if the board-level inductance cannot be brought low enough
 - D) Replace the VRM with a higher-bandwidth unit to extend its regulation range to 450 MHz
 
 ---
@@ -235,13 +235,13 @@ Power plane capacitance is formed by the dielectric between the power and ground
 
 **Q10 -- Answer: B**
 
-Current flowing into a via must spread radially outward through the power plane to reach multiple capacitors or load devices. This spreading path has a small but non-negligible inductance (spreading inductance). It creates an inductive impedance in series with the plane capacitance, raising the effective SRF of the plane-capacitor system and limiting how high in frequency the plane capacitance is useful. Option A is incorrect -- spreading inductance does not increase capacitance. Option C is incorrect -- spreading inductance has little effect on EMI radiation directly. Option D is incorrect; inductance in series with a decoupling element raises impedance, which is harmful, not beneficial.
+Current flowing into a via must spread radially outward through the power plane to reach multiple capacitors or load devices. This spreading path has a small but non-negligible inductance (spreading inductance). It creates an inductive impedance in series with the plane capacitance, lowering the frequency at which the plane-capacitor system turns inductive and so limiting how high in frequency the plane capacitance is useful. Option A is incorrect -- spreading inductance does not increase capacitance. Option C is incorrect -- spreading inductance has little effect on EMI radiation directly. Option D is incorrect; inductance in series with a decoupling element raises impedance, which is harmful, not beneficial.
 
 ---
 
 **Q11 -- Answer: C**
 
-The 100 MHz to 500 MHz range is above the effective frequency of bulk capacitors and VRM, and below the frequency where power planes become fully effective. This "mid-frequency gap" is best filled by ceramic capacitors in small packages (0402 or 0201) with low ESL, placed near the IC. Their SRF can be placed in this frequency range, providing a low impedance point. Multiple values in parallel spread the effective low-impedance band. Option A (bulk electrolytic) is effective only up to ~1 MHz. Option B (VRM switching frequency) is unrelated to the decoupling frequency. Option D (more copper layers) reduces DC resistance marginally but does not address 100-500 MHz decoupling.
+The 100 MHz to 500 MHz range is above the effective frequency of bulk capacitors and VRM, and below the frequency where power planes become fully effective. This "mid-frequency gap" is best filled by ceramic capacitors in small packages (0402 or 0201) with low ESL, placed near the IC. A 100 nF 0402 with a few hundred pH of mounted inductance self-resonates at a few tens of MHz, so at 100-500 MHz these capacitors are above their SRF and the impedance is set by their mounted inductance. Many of them in parallel, close to the pins, divide that inductance down. Option A (bulk electrolytic) is effective only up to ~1 MHz. Option B (VRM switching frequency) is unrelated to the decoupling frequency. Option D (more copper layers) reduces DC resistance marginally but does not address 100-500 MHz decoupling.
 
 ---
 
@@ -265,4 +265,4 @@ In a real system, power rails share PCB return plane layers, and the return curr
 
 **Q15 -- Answer: C**
 
-The impedance is inductive at 450 MHz and peaks at 35 mOhm. This means the PDN is under-capacitanced at that frequency -- the capacitors providing coverage below 450 MHz have already become inductive, and the next capacitor group's SRF is too high. The solution is to add capacitors whose SRF is at or near 450 MHz: 0201 100 nF ceramic capacitors placed at the CPU package power delivery vias will resonate near this frequency and create a local impedance minimum to bring the peak below 10 mOhm. Option A (10 uF near VRM) addresses the range below ~10 MHz and will not help at 450 MHz. Option B (more PCB layers) is irrelevant to a mid-frequency inductive impedance. Option D (higher bandwidth VRM) is impractical -- extending VRM bandwidth to 450 MHz is not feasible with standard switching regulators and would not be the right approach; the issue is local decoupling, not VRM bandwidth.
+The impedance is inductive at 450 MHz, so it is set by inductance: L = Z / (2*pi*f) = 0.035 / (2*pi*450e6) = 12.4 pH. Meeting 10 mOhm requires at most 0.010 / (2*pi*450e6) = 3.5 pH. No single board capacitor resonates there: a 100 nF part would need 1.25 pH of ESL to have its SRF at 450 MHz, and with a realistic ~200 pH mounted it self-resonates near 36 MHz. What works is paralleling many low-ESL capacitors at the power vias -- at ~200 pH each, about 57 would be needed for 3.5 pH, ignoring spreading and package inductance -- and, because much of the remaining loop inductance at this frequency is in the package, adding on-package capacitance. (Numbers illustrative.) Option A (10 uF near VRM) addresses the range below ~10 MHz and will not help at 450 MHz. Option B (more PCB layers) is irrelevant to a mid-frequency inductive impedance. Option D (higher bandwidth VRM) is impractical -- extending VRM bandwidth to 450 MHz is not feasible with standard switching regulators and would not be the right approach; the issue is local decoupling, not VRM bandwidth.

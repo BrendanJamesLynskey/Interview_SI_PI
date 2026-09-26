@@ -149,8 +149,8 @@ Suggested time: 25 minutes.
 **Q15.** A signal integrity engineer is using a time-domain reflectometer (TDR) to characterise a microstrip trace. The TDR has a step rise time of 35 ps (10-90%). The spatial resolution of the TDR measurement (the minimum resolvable feature size along the line, in millimetres) for a microstrip on FR4 (Dk_eff = 3.8) is approximately:
 
 - A) 35 mm
-- B) 7 mm
-- C) 3.2 mm
+- B) 5.4 mm
+- C) 2.7 mm
 - D) 1.6 mm
 
 ---
@@ -205,7 +205,7 @@ A passive 10:1 probe has a tip capacitance of typically 10-15 pF and a ground le
 
 **Q5 -- Answer: B**
 
-In SPICE (and most circuit simulators), the TD parameter for a transmission line model specifies the one-way propagation delay -- the time for the electromagnetic wave to travel from port 1 to port 2. It is used in the lossless (Berkeleigh) or lossy transmission line models to define the electrical length. Option A (RC time constant) is relevant for a lossy cable model but is not what TD defines in a T-line model. Option C (rise time) is a property of the source, not the transmission line. Option D (signal period) is unrelated to the TD parameter.
+In SPICE (and most circuit simulators), the TD parameter for a transmission line model specifies the one-way propagation delay -- the time for the electromagnetic wave to travel from port 1 to port 2. It is used in the lossless (SPICE T element) or lossy transmission line models to define the electrical length. Option A (RC time constant) is relevant for a lossy cable model but is not what TD defines in a T-line model. Option C (rise time) is a property of the source, not the transmission line. Option D (signal period) is unrelated to the TD parameter.
 
 ---
 
@@ -247,7 +247,7 @@ Propagation delay per unit length = sqrt(Dk_eff) / c. If the measured delay is l
 
 **Q12 -- Answer: C**
 
-Passivity of an S-parameter network is confirmed by checking that the singular values of the S-matrix are all <= 1 at every frequency point. This is the mathematically rigorous condition: the S-matrix must be contractive (does not amplify). For a 2-port network, this simplifies to: |S11|^2 + |S21|^2 <= 1 and |S22|^2 + |S12|^2 <= 1. For larger port counts, singular value decomposition (SVD) of the full S-matrix is required. Option A is incorrect -- imaginary parts of S-parameters are non-zero for any reactive network; requiring them to be zero would restrict to pure resistive networks. Option B is necessary but not sufficient -- individual S-parameter magnitudes less than 1 do not guarantee passivity for all combinations of input. Option D describes a condition on the real part of Z-parameters, not S-parameters.
+Passivity of an S-parameter network is confirmed by checking that the singular values of the S-matrix are all <= 1 at every frequency point. This is the mathematically rigorous condition: the S-matrix must be contractive (does not amplify). For a 2-port network, |S11|^2 + |S21|^2 <= 1 and |S22|^2 + |S12|^2 <= 1 are necessary checks (power out of each driven port cannot exceed power in) but not sufficient on their own; the full condition is that I - S^H S is positive semidefinite at every frequency, which is what the singular-value test checks for any port count. Option A is incorrect -- imaginary parts of S-parameters are non-zero for any reactive network; requiring them to be zero would restrict to pure resistive networks. Option B is necessary but not sufficient -- individual S-parameter magnitudes less than 1 do not guarantee passivity for all combinations of input. Option D describes a condition on the real part of Z-parameters, not S-parameters.
 
 ---
 
@@ -265,4 +265,4 @@ A 6 dB discrepancy between simulation and measurement at 16 GHz is substantial a
 
 **Q15 -- Answer: C**
 
-Spatial resolution of a TDR is determined by the rise time of the TDR step and the propagation velocity in the medium. The spatial resolution (half round-trip, since the TDR displays a one-way distance) is: delta_x = (v_prop * t_rise) / 2. Propagation velocity in FR4 with Dk_eff = 3.8: v = c / sqrt(3.8) = 3e8 / 1.949 = approximately 1.539e8 m/s. For a 35 ps rise time: delta_x = (1.539e8 * 35e-12) / 2 = (5.386e-3) / 2 = 2.69 mm, which is approximately 3.2 mm (option C, the closest answer). The factor of 2 arises because the TDR measures round-trip time but the display is calibrated to one-way distance, so two features separated by delta_x produce step edges separated by 2*delta_x / v_prop in time -- the resolution in time is t_rise, corresponding to delta_x in distance. Option A (35 mm) ignores propagation velocity and time-to-distance conversion entirely. Option B (7 mm) omits the factor of 2. Option D (1.6 mm) would require approximately 10 ps rise time.
+Spatial resolution of a TDR is determined by the rise time of the TDR step and the propagation velocity in the medium. The spatial resolution (half round-trip, since the TDR displays a one-way distance) is: delta_x = (v_prop * t_rise) / 2. Propagation velocity in FR4 with Dk_eff = 3.8: v = c / sqrt(3.8) = 3e8 / 1.949 = approximately 1.539e8 m/s. For a 35 ps rise time: delta_x = (1.539e8 * 35e-12) / 2 = (5.386e-3) / 2 = 2.69 mm (option C). The factor of 2 arises because the TDR measures round-trip time but the display is calibrated to one-way distance, so two features separated by delta_x produce step edges separated by 2*delta_x / v_prop in time -- the resolution in time is t_rise, corresponding to delta_x in distance. Option A (35 mm) ignores propagation velocity and time-to-distance conversion entirely. Option B (5.4 mm) omits the factor of 2. Option D (1.6 mm) would require approximately 21 ps rise time.

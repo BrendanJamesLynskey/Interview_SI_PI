@@ -128,7 +128,7 @@ Suggested time: 25 minutes.
 
 ---
 
-**Q13.** A 25 Gbps NRZ serial link uses a channel with the following measured properties: IL at 12.5 GHz (Nyquist) = -18 dB, IL at 6.25 GHz = -12 dB, IL at 1 GHz = -3 dB. The channel's loss profile is approximately:
+**Q13.** A 25 Gbps NRZ serial link uses a channel with the following measured properties: IL at 12.5 GHz (Nyquist) = -17.1 dB, IL at 6.25 GHz = -9.0 dB, IL at 1 GHz = -1.8 dB. The channel's loss profile is approximately:
 
 - A) Dominated by dielectric loss (linear with frequency)
 - B) Dominated by skin-effect loss (proportional to sqrt(f))
@@ -223,7 +223,7 @@ Eye height reduction (vertical eye closure) is caused by all mechanisms that red
 
 **Q8 -- Answer: B**
 
-FEXT travels in the same direction as the aggressor (forward direction along the victim trace) and is observed at the far end of the victim line. Option A is incorrect; FEXT is generally smaller than NEXT for PCB microstrip at typical trace separations, because the FEXT coupling involves a cancellation between the capacitive and inductive coupling terms that subtracts, while NEXT coupling terms add. Option C is incorrect; differential signalling reduces mode-conversion crosstalk but does not eliminate FEXT between two differential pairs. Option D is incorrect; FEXT is strongly dependent on the coupled length (it accumulates over the coupled length for a forward-travelling wave).
+FEXT travels in the same direction as the aggressor (forward direction along the victim trace) and is observed at the far end of the victim line. Option A is incorrect; FEXT is not always larger. FEXT arises from the difference between the capacitive and inductive coupling ratios (it nearly cancels in homogeneous stripline) and grows with coupled length and edge rate, whereas NEXT, from their sum, saturates once the coupled length exceeds about half the rise time. Which is larger in microstrip depends on length and edge rate. Option C is incorrect; differential signalling reduces mode-conversion crosstalk but does not eliminate FEXT between two differential pairs. Option D is incorrect; FEXT is strongly dependent on the coupled length (it accumulates over the coupled length for a forward-travelling wave).
 
 ---
 
@@ -253,7 +253,7 @@ Mixed-mode S-parameters use a two-letter mode prefix: the first letter is the mo
 
 **Q13 -- Answer: A**
 
-Examining the loss values: at 1 GHz the loss is -3 dB; at 6.25 GHz (6.25x higher) it is -12 dB (4x higher loss); at 12.5 GHz (12.5x higher) it is -18 dB (6x higher loss). Dielectric loss scales linearly with frequency, so a 12.5x increase in frequency would give 12.5x more dielectric loss in dB. Skin-effect loss scales as sqrt(f), so a 12.5x increase would give sqrt(12.5) ≈ 3.5x more loss in dB. The observed ratio from 1 GHz to 12.5 GHz is 18/3 = 6x, which is between sqrt(12.5) = 3.5 (skin) and 12.5 (dielectric). At these frequencies and typical FR4 loss tangents, the predominance of dielectric loss is consistent. The approximately linear increase in dB with frequency confirms dielectric loss dominance.
+Examining the loss values: from 1 GHz to 12.5 GHz (12.5x in frequency) the loss rises from 1.8 dB to 17.1 dB, a 9.5x increase. Dielectric loss scales linearly with frequency (12.5x), skin-effect loss as sqrt(f) (sqrt(12.5) ≈ 3.5x), so the observed 9.5x is much closer to linear. Fitting IL = a*sqrt(f) + b*f to the data gives a ≈ 0.6 dB/sqrt(GHz) and b ≈ 1.2 dB/GHz: at 12.5 GHz the dielectric term is 15.0 dB of the 17.1 dB (88%). The two terms are equal where sqrt(f) = a/b, i.e. at about 0.25 GHz, so dielectric loss dominates over the whole range of interest -- which also rules out option D (skin-effect dominance below 5 GHz). Option B would need the loss to grow only 3.5x; option C would need flat loss.
 
 ---
 

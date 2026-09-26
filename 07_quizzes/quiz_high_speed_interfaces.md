@@ -20,7 +20,7 @@ Suggested time: 25 minutes.
 
 - A) LVDS (Low Voltage Differential Signalling)
 - B) LVCMOS (Low Voltage CMOS)
-- C) SSTL-12 or POD12 (Pseudo Open Drain 1.2 V), depending on the specific DDR4 variant
+- C) POD12 (Pseudo Open Drain, 1.2 V); SSTL-style signalling is used for the command/address bus
 - D) LVPECL (Low Voltage Positive Emitter-Coupled Logic)
 
 ---
@@ -119,12 +119,12 @@ Suggested time: 25 minutes.
 
 ### Advanced (Q12 -- Q15)
 
-**Q12.** A USB4 v2.0 link operates at 80 Gbps (40 Gbps per direction). It uses PAM4 signalling with 128b/132b encoding over a USB Type-C cable. The approximate baud rate per lane is:
+**Q12.** A USB4 Version 2.0 link in symmetric mode carries 80 Gbps in each direction over two lanes (40 Gbps per lane) on a USB Type-C cable. It uses PAM3 signalling, packing 11 bits into 7 ternary symbols. The approximate symbol rate per lane is:
 
 - A) 80 Gbaud
 - B) 40 Gbaud
-- C) 20 Gbaud
-- D) 10 Gbaud
+- C) 25.6 Gbaud
+- D) 20 Gbaud
 
 ---
 
@@ -137,7 +137,7 @@ Suggested time: 25 minutes.
 
 ---
 
-**Q14.** A 400G Ethernet implementation uses 400GBASE-DR4, which uses 4 lanes of 100 Gbps each over single-mode fibre. Each 100 Gbps lane uses PAM4 at 53.125 Gbaud with 4 bits per symbol after 256b/257b encoding. What property of the 256b/257b encoding scheme makes it preferable to 64b/66b at these data rates?
+**Q14.** A 400G Ethernet implementation uses 400GBASE-DR4, which uses 4 lanes of 100 Gbps each over single-mode fibre. Each 100 Gbps lane uses PAM4 (2 bits per symbol) at 53.125 Gbaud, after 256b/257b transcoding and RS(544,514) FEC. What property of the 256b/257b encoding scheme makes it preferable to 64b/66b at these data rates?
 
 - A) 256b/257b has higher DC-balance, which is important for AC-coupled optical links
 - B) 256b/257b has lower encoding overhead (1/257 ≈ 0.39% vs. 2/66 ≈ 3.03%), meaning more of the raw baud rate carries useful data
@@ -148,8 +148,8 @@ Suggested time: 25 minutes.
 
 **Q15.** In a PCIe Gen 5 or Gen 6 channel compliance analysis, the link training and status state machine (LTSSM) includes a Loopback state. A debug engineer observes that a link fails to exit the Detect state and never progresses to Polling. The most likely root causes are:
 
-- A) The AC coupling capacitors are the wrong value (too small), blocking the DC component of the compliance pattern
-- B) The receiver is not detecting the presence of the transmitter's differential voltage, typically caused by excessive channel insertion loss, an open or short circuit in the differential pair, or a failure of the transmitter to assert the required D+ / D- swing during the Detect sequence
+- A) The receiver CTLE peaking is set too high, over-equalising the compliance pattern
+- B) The transmitter's receiver-detection circuit is not seeing the far-end receiver termination through the AC-coupling capacitors, typically because of an open in the pair (unsoldered capacitor, broken trace or via), a short, or a link partner that is unpowered or has its termination disabled
 - C) The CDR has locked to the wrong frequency harmonic
 - D) The spread-spectrum clocking (SSC) is enabled but the CDR cannot track the SSC modulation rate
 
@@ -181,7 +181,7 @@ Suggested time: 25 minutes.
 
 **Q1 -- Answer: C**
 
-DDR4 uses SSTL-12 (Stub Series Terminated Logic for 1.2 V) for some signals and POD12 (Pseudo Open Drain 1.2 V) for data (DQ) and data strobe (DQS) signals in JEDEC-standard DDR4. POD12 uses a unidirectional pull-up to the VDDQ rail, reducing power compared to SSTL push-pull. Option A (LVDS) is used for DDR4 differential signals (DQS is a differential pair) but the signalling standard for logic levels is POD/SSTL, not generic LVDS. Option B (LVCMOS) is too slow for DDR4 data rates. Option D (LVPECL) is used in high-speed clock distribution, not DDR DRAM interfaces.
+DDR4 uses SSTL-12 (Stub Series Terminated Logic for 1.2 V) for some signals and POD12 (Pseudo Open Drain 1.2 V) for data (DQ) and data strobe (DQS) signals in JEDEC-standard DDR4. POD12 uses a unidirectional pull-up to the VDDQ rail, reducing power compared to SSTL push-pull. Option A (LVDS) is not used: DQS and CK are differential pairs, but they use the same POD/SSTL levels as the single-ended lines, not LVDS. Option B (LVCMOS) is too slow for DDR4 data rates. Option D (LVPECL) is used in high-speed clock distribution, not DDR DRAM interfaces.
 
 ---
 
@@ -205,7 +205,7 @@ ODT (on-die termination) incorporates the termination resistors inside the DRAM 
 
 **Q5 -- Answer: C**
 
-PCIe Gen 5 line rate is 32 GT/s (32 Gbps NRZ). The 128b/130b encoding carries 128 bits of payload for every 130 bits transmitted. Efficiency = 128/130 = 98.46%. Usable bandwidth = 32 Gbps * (128/130) ≈ 31.5 Gbps per lane, per direction. Option A (32 Gbps) ignores encoding overhead. Option B (25.6 Gbps) applies the PCIe Gen 3/4/5 x8 aggregate rate, not the per-lane rate, or incorrectly applies 8b/10b overhead (which is 80% efficiency). Option D (16 Gbps) is the PCIe Gen 4 line rate, not Gen 5.
+PCIe Gen 5 line rate is 32 GT/s (32 Gbps NRZ). The 128b/130b encoding carries 128 bits of payload for every 130 bits transmitted. Efficiency = 128/130 = 98.46%. Usable bandwidth = 32 Gbps * (128/130) ≈ 31.5 Gbps per lane, per direction. Option A (32 Gbps) ignores encoding overhead. Option B (25.6 Gbps) incorrectly applies 8b/10b overhead (80% efficiency), which PCIe used only up to Gen 2. Option D (16 Gbps) is the PCIe Gen 4 line rate, not Gen 5.
 
 ---
 
@@ -229,7 +229,7 @@ A CDR extracts clock information from transitions in the data stream. If long ru
 
 **Q9 -- Answer: C**
 
-100GBASE-KR4 is defined in IEEE 802.3ba and uses 4 lanes, each running at 25.78125 Gbaud (approximately 25 Gbps with 64b/66b encoding), for a total of approximately 100 Gbps aggregate. "KR" indicates backplane copper (K = backplane, R = reduced latency / RS-FEC). Option A (1 lane at 100 Gbps) describes 100GBASE-CR1 or future single-lane 100G implementations. Option B (10 lanes at 10 Gbps) describes 100GBASE-CR10 or 100GBASE-KP4. Option D (4 lanes at 28 Gbps) approximately describes CEI-28G-LR or proprietary implementations; the JEDEC-standard rate for 100G-KR4 is 25 Gbps per lane.
+100GBASE-KR4 is defined in IEEE 802.3bj and uses 4 lanes, each running at 25.78125 GBd NRZ (25 Gbps of data after 64b/66b coding), for 100 Gbps aggregate. In the port name, "K" indicates backplane and "R" the 64B/66B (scrambled) PCS coding; KR4 also uses RS(528,514) FEC. Option A (1 lane at 100 Gbps) describes the later single-lane 100GBASE-KR1/CR1 (IEEE 802.3ck). Option B (10 lanes at 10 Gbps) describes 100GBASE-CR10/SR10 (IEEE 802.3ba). Option D (4 lanes at 28 Gbps) approximately describes OIF CEI-28G or proprietary implementations; the IEEE rate for 100GBASE-KR4 is 25.78125 GBd per lane.
 
 ---
 
@@ -247,7 +247,7 @@ Total budget = 28 dB. Fixed losses: package = 3 dB, connector = 2 dB. Remaining 
 
 **Q12 -- Answer: C**
 
-USB4 v2.0 operates at 80 Gbps total, or 40 Gbps per direction. It uses two lanes per direction (USB Type-C provides two TX and two RX pairs), so each lane carries 20 Gbps. PAM4 encodes 2 bits per symbol, so the baud rate per lane = 20 Gbps / 2 bits-per-symbol = 10 Gbaud... accounting for 128b/132b encoding overhead: raw line rate = 20 Gbps * (132/128) ≈ 20.625 Gbps, giving a baud rate of approximately 20.625 / 2 ≈ 10.3 Gbaud. However, the USB4 v2.0 spec defines the lane baud rate as approximately 20 Gbaud (PAM4 at 20 Gbaud = 40 Gbps per lane, with two lanes per direction at 40 Gbps = 80 Gbps total). Re-examining: USB4 v2.0 achieves 80 Gbps by using 2 lanes x 40 Gbps per lane, with each lane using PAM4 at 20 Gbaud (20 billion symbols/second x 2 bits/symbol = 40 Gbps). The baud rate per lane is therefore 20 Gbaud. Option C is correct.
+USB4 Version 2.0 reaches 80 Gbps per direction with two lanes of 40 Gbps each (and an asymmetric mode with three lanes, 120 Gbps, one way). It uses PAM3: each symbol carries log2(3) = 1.58 bits at most, and the 11-bits-in-7-symbols mapping (3^7 = 2187 ≥ 2^11 = 2048) carries 11/7 = 1.57 bits per symbol. At 25.6 GBd that is 25.6 × 11/7 = 40.2 Gbps per lane (Keysight and Synopsys USB4 v2.0 overviews). Option A would be one bit per symbol for the whole link; option B is NRZ at 40 Gbps per lane; option D is PAM4 (2 bits per symbol), which USB4 v2.0 does not use.
 
 ---
 
@@ -265,4 +265,4 @@ Encoding overhead is the fraction of raw bandwidth consumed by the encoding head
 
 **Q15 -- Answer: B**
 
-The Detect state in the PCIe LTSSM tests whether a receiver is electrically present by checking if the differential pair has a load. If the receiver is not detected, the link never moves to Polling (where LTSSM synchronisation and speed negotiation occur). This failure is caused by an open circuit (broken trace, cold solder joint, missing PCB via connection), short circuit between the differential pair, excessive channel loss that drops the transmitter swing below the detection threshold, or a transmitter that fails to assert the required swing. Option A (wrong coupling capacitor value) would affect the low-frequency content and potentially the DC-restore circuit, but the Detect mechanism is based on DC impedance sensing, not the AC coupling. Option C (CDR locking to wrong harmonic) would appear as a link that reaches Polling or Configuration but then fails -- not a Detect failure. Option D (SSC with CDR) would also appear as a failure after Detect, not during.
+In the Detect state each transmitter checks whether a receiver is electrically present: it steps its common-mode voltage and times how fast the line charges. A receiver's termination, seen through the AC-coupling capacitor, makes the line charge slowly; an open line charges quickly. If no receiver is detected, the link never moves to Polling (where bit lock, symbol lock and speed negotiation occur). The failure is therefore caused by an open (unsoldered or missing capacitor, broken trace, cold joint, missing via), a short, or a link partner whose termination is not present. Channel insertion loss does not affect this low-frequency test. Option A (CTLE setting) only matters once data is being received, after Detect. Option C (CDR locking to wrong harmonic) would appear as a link that reaches Polling or Configuration but then fails -- not a Detect failure. Option D (SSC with CDR) would also appear as a failure after Detect, not during.

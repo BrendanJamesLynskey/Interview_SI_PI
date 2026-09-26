@@ -63,11 +63,11 @@ Suggested time: 25 minutes.
 
 ### Intermediate (Q6 -- Q11)
 
-**Q6.** A 50 Ohm, 1 ns transmission line is driven by a 25 Ohm source and terminated with an open circuit. A 1 V step is launched at t = 0. Which best describes the voltage at the load end at t = 2 ns (one round-trip after the initial wave arrives)?
+**Q6.** A 50 Ohm, 1 ns transmission line is driven by a 25 Ohm source and terminated with an open circuit. A 1 V step is launched at t = 0. Which best describes the voltage at the load end at t = 2 ns (after the first wave arrives at t = 1 ns, but before the re-reflection from the source reaches the load at t = 3 ns), and its final value?
 
 - A) 1.33 V, then later settles to 1.67 V
 - B) 1.67 V immediately, with no further bouncing
-- C) 1.33 V immediately, settling to 2.0 V after multiple reflections
+- C) 1.33 V, then ringing (0.89 V, 1.04 V, ...) and settling to 1.0 V after multiple reflections
 - D) 2.0 V, settling to 1.67 V
 
 ---
@@ -119,9 +119,9 @@ Suggested time: 25 minutes.
 
 ### Advanced (Q12 -- Q15)
 
-**Q12.** A via in a PCB high-speed design passes through an 8-layer board but only connects layers 1 to 4. The remaining via barrel from layers 4 to 8 forms a stub. At which approximate frequency does the first resonant null appear in the insertion loss if the stub length is 500 mils and the effective Dk of the via is 4.0? (1 mil = 25.4 um)
+**Q12.** A via in a thick backplane connects layer 1 to an upper inner layer, and the remaining via barrel below that layer forms a stub. At which approximate frequency does the first resonant null appear in the insertion loss if the stub length is 500 mils and the effective Dk of the via is 4.0? (1 mil = 25.4 um)
 
-- A) Approximately 2.4 GHz
+- A) Approximately 3.0 GHz
 - B) Approximately 4.7 GHz
 - C) Approximately 9.4 GHz
 - D) Approximately 18.8 GHz
@@ -149,7 +149,7 @@ Suggested time: 25 minutes.
 **Q15.** In the telegraphers equations, the condition for a distortionless line (one where all frequency components travel at the same speed and with frequency-independent attenuation per unit length) is:
 
 - A) R/L = G/C
-- B) R*C = L*G
+- B) R*L = G*C
 - C) R = G and L = C
 - D) The line must be lossless (R = 0, G = 0)
 
@@ -170,7 +170,7 @@ Suggested time: 25 minutes.
 | 9  | C      |
 | 10 | B      |
 | 11 | B      |
-| 12 | B      |
+| 12 | A      |
 | 13 | A      |
 | 14 | A      |
 | 15 | A      |
@@ -211,7 +211,7 @@ Series termination places a resistor at the source equal to (Z0 - Rs_driver) so 
 
 **Q6 -- Answer: C**
 
-Step through the lattice diagram. The source voltage divider with Zsource = 25 Ohm and Z0 = 50 Ohm launches a wave of V_inc = 1 * 50/(50+25) = 0.667 V. At the open-circuit load: Gamma_L = (inf - 50)/(inf + 50) = +1.0, so the reflected voltage equals the incident. Voltage at load on first arrival (t = 1 ns) = 0.667 + 0.667 = 1.333 V. The reflected wave travels back to the source where Gamma_S = (25 - 50)/(25 + 50) = -0.333, sending a further -0.222 V wave toward the load. Eventually the line charges to the open-circuit Thevenin voltage = 1.0 * (inf / (25+inf)) = 2.0 V. So the answer is 1.33 V at t = 1 ns, settling toward 2.0 V. Option B is wrong because the first bounce does not immediately produce 1.67 V at the load. Option D reverses the sequence.
+Step through the lattice diagram. The source voltage divider with Zsource = 25 Ohm and Z0 = 50 Ohm launches a wave of V_inc = 1 * 50/(50+25) = 0.667 V. At the open-circuit load: Gamma_L = (inf - 50)/(inf + 50) = +1.0, so the reflected voltage equals the incident. Voltage at load on first arrival (t = 1 ns) = 0.667 + 0.667 = 1.333 V. The reflected wave travels back to the source where Gamma_S = (25 - 50)/(25 + 50) = -0.333, sending a further -0.222 V wave toward the load. That wave reaches the load at t = 3 ns and doubles there, so the load steps to 1.333 - 0.444 = 0.889 V; the next round trip gives 1.037 V, then 0.988 V, and so on. With no load current, the line eventually charges to the open-circuit Thevenin voltage of the source, 1.0 * (inf / (25 + inf)) = 1.0 V. So the answer is 1.33 V from t = 1 ns (still 1.33 V at t = 2 ns), ringing down to 1.0 V. Options A and D settle to 1.67 V and option B holds 1.67 V; none of these final values can occur, because an open-circuited line cannot charge above the 1.0 V source.
 
 ---
 
@@ -247,7 +247,7 @@ A line is electrically long when the signal's transition time is comparable to o
 
 **Q12 -- Answer: A**
 
-The stub resonance frequency f = c / (4 * L_stub * sqrt(Dk_eff)). Converting 500 mils to metres: 500 * 25.4e-6 = 12.7 mm = 0.0127 m. f = 3e8 / (4 * 0.0127 * sqrt(4.0)) = 3e8 / (4 * 0.0127 * 2) = 3e8 / 0.1016 = approximately 2.95 GHz, closest to option A. The practical lesson is that a 500 mil stub in FR4 resonates near 3 GHz, directly degrading PCIe Gen 3/4 and 10G Ethernet. Backdrilling the stub removes this resonance.
+The stub resonance frequency f = c / (4 * L_stub * sqrt(Dk_eff)). Converting 500 mils to metres: 500 * 25.4e-6 = 12.7 mm = 0.0127 m. f = 3e8 / (4 * 0.0127 * sqrt(4.0)) = 3e8 / (4 * 0.0127 * 2) = 3e8 / 0.1016 = approximately 2.95 GHz (option A). Option B (4.7 GHz), C (9.4 GHz) and D (18.8 GHz) correspond to stubs of roughly 314, 157 and 79 mils. The practical lesson is that a 500 mil stub in FR4 resonates near 3 GHz, directly degrading PCIe Gen 3/4 and 10G Ethernet. Backdrilling the stub removes this resonance.
 
 ---
 
@@ -265,4 +265,4 @@ For a tightly coupled differential pair, the mutual inductance M and mutual capa
 
 **Q15 -- Answer: A**
 
-The Heaviside condition for a distortionless line is R/L = G/C, equivalently written R*C = L*G. This ensures that the propagation constant gamma = sqrt((R+jwL)(G+jwC)) has a frequency-independent real part (attenuation) and a phase velocity that is independent of frequency (no dispersion). R/L = G/C rearranges to R*C = L*G, so options A and B are algebraically equivalent; the canonical form stated in most textbooks is R/L = G/C (option A). Option C (R = G, L = C) is a special case that would only hold for a line with specific non-physical units. Option D (lossless line) avoids the distortion problem trivially but is physically unrealisable; the question asks about the distortionless condition for a lossy line.
+The Heaviside condition for a distortionless line is R/L = G/C, equivalently written R*C = L*G. This ensures that the propagation constant gamma = sqrt((R+jwL)(G+jwC)) has a frequency-independent real part (attenuation) and a phase velocity that is independent of frequency (no dispersion). Option B (R*L = G*C) is not a rearrangement of the Heaviside condition and is dimensionally inconsistent with it. Option C (R = G, L = C) is a special case that would only hold for a line with specific non-physical units. Option D (lossless line) avoids the distortion problem trivially but is physically unrealisable; the question asks about the distortionless condition for a lossy line.
